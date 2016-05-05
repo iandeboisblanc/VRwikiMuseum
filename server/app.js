@@ -15,4 +15,4 @@ app.use(function(req, res, next) {
 
 app.listen(PORT);
 console.log('Server listening on port', PORT);
-app.use(express.static(__dirname + '/client/dist'));
+app.use(express.static(__dirname + '/../client/dist'));
