@@ -1,0 +1,19 @@
+{
+  "name": "wikimuseumvr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iandeboisblanc/wikiMuseumVR.git"
+  },
+  "author": "Ian deBoisblanc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iandeboisblanc/wikiMuseumVR/issues"
+  },
+  "homepage": "https://github.com/iandeboisblanc/wikiMuseumVR#readme"
+}
