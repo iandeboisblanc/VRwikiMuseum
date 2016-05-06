@@ -7,7 +7,7 @@ class Portal extends React.Component {
     super(props);
     this.props = props;
     this.position = this.props.position.split(' ').map((value, i) => {
-      return i == 1 ? value + props.height : value;
+      return i == 1 ? value + props.height/2 : value;
     }).join(' ');
   }
 
@@ -15,14 +15,38 @@ class Portal extends React.Component {
     return (
       <a-entity class='portal' 
         position={this.position} 
-        rotation='0 30 0' color='blue'
+        rotation='0 30 0'
         //hideRoom={'camera:' + this.props.player}
         >
         <a-plane class='portalThreshhold' 
-          // material='transparent:true;' 
+          // material='transparent:true;'
+          color='yellow' 
           height={this.props.height} 
           width={this.props.width} 
         />
+        <a-box class='portalFrame'
+          position={-this.props.width/2 + ' 0 0'}
+          color='brown'
+          height={this.props.height}
+          width='0.1'
+          depth='0.03' 
+        />
+        <a-box class='portalFrame'
+          position={this.props.width/2 + ' 0 0'}
+          color='brown'
+          height={this.props.height}
+          width='0.1'
+          depth='0.03' 
+        />
+        <a-box class='portalFrame'
+          position={'0 ' + this.props.height/2 + ' 0'}
+          color='brown'
+          height='0.1'
+          width={0.2 + Number(this.props.width)}
+          depth='0.03' 
+        />
+
+        {/*
         <a-plane 
           material='transparent:true;' height={this.props.height} width='2' 
           rotation='0 90 0' position={this.props.width / 2 + ' 0 -1'} 
@@ -35,6 +59,7 @@ class Portal extends React.Component {
           position='0 0 -1'
           material='color:red;side:back' height={this.props.height} width={this.props.width} depth='2' 
         />
+        */}
       </a-entity>
     );
   }
