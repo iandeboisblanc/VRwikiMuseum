@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "start": "webpack --watch & nodemon server/app.js"
+    "start": "webpack --watch & nodemon server/app.js",
+    "build": "docker build -t museum .",
+    "deploy": "docker run -d -p 80:80 -e PORT=80 museum"
   },
   "repository": {
     "type": "git",
