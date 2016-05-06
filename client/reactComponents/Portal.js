@@ -16,7 +16,8 @@ class Portal extends React.Component {
       <a-entity class='portal' 
         position={this.position} 
         rotation='0 30 0' color='blue'
-        //hideRoom={'camera:' + this.props.player}>
+        //hideRoom={'camera:' + this.props.player}
+        >
         <a-plane class='portalThreshhold' 
           // material='transparent:true;' 
           height={this.props.height} 
