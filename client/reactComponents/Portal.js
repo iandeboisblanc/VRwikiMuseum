@@ -23,6 +23,7 @@ class Portal extends React.Component {
           color='yellow' 
           height={this.props.height} 
           width={this.props.width} 
+          enterDoor='camera: #player'
         />
         <a-box class='portalFrame'
           position={-this.props.width/2 + ' 0 0'}
@@ -66,6 +67,34 @@ class Portal extends React.Component {
 }
 
 module.exports = Portal;
+
+
+AFRAME.registerComponent('enterDoor', {
+  schema: {
+    camera: {default: ''}
+  },
+
+  init: function () {
+    // console.log(this.data.camera);
+    this.el.sceneEl.object3D.updateMatrixWorld();
+    //get camera:
+    this.camera = this.el.sceneEl.querySelector(this.data.camera);
+    //get threshhold
+    var el = this.el;
+    console.log(this.el.object3D.position);
+    console.log(this.el.object3D.matrixWorld);
+    //get dimensions/edges of threshhold
+    var vector = new THREE.Vector3();
+    vector.setFromMatrixPosition( this.el.object3D.matrixWorld )
+    console.log(vector);
+  },
+
+  tick: function () {
+    var cameraPosition = this.camera.components.position.data;
+    // if(cameraPosition.x > )
+    //if camera intersects with threshhold, trigger event (link)
+  }
+})
 
 
 /*
