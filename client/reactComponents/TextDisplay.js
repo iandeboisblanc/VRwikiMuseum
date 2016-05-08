@@ -1,7 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
 import AFRAME from 'aframe';
-import $ from 'jquery';
 
 class TextDisplay extends React.Component {
   constructor(props) {
