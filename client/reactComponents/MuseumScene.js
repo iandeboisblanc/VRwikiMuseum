@@ -24,11 +24,16 @@ class MuseumScene extends React.Component {
         <TextDisplay 
           position='-5 1.5 -5' rotation='0 20 0'
           borderThickness='0.05' borderColor='purple'
-          htmlSelector='#exampleText'>
-          <div id='exampleChildText'>
-            Can we get it to render child text?
-          </div>
-        </TextDisplay>
+          htmlSelector='#exampleText'
+        />
+        <TextDisplay 
+          position='-8 1 -3' rotation='0 45 0'
+          height='2' width='2' depth='0.5'
+          // borderThickness='0.05' 
+          borderColor='purple'
+          htmlSelector='#exampleText'
+          htmlScale='2'
+        />
         <Player/>
       </a-scene>
     );
