@@ -6,10 +6,16 @@ class TextDisplay extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
-    this.textWidth = props.textWidth || '300';
-    this.textHeight = props.textHeight || '300';
+
     this.depth = props.depth || '0.05';
+    this.width = props.width || '1';
+    this.height = props.height || '1';
+
+    this.pageWidth = this.width * 100;
+    this.pageHeight = this.height * 100;
     //scale compnent relative to text?
+
+    this.borderThickness = props.borderThickness || 0;
   }
 
   render () {
@@ -19,16 +25,17 @@ class TextDisplay extends React.Component {
         rotation={this.props.rotation || '0 0 0'}
         >
         <a-box
-          width={this.props.width || '5.1'}
-          height={this.props.height || '5.1'}
+          width={(2 * this.borderThickness) + Number(this.width)}
+          height={(2 * this.borderThickness) + Number(this.height)}
           depth={this.depth}
+          color={this.props.borderColor}
         >
           <a-plane
-            draw={`width: ${this.textWidth}; height: ${this.textHeight};`}
+            draw={`width: ${this.pageWidth}; height: ${this.pageHeight};`}
             position={`0 0 ${this.depth/2 + 0.0001}`}
             htmltexture='asset: #exampleText'
-            width='5'
-            height='5'
+            width='1'
+            height='1'
           />
         </a-box>
         
