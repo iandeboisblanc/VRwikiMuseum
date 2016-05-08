@@ -16,6 +16,15 @@ class TextDisplay extends React.Component {
     //scale compnent relative to text?
 
     this.borderThickness = props.borderThickness || 0;
+
+    if(props.htmlSelector) {
+      this.htmlSelector = props.htmlSelector;
+    } else {
+      //get children
+      //check if only child
+      //attach selector
+      //set this.html = selector
+    }
   }
 
   render () {
@@ -33,9 +42,9 @@ class TextDisplay extends React.Component {
           <a-plane
             draw={`width: ${this.pageWidth}; height: ${this.pageHeight};`}
             position={`0 0 ${this.depth/2 + 0.0001}`}
-            htmltexture='asset: #exampleText'
-            width='1'
-            height='1'
+            htmltexture={`asset: ${this.htmlSelector}`}
+            width={this.width}
+            height={this.height}
           />
         </a-box>
         
