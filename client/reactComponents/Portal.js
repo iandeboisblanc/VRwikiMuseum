@@ -1,6 +1,6 @@
-require('aframe');
-import React from 'react'
-import {render} from 'react-dom'
+import React from 'react';
+import {render} from 'react-dom';
+import AFRAME from 'aframe';
 
 class Portal extends React.Component {
   constructor(props) {
@@ -81,13 +81,13 @@ AFRAME.registerComponent('enterDoor', {
     this.camera = this.el.sceneEl.querySelector(this.data.camera);
     //get threshhold
     var mesh = this.el.getObject3D('mesh');
-    console.log('Mesh:', mesh);
-    console.log('Geometry:', mesh.geometry);
-    console.log('Position:', mesh.geometry.getAttribute('position'));
-    console.log('Normal:', mesh.geometry.getAttribute('normal'));
+    // console.log('Mesh:', mesh);
+    // console.log('Geometry:', mesh.geometry);
+    // console.log('Position:', mesh.geometry.getAttribute('position'));
+    // console.log('Normal:', mesh.geometry.getAttribute('normal'));
     mesh.geometry.computeBoundingBox()
-    console.log('BoundingBox:', mesh.geometry.boundingBox);
-    console.log('MatrixWorld:', this.el.object3D.matrixWorld);
+    // console.log('BoundingBox:', mesh.geometry.boundingBox);
+    // console.log('MatrixWorld:', this.el.object3D.matrixWorld);
     
 
     //get dimensions/edges of threshhold
@@ -95,13 +95,13 @@ AFRAME.registerComponent('enterDoor', {
     // var attribute = mesh.geometry.attributes.position; // we want the position data
     // console.log(attribute);
     // var index = 3; // index is zero-based, so this the the 2nd vertex
-    console.log(this.el.object3D.matrixWorld.clone()) //Not actually cloning...
+    // console.log(this.el.object3D.matrixWorld.clone()) //Not actually cloning...
     vector.setFromMatrixPosition( this.el.object3D.matrixWorld.clone().transpose() ); // extract the x,y,z coordinates
-    console.log(vector);
+    // console.log(vector);
     vector.applyMatrix4( this.el.object3D.matrixWorld ); // apply the mesh's matrix transform
     // vector.setFromMatrixPosition( this.el.object3D.matrixWorld )
     // console.log(this.el.object3D.localToWorld(vector));
-    console.log('AbsolutePos:', vector);
+    // console.log('AbsolutePos:', vector);
   },
 
   tick: function () {

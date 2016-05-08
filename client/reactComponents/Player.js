@@ -1,4 +1,3 @@
-require('aframe');
 import React from 'react'
 
 const Player = () => (
