@@ -15,7 +15,7 @@ class Portal extends React.Component {
     return (
       <a-entity class='portal' 
         position={this.position} 
-        rotation='0 30 0'
+        rotation={this.props.rotation ? this.props.rotation : '0 0 0'}
         //hideRoom={'camera:' + this.props.player}
         >
         <a-plane class='portalThreshhold' 
@@ -80,13 +80,28 @@ AFRAME.registerComponent('enterDoor', {
     //get camera:
     this.camera = this.el.sceneEl.querySelector(this.data.camera);
     //get threshhold
-    var el = this.el;
-    console.log(this.el.object3D.position);
-    console.log(this.el.object3D.matrixWorld);
+    var mesh = this.el.getObject3D('mesh');
+    console.log('Mesh:', mesh);
+    console.log('Geometry:', mesh.geometry);
+    console.log('Position:', mesh.geometry.getAttribute('position'));
+    console.log('Normal:', mesh.geometry.getAttribute('normal'));
+    mesh.geometry.computeBoundingBox()
+    console.log('BoundingBox:', mesh.geometry.boundingBox);
+    console.log('MatrixWorld:', this.el.object3D.matrixWorld);
+    
+
     //get dimensions/edges of threshhold
     var vector = new THREE.Vector3();
-    vector.setFromMatrixPosition( this.el.object3D.matrixWorld )
+    // var attribute = mesh.geometry.attributes.position; // we want the position data
+    // console.log(attribute);
+    // var index = 3; // index is zero-based, so this the the 2nd vertex
+    console.log(this.el.object3D.matrixWorld.clone()) //Not actually cloning...
+    vector.setFromMatrixPosition( this.el.object3D.matrixWorld.clone().transpose() ); // extract the x,y,z coordinates
     console.log(vector);
+    vector.applyMatrix4( this.el.object3D.matrixWorld ); // apply the mesh's matrix transform
+    // vector.setFromMatrixPosition( this.el.object3D.matrixWorld )
+    // console.log(this.el.object3D.localToWorld(vector));
+    console.log('AbsolutePos:', vector);
   },
 
   tick: function () {
@@ -96,6 +111,8 @@ AFRAME.registerComponent('enterDoor', {
   }
 })
 
+
+//Easier than below: check if inside box. If so, render box color. If not, transparent. Doorway can just be color of room
 
 /*
 
