@@ -32,24 +32,31 @@ AFRAME.registerComponent('limitPlayer', {
 
   tick: function () {
     var cameraPosition = this.el.components.position.data;
-    var parentPosition = this.el.sceneEl.querySelectorAll('#cameraParent')[0].object3D.position;
+    var parentEl = this.el.sceneEl.querySelectorAll('#cameraParent')[0];
+    var parentPosition = parentEl.components.position.data;
     if(this.xBounds) {
       if(cameraPosition.x < this.xBounds[0] || cameraPosition.x > this.xBounds[1]) {
         console.log('Out of xBounds');
-        console.log(cameraPosition, parentPosition);
-        // console.log(this.el.sceneEl.querySelectorAll('#cameraParent')[0])
-        this.el.sceneEl.querySelectorAll('#cameraParent')[0].setAttribute('position', Math.min(Math.max(this.xBounds[0], cameraPosition.x)), this.xBounds[1])
-        // parentPosition.set(Math.min(Math.max(this.xBounds[0], cameraPosition.x)), this.xBounds[1]);
+        // console.log(cameraPosition, parentPosition);
+        var boundedPosition = Math.min(Math.max(this.xBounds[0], cameraPosition.x), this.xBounds[1]);
+        parentEl.setAttribute('position', `${boundedPosition} ${parentPosition.y} ${parentPosition.z}`);
+        this.el.setAttribute('position', `${boundedPosition} ${cameraPosition.y} ${cameraPosition.z}`);
       }
     }
     if(this.yBounds) {
       if(cameraPosition.y < this.yBounds[0] || cameraPosition.y > this.yBounds[1]) {
         console.log('Out of yBounds');
+        var boundedPosition = Math.min(Math.max(this.yBounds[0], cameraPosition.y), this.yBounds[1]);
+        parentEl.setAttribute('position', `${parentPosition.x} ${boundedPosition} ${parentPosition.z}`);
+        this.el.setAttribute('position', `${cameraPosition.x} ${boundedPosition} ${cameraPosition.z}`);
       }
     }
     if(this.zBounds) {
       if(cameraPosition.z < this.zBounds[0] || cameraPosition.z > this.zBounds[1]) {
         console.log('Out of zBounds');
+        var boundedPosition = Math.min(Math.max(this.zBounds[0], cameraPosition.z), this.zBounds[1]);
+        parentEl.setAttribute('position', `${parentPosition.x} ${parentPosition.y} ${boundedPosition}`);
+        this.el.setAttribute('position', `${cameraPosition.x} ${cameraPosition.y} ${boundedPosition}`);
       }
     }
   }
