@@ -3,8 +3,8 @@ import React from 'react'
 const Player = (props) => {
   var position = props.position || '0 1.8 0';
   return (
-    <a-entity position={position} >
-      <a-camera id='player' look-controls wasd-controls
+    <a-entity id='cameraParent' wasd-controls position={position} >
+      <a-camera id='player' look-controls 
         limitPlayer={`xBounds:${props.xBounds}; yBounds:${props.yBounds}; zBounds:${props.zBounds}`}
       />
     </a-entity>
@@ -32,9 +32,14 @@ AFRAME.registerComponent('limitPlayer', {
 
   tick: function () {
     var cameraPosition = this.el.components.position.data;
+    var parentPosition = this.el.sceneEl.querySelectorAll('#cameraParent')[0].object3D.position;
     if(this.xBounds) {
       if(cameraPosition.x < this.xBounds[0] || cameraPosition.x > this.xBounds[1]) {
         console.log('Out of xBounds');
+        console.log(cameraPosition, parentPosition);
+        // console.log(this.el.sceneEl.querySelectorAll('#cameraParent')[0])
+        this.el.sceneEl.querySelectorAll('#cameraParent')[0].setAttribute('position', Math.min(Math.max(this.xBounds[0], cameraPosition.x)), this.xBounds[1])
+        // parentPosition.set(Math.min(Math.max(this.xBounds[0], cameraPosition.x)), this.xBounds[1]);
       }
     }
     if(this.yBounds) {
