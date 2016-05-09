@@ -34,7 +34,7 @@ class MuseumScene extends React.Component {
           htmlSelector='#exampleText'
           htmlScale='2'
         />
-        <Player/>
+        <Player xBounds={[-10,10]} yBounds={[-10,10]} />
       </a-scene>
     );
   }
