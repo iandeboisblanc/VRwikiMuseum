@@ -5,7 +5,6 @@ import AFRAME from 'aframe';
 class TextDisplay extends React.Component {
   constructor(props) {
     super(props);
-    this.props = props;
 
     this.depth = props.depth || '0.05';
     this.width = props.width || '1';

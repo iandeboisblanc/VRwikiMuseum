@@ -22,6 +22,11 @@ module.exports = {
       {
         test: /\.js$/, include: __dirname + '/client', loader: 'babel-loader'
       }
+      // ,
+      // {
+        // test: /\.dae$/, include: __dirname + '/client/assets', loader: 'threejs-modelmultiloader'
+
+      // }
     ]
   },
   plugins: [HTMLWebpackPluginConfig]

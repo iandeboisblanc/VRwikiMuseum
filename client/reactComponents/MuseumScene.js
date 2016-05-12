@@ -2,12 +2,12 @@ import React from 'react';
 import Player from './Player'
 import Portal from './Portal'
 import TextDisplay from './TextDisplay'
+import PageModel from './PageModel'
 const $ = require('jquery');
 
 class MuseumScene extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       ajaxHtml: ''
     };
@@ -66,6 +66,9 @@ class MuseumScene extends React.Component {
           borderColor='red'
           htmlSelector='#stegocerasHTML'
           htmlScale='1'
+        />
+        <PageModel
+          position='0 2 3'
         />
         <Player/>
       </a-scene>

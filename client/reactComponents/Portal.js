@@ -5,8 +5,7 @@ import AFRAME from 'aframe';
 class Portal extends React.Component {
   constructor(props) {
     super(props);
-    this.props = props;
-    this.position = this.props.position.split(' ').map((value, i) => {
+    this.position = props.position.split(' ').map((value, i) => {
       return i == 1 ? value + props.height/2 : value;
     }).join(' ');
   }
