@@ -41,6 +41,7 @@ class MuseumScene extends React.Component {
           </div>
           <div id='stegocerasHTML' dangerouslySetInnerHTML={{__html:this.state.ajaxHtml}}>
           </div>
+          <a-asset-item id="modelDae" src="/assets/stegoceras.dae"></a-asset-item>
         </a-assets>
 
         <a-sky color='blue' />
@@ -68,7 +69,8 @@ class MuseumScene extends React.Component {
           htmlScale='1'
         />
         <PageModel
-          position='0 2 3'
+          position='0 0 -4'
+          modelSrc='#modelDae'
         />
         <Player/>
       </a-scene>
