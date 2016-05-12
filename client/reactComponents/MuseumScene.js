@@ -2,11 +2,34 @@ import React from 'react';
 import Player from './Player'
 import Portal from './Portal'
 import TextDisplay from './TextDisplay'
+const $ = require('jquery');
 
 class MuseumScene extends React.Component {
   constructor(props) {
     super(props);
-    this.props = props;
+
+    this.state = {
+      ajaxHtml: ''
+    };
+  }
+
+  componentDidMount() {
+    $.ajax({
+        type: 'GET',
+        url: 'https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=Stegoceras&callback=?',
+        contentType: 'application/json; charset=utf-8',
+        async: false,
+        dataType: 'json',
+        success: (data, textStatus, jqXHR) => {
+            const markup = data.parse.text["*"];
+            this.setState({ 
+              ajaxHtml: markup
+            });
+        },
+        error: function (errorMessage) {
+            console.error('Error retrieving from wikipedia:', errorMessage);
+        }
+    });
   }
 
   render () {
@@ -15,6 +38,8 @@ class MuseumScene extends React.Component {
         <a-assets>
           <div id='exampleText'>
             YOO!!!! text here ya heard???
+          </div>
+          <div id='stegocerasHTML' dangerouslySetInnerHTML={{__html:this.state.ajaxHtml}}>
           </div>
         </a-assets>
 
@@ -33,6 +58,14 @@ class MuseumScene extends React.Component {
           borderColor='purple'
           htmlSelector='#exampleText'
           htmlScale='2'
+        />
+        <TextDisplay 
+          position='6 2.05 -8' rotation='0 -20 0'
+          height='4' width='2' depth='0.5'
+          borderThickness='0.05' 
+          borderColor='red'
+          htmlSelector='#stegocerasHTML'
+          htmlScale='1'
         />
         <Player/>
       </a-scene>

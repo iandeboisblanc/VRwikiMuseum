@@ -3,6 +3,7 @@ var app = express();
 var server = require('http').createServer(app);  
 
 var PORT = process.env.PORT || 3000;
+var ENV = process.env.NODE_ENV || 'development';
 
 // CORS handling
 app.use(function(req, res, next) {
@@ -14,5 +15,6 @@ app.use(function(req, res, next) {
 });
 
 app.listen(PORT);
+console.log('Node environment:', ENV)
 console.log('Server listening on port', PORT);
 app.use(express.static(__dirname + '/../client/dist'));
