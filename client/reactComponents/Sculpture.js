@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import AFRAME from 'aframe';
 
-class PageModel extends React.Component {
+class Sculpture extends React.Component {
   constructor(props) {
     super(props);
     this.pedastalHeight = 0.6;
@@ -30,22 +30,7 @@ class PageModel extends React.Component {
   }
 }
 
-AFRAME.registerComponent('learningTool', {
-  schema: {
-  },
-
-  init: function () {
-    console.log(this);
-    // this.el.sceneEl.object3D.updateMatrixWorld();
-    // var mesh = this.el.getObject3D('mesh');
-  },
-
-  tick: function () {
-
-  }
-})
-
-module.exports = PageModel;
+module.exports = Sculpture;
 
 
 

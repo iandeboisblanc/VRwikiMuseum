@@ -2,7 +2,7 @@ import React from 'react';
 import Player from './Player'
 import Portal from './Portal'
 import TextDisplay from './TextDisplay'
-import PageModel from './PageModel'
+import Sculpture from './Sculpture'
 const $ = require('jquery');
 
 class MuseumScene extends React.Component {
@@ -68,7 +68,7 @@ class MuseumScene extends React.Component {
           htmlSelector='#stegocerasHTML'
           htmlScale='1'
         />
-        <PageModel
+        <Sculpture
           position='0 0 -4'
           modelSrc='#modelDae'
         />
