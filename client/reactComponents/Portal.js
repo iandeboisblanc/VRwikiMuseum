@@ -15,7 +15,6 @@ class Portal extends React.Component {
       <a-entity class='portal' 
         position={this.position} 
         rotation={this.props.rotation ? this.props.rotation : '0 0 0'}
-        //hideRoom={'camera:' + this.props.player}
         >
         <a-plane class='portalThreshhold' 
           // material='transparent:true;'
@@ -30,6 +29,7 @@ class Portal extends React.Component {
           height={this.props.height}
           width='0.1'
           depth='0.03' 
+          portalCollider={`redirect: ${this.props.redirect}`}
         />
         <a-box class='portalFrame'
           position={this.props.width/2 + ' 0 0'}
@@ -45,70 +45,97 @@ class Portal extends React.Component {
           width={0.2 + Number(this.props.width)}
           depth='0.03' 
         />
-
-        {/*
-        <a-plane 
-          material='transparent:true;' height={this.props.height} width='2' 
-          rotation='0 90 0' position={this.props.width / 2 + ' 0 -1'} 
-        />
-        <a-plane 
-          material='transparent:true;' height={this.props.height} width='2' 
-          rotation='0 90 0' position={-this.props.width / 2 + ' 0 -1'} 
-        />
-        <a-box class='portalInterior'
-          position='0 0 -1'
-          material='color:red;side:back' height={this.props.height} width={this.props.width} depth='2' 
-        />
-        */}
       </a-entity>
     );
   }
 }
 
+AFRAME.registerComponent('portalCollider', {
+  schema: {
+    redirect: {default: ''}
+  },
+
+  init: function() {
+    this.el.sceneEl.addBehavior(this);
+  },
+
+  tick: function() {
+  },
+
+  update: function () {
+    var sceneEl = this.el.sceneEl;
+    var mesh = this.el.getObject3D('mesh');
+    var object3D = this.el.object3D
+    var originPoint = this.el.object3D.position.clone();
+    for (var vertexIndex = 0; vertexIndex < mesh.geometry.vertices.length; vertexIndex++) {
+      var localVertex = mesh.geometry.vertices[vertexIndex].clone();
+      var globalVertex = localVertex.applyMatrix4( object3D.matrix );
+      var directionVector = globalVertex.sub( object3D.position );
+
+      var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
+      var collisionResults = ray.intersectObjects( sceneEl.object3D.children, true );
+      collisionResults.forEach(hit.bind(this));
+    }
+    function hit(collision) {
+      if (collision.object === object3D) {
+        return;
+      }
+      if (collision.distance < directionVector.length()) {
+        if (!collision.object.el) { return; }
+        collision.object.el.emit('hit'); 
+        console.log('Collision!');
+        if(this.data.redirect !== 'undefined') {
+          window.location = this.data.redirect;
+        }
+      }
+    }
+  }
+});
+
 module.exports = Portal;
 
 
-AFRAME.registerComponent('enterDoor', {
-  schema: {
-    camera: {default: ''}
-  },
+// AFRAME.registerComponent('enterDoor', {
+//   schema: {
+//     camera: {default: ''}
+//   },
 
-  init: function () {
-    // console.log(this.data.camera);
-    this.el.sceneEl.object3D.updateMatrixWorld();
-    //get camera:
-    this.camera = this.el.sceneEl.querySelector(this.data.camera);
-    //get threshhold
-    var mesh = this.el.getObject3D('mesh');
-    // console.log('Mesh:', mesh);
-    // console.log('Geometry:', mesh.geometry);
-    // console.log('Position:', mesh.geometry.getAttribute('position'));
-    // console.log('Normal:', mesh.geometry.getAttribute('normal'));
-    mesh.geometry.computeBoundingBox()
-    // console.log('BoundingBox:', mesh.geometry.boundingBox);
-    // console.log('MatrixWorld:', this.el.object3D.matrixWorld);
+//   init: function () {
+//     // console.log(this.data.camera);
+//     this.el.sceneEl.object3D.updateMatrixWorld();
+//     //get camera:
+//     this.camera = this.el.sceneEl.querySelector(this.data.camera);
+//     //get threshhold
+//     var mesh = this.el.getObject3D('mesh');
+//     // console.log('Mesh:', mesh);
+//     // console.log('Geometry:', mesh.geometry);
+//     // console.log('Position:', mesh.geometry.getAttribute('position'));
+//     // console.log('Normal:', mesh.geometry.getAttribute('normal'));
+//     mesh.geometry.computeBoundingBox()
+//     // console.log('BoundingBox:', mesh.geometry.boundingBox);
+//     // console.log('MatrixWorld:', this.el.object3D.matrixWorld);
     
 
-    //get dimensions/edges of threshhold
-    var vector = new THREE.Vector3();
-    // var attribute = mesh.geometry.attributes.position; // we want the position data
-    // console.log(attribute);
-    // var index = 3; // index is zero-based, so this the the 2nd vertex
-    // console.log(this.el.object3D.matrixWorld.clone()) //Not actually cloning...
-    vector.setFromMatrixPosition( this.el.object3D.matrixWorld.clone().transpose() ); // extract the x,y,z coordinates
-    // console.log(vector);
-    vector.applyMatrix4( this.el.object3D.matrixWorld ); // apply the mesh's matrix transform
-    // vector.setFromMatrixPosition( this.el.object3D.matrixWorld )
-    // console.log(this.el.object3D.localToWorld(vector));
-    // console.log('AbsolutePos:', vector);
-  },
+//     //get dimensions/edges of threshhold
+//     var vector = new THREE.Vector3();
+//     // var attribute = mesh.geometry.attributes.position; // we want the position data
+//     // console.log(attribute);
+//     // var index = 3; // index is zero-based, so this the the 2nd vertex
+//     // console.log(this.el.object3D.matrixWorld.clone()) //Not actually cloning...
+//     vector.setFromMatrixPosition( this.el.object3D.matrixWorld.clone().transpose() ); // extract the x,y,z coordinates
+//     // console.log(vector);
+//     vector.applyMatrix4( this.el.object3D.matrixWorld ); // apply the mesh's matrix transform
+//     // vector.setFromMatrixPosition( this.el.object3D.matrixWorld )
+//     // console.log(this.el.object3D.localToWorld(vector));
+//     // console.log('AbsolutePos:', vector);
+//   },
 
-  tick: function () {
-    var cameraPosition = this.camera.components.position.data;
-    // if(cameraPosition.x > )
-    //if camera intersects with threshhold, trigger event (link)
-  }
-})
+//   tick: function () {
+//     var cameraPosition = this.camera.components.position.data;
+//     // if(cameraPosition.x > )
+//     //if camera intersects with threshhold, trigger event (link)
+//   }
+// })
 
 
 //Easier than below: check if inside box. If so, render box color. If not, transparent. Doorway can just be color of room

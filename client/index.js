@@ -4,7 +4,7 @@ import AFRAME from 'aframe';
 
 var drawComponent = require('aframe-draw-component').component;
 AFRAME.registerComponent('draw', drawComponent);
-require('aframe-htmltexture-component')
+require('aframe-htmltexture-component');
 
 import MuseumScene from './reactComponents/MuseumScene'
 

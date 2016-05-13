@@ -46,7 +46,10 @@ class MuseumScene extends React.Component {
 
         <a-sky color='blue' />
         <a-plane material='color:grey;side:double' position='0 0 0' rotation='-90 0 0' width='100' height='100' />
-        <Portal player='#player' position='0 0 -10' width='1.5' height='2.5' />
+        <Portal 
+          position='0 0 -10' width='1.5' height='2.5' 
+          // redirect='http://www.elliotplant.com' 
+        />
         <TextDisplay 
           position='-5 1.5 -5' rotation='0 20 0'
           borderThickness='0.05' borderColor='purple'
