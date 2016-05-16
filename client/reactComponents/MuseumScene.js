@@ -19,17 +19,32 @@ class MuseumScene extends React.Component {
   }
 
   componentDidMount() {
+    const queryType = 'query';
+    let url = '';
+    if(queryType === 'query') {
+      url = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&rvprop=content&titles=Stegoceras&callback=?'
+    } else {
+      url = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&page=Stegoceras&callback=?'
+    }
+
     $.ajax({
         type: 'GET',
-        url: 'https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=Stegoceras&callback=?',
+        url: url,
         contentType: 'application/json; charset=utf-8',
         async: false,
         dataType: 'json',
         success: (data, textStatus, jqXHR) => {
-            const markup = data.parse.text["*"];
-            this.setState({ 
-              ajaxHtml: markup
-            });
+          if(queryType == 'query') {
+            var queryResults = data.query.pages;
+            queryResults = queryResults[Object.keys(queryResults)[0]].revisions[0]['*'];
+          } else {
+            var parseResults = data.parse.text["*"];
+          }
+          const markup = queryResults || parseResults;
+          console.log('$$$$$$$$$$$$$$$$$$$$$$$$$', markup)
+          this.setState({ 
+            ajaxHtml: markup
+          });
         },
         error: function (errorMessage) {
             console.error('Error retrieving from wikipedia:', errorMessage);
