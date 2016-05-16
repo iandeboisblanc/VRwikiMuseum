@@ -1,6 +1,7 @@
 import React from 'react';
 // import Player from './Player'
 import Portal from './Portal'
+import Walls from './Walls'
 import TextDisplay from './TextDisplay'
 import Sculpture from './Sculpture'
 const $ = require('jquery');
@@ -13,6 +14,8 @@ class MuseumScene extends React.Component {
     this.state = {
       ajaxHtml: ''
     };
+    this.roomWidth = 10;
+    this.roomLength = 15;
   }
 
   componentDidMount() {
@@ -58,7 +61,7 @@ class MuseumScene extends React.Component {
         <a-sky color='blue' />
         <a-plane static-body material='color:grey;side:double' position='0 0 0' rotation='-90 0 0' width='100' height='100' />
         <Portal 
-          position='0 0 -10' width='1.5' height='2.5' 
+          position={`0 0 ${-this.roomLength / 2 + 0.01}`} width='1.5' height='2.5' 
           // redirect='http://www.elliotplant.com' 
         />
         <TextDisplay 
@@ -83,10 +86,14 @@ class MuseumScene extends React.Component {
           htmlScale='1'
         />
         <Sculpture
-          position='0 0 -4'
+          position='0 0 0' 
           modelSrc='#modelDae'
         />
-        <a-entity id='camera' position='0 1.8 0' camera universal-controls kinematic-body />
+
+        <Walls width={this.roomWidth} length={this.roomLength}/>
+
+        <a-entity id='camera' position={`0 1.8 ${this.roomLength * 0.4}`} 
+          camera universal-controls kinematic-body />
       </a-scene>
     );
   }

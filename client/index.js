@@ -10,6 +10,6 @@ import MuseumScene from './reactComponents/MuseumScene'
 
 ReactDOM.render(
   <div>
-    <MuseumScene/>
+    <MuseumScene />
   </div>
 , document.getElementById('app'));

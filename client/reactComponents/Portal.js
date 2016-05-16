@@ -6,7 +6,7 @@ class Portal extends React.Component {
   constructor(props) {
     super(props);
     this.position = props.position.split(' ').map((value, i) => {
-      return i == 1 ? value + props.height/2 : value;
+      return i == 1 ? Number(value) + props.height/2 : value;
     }).join(' ');
   }
 
