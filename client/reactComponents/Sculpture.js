@@ -8,6 +8,9 @@ class Sculpture extends React.Component {
     this.pedastalHeight = 0.6;
     this.pedestalWidth = 2.5;
     this.pedestalDepth = 1;
+    const positionArray = props.position.split(' ');
+    positionArray[1] = Number(positionArray[1]) + this.pedastalHeight / 2;
+    this.position = positionArray.join(' ');
     
     //would be great to set dynamically based on size of model...
   }
@@ -15,7 +18,8 @@ class Sculpture extends React.Component {
   render () {
     return (
       <a-entity class='modelEntity'
-        position={this.props.position}>
+        static-body
+        position={this.position}>
         <a-box class='pedestal'
           position='0 0 0'
           height={this.pedastalHeight} width={this.pedestalWidth} depth={this.pedestalDepth}

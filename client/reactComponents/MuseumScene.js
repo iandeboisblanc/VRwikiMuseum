@@ -32,11 +32,20 @@ class MuseumScene extends React.Component {
             console.error('Error retrieving from wikipedia:', errorMessage);
         }
     });
+    var playerEl = document.querySelector('#camera');
+    playerEl.addEventListener('collide', function (e) {
+      console.log('Player has collided with body #' + e.detail.body.id);
+
+      e.detail.target.el;  // Original entity (playerEl).
+      e.detail.body.el;    // Other entity, which playerEl touched.
+      e.detail.contact;    // Stats about the collision (CANNON.ContactEquation).
+      e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
+    });
   }
 
   render () {
     return (
-      <a-scene physics='debug:false'>
+      <a-scene physics='debug:true'>
         <a-assets>
           <div id='exampleText'>
             YOO!!!! text here ya heard???
@@ -77,7 +86,7 @@ class MuseumScene extends React.Component {
           position='0 0 -4'
           modelSrc='#modelDae'
         />
-        <a-entity position='0 1.8 0' camera universal-controls kinematic-body></a-entity>
+        <a-entity id='camera' position='0 1.8 0' camera universal-controls kinematic-body />
       </a-scene>
     );
   }
