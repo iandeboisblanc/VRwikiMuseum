@@ -21,6 +21,7 @@
   "homepage": "https://github.com/iandeboisblanc/wikiMuseumVR#readme",
   "dependencies": {
     "aframe": "^0.2.0",
+    "aframe-extras": "^1.15.1",
     "aframe-htmltexture-component": "^0.2.1",
     "express": "^4.13.4",
     "jquery": "^2.2.3",

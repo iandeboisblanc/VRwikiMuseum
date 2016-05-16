@@ -1,9 +1,11 @@
 import React from 'react';
-import Player from './Player'
+// import Player from './Player'
 import Portal from './Portal'
 import TextDisplay from './TextDisplay'
 import Sculpture from './Sculpture'
 const $ = require('jquery');
+const extras = require('aframe-extras');
+extras.registerAll();
 
 class MuseumScene extends React.Component {
   constructor(props) {
@@ -34,7 +36,7 @@ class MuseumScene extends React.Component {
 
   render () {
     return (
-      <a-scene>
+      <a-scene physics='debug:false'>
         <a-assets>
           <div id='exampleText'>
             YOO!!!! text here ya heard???
@@ -45,7 +47,7 @@ class MuseumScene extends React.Component {
         </a-assets>
 
         <a-sky color='blue' />
-        <a-plane material='color:grey;side:double' position='0 0 0' rotation='-90 0 0' width='100' height='100' />
+        <a-plane static-body material='color:grey;side:double' position='0 0 0' rotation='-90 0 0' width='100' height='100' />
         <Portal 
           position='0 0 -10' width='1.5' height='2.5' 
           // redirect='http://www.elliotplant.com' 
@@ -75,7 +77,7 @@ class MuseumScene extends React.Component {
           position='0 0 -4'
           modelSrc='#modelDae'
         />
-        <Player/>
+        <a-entity position='0 1.8 0' camera universal-controls kinematic-body></a-entity>
       </a-scene>
     );
   }

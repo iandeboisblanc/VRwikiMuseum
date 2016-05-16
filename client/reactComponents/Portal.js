@@ -29,7 +29,6 @@ class Portal extends React.Component {
           height={this.props.height}
           width='0.1'
           depth='0.03' 
-          portalCollider={`redirect: ${this.props.redirect}`}
         />
         <a-box class='portalFrame'
           position={this.props.width/2 + ' 0 0'}
@@ -65,6 +64,7 @@ AFRAME.registerComponent('portalCollider', {
   update: function () {
     var sceneEl = this.el.sceneEl;
     var mesh = this.el.getObject3D('mesh');
+    console.log(this.el, this.el.object3D, this.el.getObject3D('mesh'));
     var object3D = this.el.object3D
     var originPoint = this.el.object3D.position.clone();
     for (var vertexIndex = 0; vertexIndex < mesh.geometry.vertices.length; vertexIndex++) {
