@@ -34,7 +34,7 @@ class TextDisplay extends React.Component {
   render () {
     return (
       <a-entity class='textDisplay' 
-        // static-body
+        static-body
         position={this.props.position || '0 0 0'} 
         rotation={this.props.rotation || '0 0 0'}>
         <a-box

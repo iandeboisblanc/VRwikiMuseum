@@ -14,7 +14,7 @@ class MuseumScene extends React.Component {
     this.state = {
       ajaxHtml: ''
     };
-    this.roomWidth = 10;
+    this.roomWidth = 15;
     this.roomLength = 15;
   }
 
@@ -65,20 +65,19 @@ class MuseumScene extends React.Component {
           // redirect='http://www.elliotplant.com' 
         />
         <TextDisplay 
-          position='-5 1.5 -5' rotation='0 20 0'
+          position={`${-this.roomWidth / 2} 1.5 ${this.roomLength / 3}`} rotation='0 90 0'
           borderThickness='0.05' borderColor='purple'
           htmlSelector='#exampleText'
         />
         <TextDisplay 
-          position='-8 1 -3' rotation='0 45 0'
+          position={`${-this.roomWidth / 2 + 1} 1 ${-this.roomLength / 2 + 1}`} rotation='0 45 0'
           height='2' width='2' depth='0.5'
-          // borderThickness='0.05' 
           borderColor='purple'
           htmlSelector='#exampleText'
           htmlScale='2'
         />
         <TextDisplay 
-          position='6 2.05 -8' rotation='0 -20 0'
+          position={`${this.roomWidth / 2} 2.05 0`} rotation='0 -90 0'
           height='4' width='2' depth='0.5'
           borderThickness='0.05' 
           borderColor='red'
