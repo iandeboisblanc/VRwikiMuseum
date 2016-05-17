@@ -16,8 +16,8 @@ class MuseumScene extends React.Component {
       mainDescriptionHtml: '',
       images: []
     };
-    this.roomWidth = 15;
-    this.roomLength = 25;
+    this.roomWidth = 25;
+    this.roomLength = 20;
   }
 
   componentWillMount() {
@@ -144,23 +144,26 @@ class MuseumScene extends React.Component {
     let length = images.length;
     return images.map((index, element) => {
       let adjustedRoomWidth = this.roomWidth - 4;
-      let depth = 0.05;
+      let frameDepth = 0.05;
+      let imageWidth = element.children('img').attr('width') / 130;
+      let imageHeight = element.children('img').attr('height') / 130;
+      console.log(imageWidth, imageHeight);
       return (
         <a-entity 
         rotation='0 180 0'
-        position={`${-adjustedRoomWidth / (length - 1) * index + adjustedRoomWidth / 2} 1.5 ${this.roomLength / 2}`}>
+        position={`${-adjustedRoomWidth / (length - 1) * index + adjustedRoomWidth / 2} 1.6 ${this.roomLength / 2}`}>
           <a-box 
             position='0 0 0'
-            height='1.05'
-            width='1.05'
-            depth={depth}
+            height={imageHeight + 0.05}
+            width={imageWidth + 0.05}
+            depth={frameDepth}
             color='green'
           />
           <a-plane 
             key={'P' + index}
             // rotation='0 180 0'
-            height='1' width='1'
-            position={`0 0 ${depth/2 + 0.001}`}
+            height={imageHeight} width={imageWidth}
+            position={`0 0 ${frameDepth/2 + 0.001}`}
             // borderThickness='0.05' 
             // borderColor='brown'
             src={'#stegocerasIMG' + index}
