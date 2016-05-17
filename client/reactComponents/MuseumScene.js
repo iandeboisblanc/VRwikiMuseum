@@ -143,19 +143,31 @@ class MuseumScene extends React.Component {
     let images = this.state.images //.slice(1);
     let length = images.length;
     return images.map((index, element) => {
-      var adjustedRoomWidth = this.roomWidth - 4;
+      let adjustedRoomWidth = this.roomWidth - 4;
+      let depth = 0.05;
       return (
-        <a-plane 
-          key={'P' + index}
-          position={`${-adjustedRoomWidth / (length - 1) * index + adjustedRoomWidth / 2} 1.5 ${this.roomLength / 2 - 1.5}`} 
-          rotation='0 180 0'
-          height='1' width='1' depth='1'
-          // borderThickness='0.05' 
-          // borderColor='brown'
-          src={'#stegocerasIMG' + index}
-          color='white'
-          // htmlScale='0.7'
-        />
+        <a-entity 
+        rotation='0 180 0'
+        position={`${-adjustedRoomWidth / (length - 1) * index + adjustedRoomWidth / 2} 1.5 ${this.roomLength / 2}`}>
+          <a-box 
+            position='0 0 0'
+            height='1.05'
+            width='1.05'
+            depth={depth}
+            color='green'
+          />
+          <a-plane 
+            key={'P' + index}
+            // rotation='0 180 0'
+            height='1' width='1'
+            position={`0 0 ${depth/2 + 0.001}`}
+            // borderThickness='0.05' 
+            // borderColor='brown'
+            src={'#stegocerasIMG' + index}
+            color='white'
+            // htmlScale='0.7'
+          />
+        </a-entity>
       )
     })
   }
