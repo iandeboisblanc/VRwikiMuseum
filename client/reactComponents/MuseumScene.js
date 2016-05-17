@@ -74,9 +74,7 @@ class MuseumScene extends React.Component {
 
   setHtmlAssets () {
     return this.state.textDisplayHtml.map((element, index) => {
-      // console.log(element[0]);
-      var html = element.html();
-      // console.log(html, html[0]);
+      let html = element.html();
       return (
         <div id={`stegocerasHTML${index}`} key={index} dangerouslySetInnerHTML={{__html:html}}></div>
       )
@@ -84,26 +82,20 @@ class MuseumScene extends React.Component {
   }
 
   renderHtmlTextDisplays () {
-    if(this.state.textDisplayHtml) {
-      // let assets = $('#ajaxHtmlAssets');
-      // console.log(assets, assets.children());
-      let assets = this.state.textDisplayHtml;
-      console.log('%%%%%%%%%%%%%%', assets)
-      return assets.map((element, index) => {
-        // console.log(index, element);
-        return (
-          <TextDisplay 
-            key={index}
-            position={`${this.roomWidth / 2} 2.05 ${this.roomLength / assets.length * index - this.roomLength / 2}`} rotation='0 -90 0'
-            height='4' width='2' depth='0.5'
-            borderThickness='0.05' 
-            borderColor='red'
-            htmlSelector={'#stegocerasHTML' + index}
-            htmlScale='1'
-          />
-        )
-      });
-    }
+    let assets = this.state.textDisplayHtml;
+    return assets.map((element, index) => {
+      return (
+        <TextDisplay 
+          key={index}
+          position={`${this.roomWidth / 2} 2.05 ${this.roomLength / assets.length * index - this.roomLength / 2}`} rotation='0 -90 0'
+          height='4' width='2' depth='0.5'
+          borderThickness='0.05' 
+          borderColor='red'
+          htmlSelector={'#stegocerasHTML' + index}
+          htmlScale='1'
+        />
+      )
+    });
   }
 
   render () {
