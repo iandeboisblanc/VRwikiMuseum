@@ -16,7 +16,7 @@ class MuseumScene extends React.Component {
       mainDescriptionHtml: ''
     };
     this.roomWidth = 15;
-    this.roomLength = 40;
+    this.roomLength = 25;
   }
 
   componentWillMount() {
@@ -47,25 +47,29 @@ class MuseumScene extends React.Component {
           let parseResults = $('<div id="parseResults"/>').append(data.parse.text["*"])[0];
           parseResults = $(parseResults).children('p, h2');
           parseResults = parseResults.filter((child, element) => element.innerText.length > 0);
-          const splitResults = [];
+          const parsedHtmlSections = [];
           for(var i = 0; i < parseResults.length; i++) {
-            $(parseResults[i]).css('padding', '0px 10px');
-            $(parseResults[i]).children('.mw-editsection').empty();
-            if($(parseResults[i]).is('h2')) {
-              var newSection = $('<section />').append(parseResults[i]);
-              splitResults.push(newSection);
+            let htmlSection = parseResults[i]
+            // console.log('%%%%', htmlSection);
+            $(htmlSection).css('padding', '0px 10px');
+            $(htmlSection).children('.mw-editsection').empty();
+            if($(htmlSection).is('h2')) {
+              if($(htmlSection).children('#See_also, #References, #External_links').length == 0) {
+                var newSection = $('<section />').append(htmlSection);
+                parsedHtmlSections.push(newSection);
+              }
             } else {
-              if(splitResults.length) {
-                $(splitResults[splitResults.length - 1]).append(parseResults[i])
+              if(parsedHtmlSections.length) {
+                $(parsedHtmlSections[parsedHtmlSections.length - 1]).append(htmlSection)
               } else {
-                var newSection = $('<section/>').append(parseResults[i]);
-                splitResults.push(newSection);
+                var newSection = $('<section/>').append(htmlSection);
+                parsedHtmlSections.push(newSection);
               }
             }
           }
-          // console.log('$$$$$$$$$$$$$$$$$$$$$$$$$', splitResults);
+          // console.log('$$$$$$$$$$$$$$$$$$$$$$$$$', parsedHtmlSections);
           this.setState({ 
-            textDisplayHtml: splitResults
+            textDisplayHtml: parsedHtmlSections
           });
         },
         error: function (errorMessage) {
@@ -85,13 +89,16 @@ class MuseumScene extends React.Component {
 
   renderHtmlTextDisplays () {
     let assets = this.state.textDisplayHtml //.slice(1);
-    return assets.map((element, index) => {
+    let length = assets.length;
+    let leftHalf = assets.slice(0, Math.floor(length / 2));
+    let rightHalf = assets.slice(Math.floor(length / 2));
+    return leftHalf.map((element, index) => {
       var adjustedRoomLength = this.roomLength - 4;
       return (
         <TextDisplay 
-          key={index}
-          position={`${this.roomWidth / 2} 2.05 ${adjustedRoomLength / (assets.length - 1) * index - adjustedRoomLength / 2}`} 
-          rotation='0 -90 0'
+          key={'L' + index}
+          position={`${-this.roomWidth / 2} 2.05 ${-adjustedRoomLength / (leftHalf.length - 1) * index + adjustedRoomLength / 2}`} 
+          rotation='0 90 0'
           height='4' width='2' depth='0.5'
           borderThickness='0.05' 
           borderColor='red'
@@ -99,7 +106,21 @@ class MuseumScene extends React.Component {
           htmlScale='1'
         />
       )
-    });
+    }).concat(rightHalf.map((element, index) => {
+      var adjustedRoomLength = this.roomLength - 4;
+      return (
+        <TextDisplay 
+          key={'R' + index}
+          position={`${this.roomWidth / 2} 2.05 ${adjustedRoomLength / (rightHalf.length - 1) * index - adjustedRoomLength / 2}`} 
+          rotation='0 -90 0'
+          height='4' width='2' depth='0.5'
+          borderThickness='0.05' 
+          borderColor='red'
+          htmlSelector={'#stegocerasHTML' + (leftHalf.length + index)}
+          htmlScale='1'
+        />
+      )
+    }));
   }
 
   render () {
@@ -121,18 +142,7 @@ class MuseumScene extends React.Component {
           position={`0 0 ${-this.roomLength / 2 + 0.01}`} width='1.5' height='2.5' 
           // redirect='http://www.elliotplant.com' 
         />
-        <TextDisplay 
-          position={`${-this.roomWidth / 2} 1.5 ${this.roomLength / 3}`} rotation='0 90 0'
-          borderThickness='0.05' borderColor='purple'
-          htmlSelector='#exampleText'
-        />
-        <TextDisplay 
-          position={`${-this.roomWidth / 2 + 1} 1 ${-this.roomLength / 2 + 1}`} rotation='0 45 0'
-          height='2' width='2' depth='0.5'
-          borderColor='purple'
-          htmlSelector='#exampleText'
-          htmlScale='2'
-        />
+       
         {this.renderHtmlTextDisplays.call(this)}
         <Sculpture
           position='0 0 0' 
