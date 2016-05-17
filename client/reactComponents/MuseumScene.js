@@ -15,7 +15,7 @@ class MuseumScene extends React.Component {
       rawAjaxHtml: ''
     };
     this.roomWidth = 15;
-    this.roomLength = 15;
+    this.roomLength = 40;
   }
 
   componentDidMount() {
@@ -32,13 +32,7 @@ class MuseumScene extends React.Component {
   }
 
   getWikiInformation () {
-    const queryType = 'parse';
-    let url = '';
-    if(queryType === 'query') {
-      url = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&rvprop=content&titles=Stegoceras&callback=?'
-    } else {
-      url = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&page=Stegoceras&callback=?'
-    }
+    const url = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&page=Stegoceras&callback=?'
     $.ajax({
         type: 'GET',
         url: url,
@@ -46,19 +40,19 @@ class MuseumScene extends React.Component {
         async: false,
         dataType: 'json',
         success: (data, textStatus, jqXHR) => {
-          if(queryType == 'query') {
-            var queryResults = data.query.pages;
-            queryResults = queryResults[Object.keys(queryResults)[0]].revisions[0]['*'];
-          } else {
-            var parseResults = $('<div id="queryResults"/>').append(data.parse.text["*"])[0];
-            parseResults = $(parseResults).children('p, h2');
-            parseResults = parseResults.filter((child, element) => element.innerText.length > 0);
-            // parseResults = parseResults.find('> p');
+          let parseResults = $('<div id="parseResults"/>').append(data.parse.text["*"])[0];
+          parseResults = $(parseResults).children('p, h2');
+          parseResults = parseResults.filter((child, element) => element.innerText.length > 0);
+          const splitResults = [];
+          let resultsIndex = 0;
+          for(var i = 0; i < parseResults.length; i++) {
+            // if(parseResults[i])
+            console.log(parseResults[i]);
+            splitResults.push(parseResults[i]);
           }
-          const markup = queryResults || parseResults;
-          console.log('$$$$$$$$$$$$$$$$$$$$$$$$$', markup)
+          // console.log('$$$$$$$$$$$$$$$$$$$$$$$$$', markup)
           this.setState({ 
-            rawAjaxHtml: markup
+            rawAjaxHtml: splitResults
           });
         },
         error: function (errorMessage) {
@@ -69,10 +63,10 @@ class MuseumScene extends React.Component {
 
   parseAndSetHtmlAssets () {
     if(this.state.rawAjaxHtml) {
-      return this.state.rawAjaxHtml.map((index, element) => {
-        console.log(element);
+      return this.state.rawAjaxHtml.map((element, index) => {
+        // console.log(element);
         return (
-          <div id={`stegocerasHTML${index}`} key={index}>
+          <div id={`stegocerasHTML${index}`} key={index} >
             <p>{element.innerText}</p>
           </div>
         )
@@ -86,16 +80,23 @@ class MuseumScene extends React.Component {
 
   renderHtmlTextDisplay () {
     if(this.state.rawAjaxHtml) {
-      return (
-        <TextDisplay 
-          position={`${this.roomWidth / 2} 2.05 0`} rotation='0 -90 0'
-          height='4' width='2' depth='0.5'
-          borderThickness='0.05' 
-          borderColor='red'
-          htmlSelector='#stegocerasHTML0'
-          htmlScale='1'
-        />
-      )
+      let assets = $('#ajaxHtmlAssets');
+      // console.log(assets, assets.children());
+      assets = this.state.rawAjaxHtml;
+      return assets.map((element, index) => {
+        // console.log(index, element);
+        return (
+          <TextDisplay 
+            key={index}
+            position={`${this.roomWidth / 2} 2.05 ${this.roomLength / assets.length * index - this.roomLength / 2}`} rotation='0 -90 0'
+            height='4' width='2' depth='0.5'
+            borderThickness='0.05' 
+            borderColor='red'
+            htmlSelector='#stegocerasHTML0'
+            htmlScale='1'
+          />
+        )
+      });
     }
   }
 
@@ -106,7 +107,9 @@ class MuseumScene extends React.Component {
           <div id='exampleText'>
             YOO!!!! text here ya heard???
           </div>
-          {this.parseAndSetHtmlAssets.call(this)}
+          <div id='ajaxHtmlAssets'>
+            {this.parseAndSetHtmlAssets.call(this)}
+          </div>
           <a-asset-item id="modelDae" src="/assets/stegoceras.dae"></a-asset-item>
         </a-assets>
 
