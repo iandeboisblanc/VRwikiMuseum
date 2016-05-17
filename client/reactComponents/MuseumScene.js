@@ -50,6 +50,7 @@ class MuseumScene extends React.Component {
           const splitResults = [];
           for(var i = 0; i < parseResults.length; i++) {
             $(parseResults[i]).css('padding', '0px 10px');
+            $(parseResults[i]).children('.mw-editsection').empty();
             if($(parseResults[i]).is('h2')) {
               var newSection = $('<section />').append(parseResults[i]);
               splitResults.push(newSection);
@@ -77,7 +78,7 @@ class MuseumScene extends React.Component {
     return this.state.textDisplayHtml.map((element, index) => {
       let html = element.html();
       return (
-        <div id={`stegocerasHTML${index}`} key={index} style={{'padding':'0px 40px'}} dangerouslySetInnerHTML={{__html:html}} />
+        <div id={`stegocerasHTML${index}`} key={index} dangerouslySetInnerHTML={{__html:html}} />
       )
     })
   }
