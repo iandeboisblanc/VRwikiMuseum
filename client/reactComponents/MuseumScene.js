@@ -19,6 +19,10 @@ class MuseumScene extends React.Component {
     this.roomLength = 40;
   }
 
+  componentWillMount() {
+    this.getWikiInformation();
+  }
+
   componentDidMount() {
     var playerEl = document.querySelector('#camera');
     playerEl.addEventListener('collide', function (e) {
@@ -29,7 +33,6 @@ class MuseumScene extends React.Component {
       e.detail.contact;    // Stats about the collision (CANNON.ContactEquation).
       e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
     });
-    this.getWikiInformation();
   }
 
   getWikiInformation () {
@@ -46,8 +49,9 @@ class MuseumScene extends React.Component {
           parseResults = parseResults.filter((child, element) => element.innerText.length > 0);
           const splitResults = [];
           for(var i = 0; i < parseResults.length; i++) {
+            $(parseResults[i]).css('padding', '0px 10px');
             if($(parseResults[i]).is('h2')) {
-              var newSection = $('<section/>').append(parseResults[i]);
+              var newSection = $('<section />').append(parseResults[i]);
               splitResults.push(newSection);
             } else {
               if(splitResults.length) {
@@ -73,7 +77,7 @@ class MuseumScene extends React.Component {
     return this.state.textDisplayHtml.map((element, index) => {
       let html = element.html();
       return (
-        <div id={`stegocerasHTML${index}`} key={index} dangerouslySetInnerHTML={{__html:html}} />
+        <div id={`stegocerasHTML${index}`} key={index} style={{'padding':'0px 40px'}} dangerouslySetInnerHTML={{__html:html}} />
       )
     })
   }

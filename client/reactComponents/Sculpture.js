@@ -30,7 +30,6 @@ class Sculpture extends React.Component {
         <a-collada-model src={this.props.modelSrc}
           position={`-0.2 ${this.pedastalHeight / 2} 0.1`}
         />
-
       </a-entity>
     );
   }
