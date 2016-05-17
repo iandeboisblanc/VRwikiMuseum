@@ -44,11 +44,8 @@ class MuseumScene extends React.Component {
           let parseResults = $('<div id="parseResults"/>').append(data.parse.text["*"])[0];
           parseResults = $(parseResults).children('p, h2');
           parseResults = parseResults.filter((child, element) => element.innerText.length > 0);
-          this.setState({
-            mainDescriptionHtml: parseResults[0]
-          });
           const splitResults = [];
-          for(var i = 1; i < parseResults.length; i++) {
+          for(var i = 0; i < parseResults.length; i++) {
             if($(parseResults[i]).is('h2')) {
               var newSection = $('<section/>').append(parseResults[i]);
               splitResults.push(newSection);
@@ -76,22 +73,24 @@ class MuseumScene extends React.Component {
     return this.state.textDisplayHtml.map((element, index) => {
       let html = element.html();
       return (
-        <div id={`stegocerasHTML${index}`} key={index} dangerouslySetInnerHTML={{__html:html}}></div>
+        <div id={`stegocerasHTML${index}`} key={index} dangerouslySetInnerHTML={{__html:html}} />
       )
     })
   }
 
   renderHtmlTextDisplays () {
-    let assets = this.state.textDisplayHtml;
+    let assets = this.state.textDisplayHtml //.slice(1);
     return assets.map((element, index) => {
+      var adjustedRoomLength = this.roomLength - 4;
       return (
         <TextDisplay 
           key={index}
-          position={`${this.roomWidth / 2} 2.05 ${this.roomLength / assets.length * index - this.roomLength / 2}`} rotation='0 -90 0'
+          position={`${this.roomWidth / 2} 2.05 ${adjustedRoomLength / (assets.length - 1) * index - adjustedRoomLength / 2}`} 
+          rotation='0 -90 0'
           height='4' width='2' depth='0.5'
           borderThickness='0.05' 
           borderColor='red'
-          htmlSelector={'#stegocerasHTML' + index}
+          htmlSelector={'#stegocerasHTML' + (index)}
           htmlScale='1'
         />
       )

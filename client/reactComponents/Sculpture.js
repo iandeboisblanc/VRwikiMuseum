@@ -1,6 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import AFRAME from 'aframe';
+import TextDisplay from './TextDisplay';
 
 class Sculpture extends React.Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class Sculpture extends React.Component {
         <a-collada-model src={this.props.modelSrc}
           position={`-0.2 ${this.pedastalHeight / 2} 0.1`}
         />
+
       </a-entity>
     );
   }
