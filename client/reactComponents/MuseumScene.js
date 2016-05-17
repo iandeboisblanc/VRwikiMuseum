@@ -44,15 +44,20 @@ class MuseumScene extends React.Component {
         async: false,
         dataType: 'json',
         success: (data, textStatus, jqXHR) => {
-          let parseResults = $('<div id="parseResults"/>').append(data.parse.text["*"])[0];
-          parseResults = $(parseResults).children('p, h2');
-          parseResults = parseResults.filter((child, element) => element.innerText.length > 0);
+          // Parse Wiki data into discrete sections by topic
+          let rawResults = $('<div id="rawResults"/>').append(data.parse.text["*"])[0];
+          let filteredResults = $(rawResults).children('p, h2, h3, table');
+          console.log(rawResults);
+          filteredResults = filteredResults.filter((child, element) => element.innerText.length > 0);
+
           const parsedHtmlSections = [];
-          for(var i = 0; i < parseResults.length; i++) {
-            let htmlSection = parseResults[i]
-            // console.log('%%%%', htmlSection);
+          for(var i = 0; i < filteredResults.length; i++) {
+            let htmlSection = filteredResults[i]
             $(htmlSection).css('padding', '0px 10px');
-            $(htmlSection).children('.mw-editsection').empty();
+            $(htmlSection).children('.mw-editsection').empty(); //Remove 'Edit' tags on titles
+
+            // If header that is not See Also, References, or External Links, create a new Section
+            // Otherwise, add to previous section
             if($(htmlSection).is('h2')) {
               if($(htmlSection).children('#See_also, #References, #External_links').length == 0) {
                 var newSection = $('<section />').append(htmlSection);
@@ -67,7 +72,6 @@ class MuseumScene extends React.Component {
               }
             }
           }
-          // console.log('$$$$$$$$$$$$$$$$$$$$$$$$$', parsedHtmlSections);
           this.setState({ 
             textDisplayHtml: parsedHtmlSections
           });
@@ -99,11 +103,11 @@ class MuseumScene extends React.Component {
           key={'L' + index}
           position={`${-this.roomWidth / 2} 2.05 ${-adjustedRoomLength / (leftHalf.length - 1) * index + adjustedRoomLength / 2}`} 
           rotation='0 90 0'
-          height='4' width='2' depth='0.5'
+          height='4' width='3' depth='0.5'
           borderThickness='0.05' 
           borderColor='red'
           htmlSelector={'#stegocerasHTML' + (index)}
-          htmlScale='1'
+          htmlScale='0.7'
         />
       )
     }).concat(rightHalf.map((element, index) => {
@@ -113,11 +117,11 @@ class MuseumScene extends React.Component {
           key={'R' + index}
           position={`${this.roomWidth / 2} 2.05 ${adjustedRoomLength / (rightHalf.length - 1) * index - adjustedRoomLength / 2}`} 
           rotation='0 -90 0'
-          height='4' width='2' depth='0.5'
+          height='4' width='3' depth='0.5'
           borderThickness='0.05' 
           borderColor='red'
           htmlSelector={'#stegocerasHTML' + (leftHalf.length + index)}
-          htmlScale='1'
+          htmlScale='0.7'
         />
       )
     }));
