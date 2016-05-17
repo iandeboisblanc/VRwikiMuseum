@@ -13,7 +13,8 @@ class MuseumScene extends React.Component {
     super(props);
     this.state = {
       textDisplayHtml: [],
-      mainDescriptionHtml: ''
+      mainDescriptionHtml: '',
+      images: []
     };
     this.roomWidth = 15;
     this.roomLength = 25;
@@ -46,8 +47,12 @@ class MuseumScene extends React.Component {
         success: (data, textStatus, jqXHR) => {
           // Parse Wiki data into discrete sections by topic
           let rawResults = $('<div id="rawResults"/>').append(data.parse.text["*"])[0];
+          let images = $(rawResults).find('img').map((index, element) => {
+            if($(element).attr('width') > 100) {
+              return $('<section />').append(element)
+            }
+          });
           let filteredResults = $(rawResults).children('p, h2, h3, table');
-          console.log(rawResults);
           filteredResults = filteredResults.filter((child, element) => element.innerText.length > 0);
 
           const parsedHtmlSections = [];
@@ -73,7 +78,8 @@ class MuseumScene extends React.Component {
             }
           }
           this.setState({ 
-            textDisplayHtml: parsedHtmlSections
+            textDisplayHtml: parsedHtmlSections,
+            images: images
           });
         },
         error: function (errorMessage) {
@@ -86,9 +92,15 @@ class MuseumScene extends React.Component {
     return this.state.textDisplayHtml.map((element, index) => {
       let html = element.html();
       return (
-        <div id={`stegocerasHTML${index}`} key={index} dangerouslySetInnerHTML={{__html:html}} />
+        <div id={`stegocerasHTML${index}`} key={'text' + index} dangerouslySetInnerHTML={{__html:html}} />
       )
-    })
+    }).concat(this.state.images.map((index, element) => {
+      // console.log(element);
+      let src = 'https:' + $(element).children('img').attr('src');
+      return (
+        <img id={`stegocerasIMG${index}`} key={'img' + index} crossOrigin='anonymous' src={src} />
+      );
+    }));
   }
 
   renderHtmlTextDisplays () {
@@ -127,6 +139,27 @@ class MuseumScene extends React.Component {
     }));
   }
 
+  renderImageDisplays() {
+    let images = this.state.images //.slice(1);
+    let length = images.length;
+    return images.map((index, element) => {
+      var adjustedRoomWidth = this.roomWidth - 4;
+      return (
+        <a-plane 
+          key={'P' + index}
+          position={`${-adjustedRoomWidth / (length - 1) * index + adjustedRoomWidth / 2} 1.5 ${this.roomLength / 2 - 1.5}`} 
+          rotation='0 180 0'
+          height='1' width='1' depth='1'
+          // borderThickness='0.05' 
+          // borderColor='brown'
+          src={'#stegocerasIMG' + index}
+          color='white'
+          // htmlScale='0.7'
+        />
+      )
+    })
+  }
+
   render () {
     return (
       <a-scene physics='debug:true'>
@@ -148,6 +181,9 @@ class MuseumScene extends React.Component {
         />
        
         {this.renderHtmlTextDisplays.call(this)}
+        {this.renderImageDisplays.call(this)}
+
+
         <Sculpture
           position='0 0 0' 
           modelSrc='#modelDae'
