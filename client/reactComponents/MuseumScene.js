@@ -12,7 +12,8 @@ class MuseumScene extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rawAjaxHtml: ''
+      textDisplayHtml: [],
+      mainDescriptionHtml: ''
     };
     this.roomWidth = 15;
     this.roomLength = 40;
@@ -43,16 +44,26 @@ class MuseumScene extends React.Component {
           let parseResults = $('<div id="parseResults"/>').append(data.parse.text["*"])[0];
           parseResults = $(parseResults).children('p, h2');
           parseResults = parseResults.filter((child, element) => element.innerText.length > 0);
+          this.setState({
+            mainDescriptionHtml: parseResults[0]
+          });
           const splitResults = [];
-          let resultsIndex = 0;
-          for(var i = 0; i < parseResults.length; i++) {
-            // if(parseResults[i])
-            console.log(parseResults[i]);
-            splitResults.push(parseResults[i]);
+          for(var i = 1; i < parseResults.length; i++) {
+            if($(parseResults[i]).is('h2')) {
+              var newSection = $('<section/>').append(parseResults[i]);
+              splitResults.push(newSection);
+            } else {
+              if(splitResults.length) {
+                $(splitResults[splitResults.length - 1]).append(parseResults[i])
+              } else {
+                var newSection = $('<section/>').append(parseResults[i]);
+                splitResults.push(newSection);
+              }
+            }
           }
-          // console.log('$$$$$$$$$$$$$$$$$$$$$$$$$', markup)
+          // console.log('$$$$$$$$$$$$$$$$$$$$$$$$$', splitResults);
           this.setState({ 
-            rawAjaxHtml: splitResults
+            textDisplayHtml: splitResults
           });
         },
         error: function (errorMessage) {
@@ -61,28 +72,23 @@ class MuseumScene extends React.Component {
     });
   }
 
-  parseAndSetHtmlAssets () {
-    if(this.state.rawAjaxHtml) {
-      return this.state.rawAjaxHtml.map((element, index) => {
-        // console.log(element);
-        return (
-          <div id={`stegocerasHTML${index}`} key={index} >
-            <p>{element.innerText}</p>
-          </div>
-        )
-      })
-    } else {
+  setHtmlAssets () {
+    return this.state.textDisplayHtml.map((element, index) => {
+      // console.log(element[0]);
+      var html = element.html();
+      // console.log(html, html[0]);
       return (
-        <div />
-      );
-    }
+        <div id={`stegocerasHTML${index}`} key={index} dangerouslySetInnerHTML={{__html:html}}></div>
+      )
+    })
   }
 
-  renderHtmlTextDisplay () {
-    if(this.state.rawAjaxHtml) {
-      let assets = $('#ajaxHtmlAssets');
+  renderHtmlTextDisplays () {
+    if(this.state.textDisplayHtml) {
+      // let assets = $('#ajaxHtmlAssets');
       // console.log(assets, assets.children());
-      assets = this.state.rawAjaxHtml;
+      let assets = this.state.textDisplayHtml;
+      console.log('%%%%%%%%%%%%%%', assets)
       return assets.map((element, index) => {
         // console.log(index, element);
         return (
@@ -92,7 +98,7 @@ class MuseumScene extends React.Component {
             height='4' width='2' depth='0.5'
             borderThickness='0.05' 
             borderColor='red'
-            htmlSelector='#stegocerasHTML0'
+            htmlSelector={'#stegocerasHTML' + index}
             htmlScale='1'
           />
         )
@@ -108,7 +114,7 @@ class MuseumScene extends React.Component {
             YOO!!!! text here ya heard???
           </div>
           <div id='ajaxHtmlAssets'>
-            {this.parseAndSetHtmlAssets.call(this)}
+            {this.setHtmlAssets.call(this)}
           </div>
           <a-asset-item id="modelDae" src="/assets/stegoceras.dae"></a-asset-item>
         </a-assets>
@@ -131,7 +137,7 @@ class MuseumScene extends React.Component {
           htmlSelector='#exampleText'
           htmlScale='2'
         />
-        {this.renderHtmlTextDisplay.call(this)}
+        {this.renderHtmlTextDisplays.call(this)}
         <Sculpture
           position='0 0 0' 
           modelSrc='#modelDae'
