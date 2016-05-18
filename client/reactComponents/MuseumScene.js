@@ -17,14 +17,14 @@ class MuseumScene extends React.Component {
 
   componentDidMount() {
     var playerEl = document.querySelector('#camera');
-    playerEl.addEventListener('collide', function (e) {
-      // console.log('Player has collided with body #' + e.detail.body.id);
+    playerEl.addEventListener('collide', (e) => {
+      console.log('Player has collided with body #' + e.detail.body.id);
       let entity = e.detail.body.el;
       let link = $(entity).attr('link');
       if(link) {
         console.log('Redirecting to:', link)
         if(link.slice(0,4) === 'wiki') {
-          //load new page
+          //set state to another page
         } else {
           //redirect entirely
           window.location = link;
@@ -153,7 +153,7 @@ class MuseumScene extends React.Component {
         <Walls width={this.roomWidth} length={this.roomLength} links={this.props.relatedLinks}/>
 
         <a-entity id='camera' position={`0 1.8 ${this.roomLength * 0.4}`} width='0.5'
-          camera universal-controls kinematic-body />
+          camera='near: 0.3' universal-controls kinematic-body='radius: 0.6' />
       </a-scene>
     );
   }

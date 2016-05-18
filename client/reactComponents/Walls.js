@@ -5,7 +5,7 @@ class Walls extends React.Component {
   constructor(props) {
     super(props);
     this.wallHeight = 8;
-    this.doorWidth = 2.4;
+    this.doorWidth = 2;
     this.doorHeight = 3;
   }
 
@@ -20,11 +20,11 @@ class Walls extends React.Component {
         <a-box key={'linkPad' + i} 
           link={link}
           static-body
-          position={`${-this.props.width/2 + boxWidth * (i + 1) + this.doorWidth * (i + 1/2)} 0 ${-this.props.length/2 - 1}`} 
-          height='0.03'
+          position={`${-this.props.width/2 + boxWidth * (i + 1) + this.doorWidth * (i + 1/2)} 0 ${-this.props.length/2}`} 
+          height='0.2'
           width={this.doorWidth}
-          depth='2'
-          color='blue'
+          depth='0.01'
+          color='grey'
           />
       )
     });
@@ -37,7 +37,7 @@ class Walls extends React.Component {
           height={this.doorHeight}
           width={boxWidth}
           depth='0.01'
-          color='green'
+          color='grey'
           />
       ))
     }
