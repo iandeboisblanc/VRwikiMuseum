@@ -6,10 +6,10 @@ var drawComponent = require('aframe-draw-component').component;
 AFRAME.registerComponent('draw', drawComponent);
 require('aframe-htmltexture-component');
 
-import MuseumScene from './reactComponents/MuseumScene'
+import WikiPage from './reactComponents/WikiPage'
 
 ReactDOM.render(
   <div>
-    <MuseumScene />
+    <WikiPage />
   </div>
 , document.getElementById('app'));
