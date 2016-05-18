@@ -21,7 +21,7 @@ class Walls extends React.Component {
           link={link}
           static-body
           position={`${-this.props.width/2 + boxWidth * (i + 1) + this.doorWidth * (i + 1/2)} 0 ${-this.props.length/2 - 1}`} 
-          height='0.01'
+          height='0.03'
           width={this.doorWidth}
           depth='2'
           color='blue'
