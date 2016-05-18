@@ -86,11 +86,12 @@ class MuseumScene extends React.Component {
       let frameDepth = 0.05;
       let imageWidth = element.children('img').attr('width') / 130;
       let imageHeight = element.children('img').attr('height') / 130;
-      console.log(imageWidth, imageHeight);
+      // console.log(imageWidth, imageHeight);
       return (
         <a-entity 
-        rotation='0 180 0'
-        position={`${-adjustedRoomWidth / (length - 1) * index + adjustedRoomWidth / 2} 1.6 ${this.roomLength / 2}`}>
+          key={'P' + index}
+          rotation='0 180 0'
+          position={`${-adjustedRoomWidth / (length - 1) * index + adjustedRoomWidth / 2} 1.6 ${this.roomLength / 2}`}>
           <a-box 
             position='0 0 0'
             height={imageHeight + 0.05}
@@ -99,7 +100,6 @@ class MuseumScene extends React.Component {
             color='green'
           />
           <a-plane 
-            key={'P' + index}
             // rotation='0 180 0'
             height={imageHeight} width={imageWidth}
             position={`0 0 ${frameDepth/2 + 0.001}`}
@@ -140,9 +140,9 @@ class MuseumScene extends React.Component {
           modelSrc='#modelDae'
         />
 
-        <Walls width={this.roomWidth} length={this.roomLength}/>
+        <Walls width={this.roomWidth} length={this.roomLength} links={this.props.relatedLinks}/>
 
-        <a-entity id='camera' position={`0 1.8 ${this.roomLength * 0.4}`} 
+        <a-entity id='camera' position={`0 1.8 ${this.roomLength * 0.4}`} width='0.5'
           camera universal-controls kinematic-body />
       </a-scene>
     );

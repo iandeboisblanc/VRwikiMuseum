@@ -76,7 +76,8 @@ class WikiPage extends React.Component {
   render () {
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
-        <MuseumScene page={this.state.page} textDisplayHtml={this.state.textDisplayHtml} images={this.state.images} />
+        <MuseumScene page={this.state.page} textDisplayHtml={this.state.textDisplayHtml} 
+        images={this.state.images} relatedLinks={['wiki:Stegoceras', 'http://www.elliotplant.com']} />
       )
     } else {
       //ultimately have a search
