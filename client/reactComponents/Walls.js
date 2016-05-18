@@ -12,14 +12,15 @@ class Walls extends React.Component {
   renderDoorWays () {
     let links = this.props.links.slice(0,6); //max out at 6 links
     let boxCount = links.length + 1;
+    let boxWidth = (this.props.width - (links.length * this.doorWidth)) / boxCount;
     //Make link colliders:
-    let linkPads = links.map((link, index) => {
+    let linkPads = links.map((link, i) => {
       return (
         //something
-        <a-box key={'linkPad' + index} 
+        <a-box key={'linkPad' + i} 
           link={link}
           static-body
-          position={`${-this.props.width/2 + (index+1) * (this.props.width/boxCount)} 0 ${-this.props.length/2 - 1}`} 
+          position={`${-this.props.width/2 + boxWidth * (i + 1) + this.doorWidth * (i + 1/2)} 0 ${-this.props.length/2 - 1}`} 
           height='0.01'
           width={this.doorWidth}
           depth='2'
@@ -27,9 +28,7 @@ class Walls extends React.Component {
           />
       )
     });
-    let boxWidth = (this.props.width - (links.length * this.doorWidth)) / boxCount;
     let lowerWalls = [];
-    console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%',this.props.width, this.doorWidth, boxWidth);
     for(let i = 0; i < boxCount; i++) {
       lowerWalls.push((
         <a-box key={'lowerWall' + i} 
