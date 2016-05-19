@@ -1,6 +1,4 @@
 import React from 'react';
-// import Player from './Player'
-import Portal from './Portal'
 import Walls from './Walls'
 import TextDisplay from './TextDisplay'
 import Sculpture from './Sculpture'
@@ -137,10 +135,6 @@ class MuseumScene extends React.Component {
         <a-sky color='blue' />
         <a-plane static-body material='color:grey;side:double' 
           position='0 0 0' rotation='-90 0 0' width='100' height='100' />
-        <Portal 
-          position={`0 0 ${-this.roomLength / 2 + 0.01}`} width='1.5' height='2.5' 
-          // redirect='http://www.elliotplant.com' 
-        />
        
         {this.renderHtmlTextDisplays.call(this)}
         {this.renderImageDisplays.call(this)}
