@@ -70,7 +70,7 @@ class Walls extends React.Component {
         <a-box id='eastWall' 
           static-body position={`${this.props.width/2 + 0.15} ${this.wallHeight/2} 0`}
           depth={this.props.length + 0.6} width={0.3} height={this.wallHeight} 
-          material={`src:#stucco2; repeat:${this.props.length} ${this.wallHeight}; side:double;`}
+          material={`src:#stucco2; repeat:${this.props.length/2} ${this.wallHeight/2}; side:double;`}
           />
         <a-box id='eastWallTrim' 
           position={`${this.props.width/2} 0.1 0`}
@@ -80,7 +80,7 @@ class Walls extends React.Component {
         <a-box id='westWall' 
           static-body position={`${-this.props.width/2 - 0.15} ${this.wallHeight/2} 0`}
           depth={this.props.length + 0.6} width={0.3} height={this.wallHeight} 
-          material={`src:#marbleSurface; repeat:${this.props.length} ${this.wallHeight}; side:double;`}
+          material={`src:#marbleSurface; repeat:${this.props.length/4} ${this.wallHeight/4}; side:double;`}
           />
         <a-box id='westWallTrim' 
           position={`${-this.props.width/2} 0.1 0`}

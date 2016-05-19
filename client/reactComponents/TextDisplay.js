@@ -45,7 +45,7 @@ class TextDisplay extends React.Component {
           color={this.props.borderColor}>
           <a-plane
             draw={`width: ${this.pageWidth}; height: ${this.pageHeight};`}
-            position={`0 0 ${this.depth/2 + 0.0001}`}
+            position={`0 0 ${this.depth/2 + 0.001}`}
             htmltexture={`asset: ${this.htmlSelector}`}
             width={this.width}
             height={this.height}

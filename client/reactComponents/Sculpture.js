@@ -6,11 +6,11 @@ import TextDisplay from './TextDisplay';
 class Sculpture extends React.Component {
   constructor(props) {
     super(props);
-    this.pedastalHeight = 0.6;
+    this.pedestalHeight = 0.6;
     this.pedestalWidth = 2.5;
     this.pedestalDepth = 1;
     const positionArray = props.position.split(' ');
-    positionArray[1] = Number(positionArray[1]) + this.pedastalHeight / 2;
+    positionArray[1] = Number(positionArray[1]) + this.pedestalHeight / 2;
     this.position = positionArray.join(' ');
     
     //would be great to set dynamically based on size of model...
@@ -23,12 +23,13 @@ class Sculpture extends React.Component {
         position={this.position}>
         <a-box class='pedestal'
           position='0 0 0'
-          height={this.pedastalHeight} width={this.pedestalWidth} depth={this.pedestalDepth}
-          color='brown'
+          height={this.pedestalHeight} width={this.pedestalWidth} depth={this.pedestalDepth}
+          material={`src:#marbleSurface; repeat:${this.pedestalWidth} ${this.pedestalDepth};
+           side:double; metalness:0.1`}
           learningTool
         />
         <a-collada-model src={this.props.modelSrc}
-          position={`-0.2 ${this.pedastalHeight / 2} 0.1`}
+          position={`-0.2 ${this.pedestalHeight / 2} 0.1`}
         />
       </a-entity>
     );

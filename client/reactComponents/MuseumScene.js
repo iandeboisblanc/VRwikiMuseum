@@ -129,13 +129,13 @@ class MuseumScene extends React.Component {
           <div id='ajaxHtmlAssets'>
             {this.setHtmlAssets.call(this)}
           </div>
-          <a-asset-item id="modelDae" src="/assets/stegoceras.dae" />
-          <img id='marbleTile' src='/assets/marbleTile.jpg'/>
-          <img id='marbleTile2' src='/assets/marbleTile2.jpg'/>
-          <img id='marbleTile3' src='/assets/marbleTile3.jpg'/>
-          <img id='marbleSurface' src='/assets/marbleSurface.jpg'/>
-          <img id='stucco' src='/assets/stucco.jpg'/>
-          <img id='stucco2' src='/assets/stucco2.jpg'/>
+          <a-asset-item id="modelDae" src="/assets/pageModels/stegoceras/stegoceras.dae" />
+          <img id='marbleTile' src='/assets/textures/marbleTile.jpg'/>
+          <img id='marbleTile2' src='/assets/textures/marbleTile2.jpg'/>
+          <img id='marbleTile3' src='/assets/textures/marbleTile3.jpg'/>
+          <img id='marbleSurface' src='/assets/textures/marbleSurface.jpg'/>
+          <img id='stucco' src='/assets/textures/stucco.jpg'/>
+          <img id='stucco2' src='/assets/textures/stucco2.jpg'/>
         </a-assets>
 
         <a-sky color='blue' />
