@@ -37,7 +37,7 @@ class Walls extends React.Component {
           height={this.doorHeight}
           width={boxWidth}
           depth='0.3'
-          color='grey'
+          material={`src:#stucco; repeat:${boxWidth} ${this.doorHeight}; side:double;`}
           />
       ))
     }
@@ -70,7 +70,7 @@ class Walls extends React.Component {
         <a-box id='eastWall' 
           static-body position={`${this.props.width/2 + 0.15} ${this.wallHeight/2} 0`}
           depth={this.props.length + 0.6} width={0.3} height={this.wallHeight} 
-          material='src:#stucco2; repeat:25 8;'
+          material='src:#stucco2; repeat:25 8; side:double;'
           />
         <a-box id='eastWallTrim' 
           position={`${this.props.width/2} 0.1 0`}
@@ -80,7 +80,7 @@ class Walls extends React.Component {
         <a-box id='westWall' 
           static-body position={`${-this.props.width/2 - 0.15} ${this.wallHeight/2} 0`}
           depth={this.props.length + 0.6} width={0.3} height={this.wallHeight} 
-          material='src:#marbleSurface; repeat:25 8;'
+          material='src:#marbleSurface; repeat:25 8; side:double;'
           />
         <a-box id='westWallTrim' 
           position={`${-this.props.width/2} 0.1 0`}
@@ -90,7 +90,9 @@ class Walls extends React.Component {
 
         <a-box id='southWallUpper' 
           static-body position={`0 ${(this.wallHeight + this.doorHeight)/2} ${-this.props.length/2 - 0.15}`}
-          depth={0.3} width={this.props.width} height={this.wallHeight - this.doorHeight} color='grey'/>
+          depth={0.3} width={this.props.width} height={this.wallHeight - this.doorHeight}
+          material={`src:#stucco; repeat:25 ${this.wallHeight - this.doorHeight}; side:double;`}
+          />
         {this.renderDoorWays.call(this)}
 
       </a-entity>
