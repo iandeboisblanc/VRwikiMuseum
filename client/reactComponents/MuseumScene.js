@@ -131,11 +131,16 @@ class MuseumScene extends React.Component {
           </div>
           <a-asset-item id="modelDae" src="/assets/stegoceras.dae" />
           <img id='marbleTile' src='/assets/marbleTile.jpg'/>
+          <img id='marbleTile2' src='/assets/marbleTile2.jpg'/>
+          <img id='marbleTile3' src='/assets/marbleTile3.jpg'/>
+          <img id='marbleSurface' src='/assets/marbleSurface.jpg'/>
+          <img id='stucco' src='/assets/stucco.jpg'/>
+          <img id='stucco2' src='/assets/stucco2.jpg'/>
         </a-assets>
 
         <a-sky color='blue' />
-        <a-plane static-body material='src:#marbleTile; repeat:100 100; metalness:0.1;' 
-          position='0 0 0' rotation='-90 0 0' width='100' height='100' />
+        <a-plane static-body material='src:#marbleTile; repeat:25 25; metalness:0.1;' 
+          position='0 0 0' rotation='-90 0 0' width='50' height='50' />
        
         {this.renderHtmlTextDisplays.call(this)}
         {this.renderImageDisplays.call(this)}
