@@ -129,11 +129,12 @@ class MuseumScene extends React.Component {
           <div id='ajaxHtmlAssets'>
             {this.setHtmlAssets.call(this)}
           </div>
-          <a-asset-item id="modelDae" src="/assets/stegoceras.dae"></a-asset-item>
+          <a-asset-item id="modelDae" src="/assets/stegoceras.dae" />
+          <img id='marbleTile' src='/assets/marbleTile.jpg'/>
         </a-assets>
 
         <a-sky color='blue' />
-        <a-plane static-body material='color:grey;side:double' 
+        <a-plane static-body material='src:#marbleTile; repeat:100 100; metalness:0.1;' 
           position='0 0 0' rotation='-90 0 0' width='100' height='100' />
        
         {this.renderHtmlTextDisplays.call(this)}
