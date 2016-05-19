@@ -60,7 +60,7 @@ class Walls extends React.Component {
         <a-box id='northWall' 
           static-body position={`0 ${this.wallHeight/2} ${this.props.length/2 + 0.15}`}
           depth={0.3} width={this.props.width} height={this.wallHeight} 
-          material='src:#stucco; repeat:25 8; side:double;'
+          material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight}; side:double;`}
           />
         <a-box id='northWallTrim' 
           position={`0 0.1 ${this.props.length/2}`}
@@ -70,7 +70,7 @@ class Walls extends React.Component {
         <a-box id='eastWall' 
           static-body position={`${this.props.width/2 + 0.15} ${this.wallHeight/2} 0`}
           depth={this.props.length + 0.6} width={0.3} height={this.wallHeight} 
-          material='src:#stucco2; repeat:25 8; side:double;'
+          material={`src:#stucco2; repeat:${this.props.length} ${this.wallHeight}; side:double;`}
           />
         <a-box id='eastWallTrim' 
           position={`${this.props.width/2} 0.1 0`}
@@ -80,7 +80,7 @@ class Walls extends React.Component {
         <a-box id='westWall' 
           static-body position={`${-this.props.width/2 - 0.15} ${this.wallHeight/2} 0`}
           depth={this.props.length + 0.6} width={0.3} height={this.wallHeight} 
-          material='src:#marbleSurface; repeat:25 8; side:double;'
+          material={`src:#marbleSurface; repeat:${this.props.length} ${this.wallHeight}; side:double;`}
           />
         <a-box id='westWallTrim' 
           position={`${-this.props.width/2} 0.1 0`}
@@ -91,7 +91,7 @@ class Walls extends React.Component {
         <a-box id='southWallUpper' 
           static-body position={`0 ${(this.wallHeight + this.doorHeight)/2} ${-this.props.length/2 - 0.15}`}
           depth={0.3} width={this.props.width} height={this.wallHeight - this.doorHeight}
-          material={`src:#stucco; repeat:25 ${this.wallHeight - this.doorHeight}; side:double;`}
+          material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight - this.doorHeight}; side:double;`}
           />
         {this.renderDoorWays.call(this)}
 
