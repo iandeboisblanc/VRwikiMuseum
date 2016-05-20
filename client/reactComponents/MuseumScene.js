@@ -127,24 +127,23 @@ class MuseumScene extends React.Component {
     let columnCount = Math.floor(this.roomLength / 7);
     let columns = [];
     let xPos = this.roomWidth * 0.35;
+    let height = 8;
     for(let i = 0; i < columnCount; i++) {
       let zPos = -this.roomLength/2 + (i + 1) * this.roomLength / (columnCount + 1);
       columns.push((
-        <Column height={8} radius={0.2} position={`${xPos} 4 ${zPos}`} />
+        <Column height={8} radius={0.3} position={`${xPos} ${height/2} ${zPos}`} />
       ));
       columns.push((
         <a-cylinder static-body material='transparent:true; opacity:0' 
-          height='4' radius='0.2' position={`${xPos} 0 ${zPos}`}
+          height='4' radius='0.299' position={`${xPos} 2 ${zPos}`}
           />
       ));
       columns.push((
-        <a-collada-model src='#column'
-          position={`${-xPos} 0 ${zPos}`}
-          />
+        <Column height={8} radius={0.3} position={`${-xPos} ${height/2} ${zPos}`} />
       ));
       columns.push((
-        <a-cylinder static-body material='transparent: true;' 
-          height='4' radius='0.1' position={`${-xPos} 0 ${zPos}`}
+        <a-cylinder static-body material='transparent:true; opacity:0' 
+          height='4' radius='0.299' position={`${-xPos} 2 ${zPos}`}
           />
       ));
     }
@@ -159,7 +158,6 @@ class MuseumScene extends React.Component {
             {this.setHtmlAssets.call(this)}
           </div>
           <a-asset-item id='pageModel' src='/assets/pageModels/stegoceras/stegoceras.dae' />
-          <a-asset-item id='column' src='/assets/genericModels/column.dae' />
           <img id='marbleTile' src='/assets/textures/marbleTile.jpg'/>
           <img id='marbleTile2' src='/assets/textures/marbleTile2.jpg'/>
           <img id='marbleTile3' src='/assets/textures/marbleTile3.jpg'/>
@@ -187,7 +185,7 @@ class MuseumScene extends React.Component {
 
 
         <a-entity id='camera' position={`0 1.8 ${this.roomLength * 0.4}`} width='0.5'
-          camera='near: 0.3' universal-controls kinematic-body='radius: 0.6' />
+          camera='near: 0.05' universal-controls kinematic-body='radius: 0.6' />
       </a-scene>
     );
   }
