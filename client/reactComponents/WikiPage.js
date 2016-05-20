@@ -12,8 +12,6 @@ class WikiPage extends React.Component {
       textDisplayHtml: [],
       images: []
     };
-    this.roomWidth = 25;
-    this.roomLength = 20;
   }
 
   componentWillMount() {
@@ -77,7 +75,8 @@ class WikiPage extends React.Component {
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
         <MuseumScene page={this.state.page} textDisplayHtml={this.state.textDisplayHtml} 
-        images={this.state.images} relatedLinks={['wiki:Stegosaurus', 'http://www.elliotplant.com']} 
+        images={this.state.images} 
+        relatedLinks={['wiki:Stegosaurus', 'http://www.elliotplant.com', 'https://github.com/iandeboisblanc/wikiMuseumVR/issues']} 
         />
       )
     } else {

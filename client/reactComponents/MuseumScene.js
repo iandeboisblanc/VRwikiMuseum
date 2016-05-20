@@ -11,7 +11,7 @@ class MuseumScene extends React.Component {
   constructor(props) {
     super(props);
     this.roomWidth = 25;
-    this.roomLength = 20;
+    this.roomLength = 35;
   }
 
   componentDidMount() {
