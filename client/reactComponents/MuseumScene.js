@@ -152,7 +152,7 @@ class MuseumScene extends React.Component {
 
   render () {
     return (
-      <a-scene physics='debug:true'>
+      <a-scene physics='debug:false'>
         <a-assets>
           <div id='ajaxHtmlAssets'>
             {this.setHtmlAssets.call(this)}

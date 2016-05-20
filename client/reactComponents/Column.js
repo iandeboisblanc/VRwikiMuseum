@@ -4,7 +4,7 @@ const Column = (props) => {
   return (
     <a-entity position={props.position} rotation={props.rotation}>
       <a-cylinder height={props.height} radius={props.radius} 
-        material={`src:#columnSkin; repeat:1 ${props.height}; side:double;`} />
+        material={`src:#columnSkin; repeat:1 ${props.height};`} />
       <Pedestal radius={props.radius} position={`0 ${-props.height/2} 0`}/>
     </a-entity>
   )
