@@ -18,7 +18,6 @@ class Walls extends React.Component {
     //Make link colliders:
     let linkPads = links.map((link, i) => {
       return (
-        //something
         <a-box key={'linkPad' + i} 
           link={link}
           static-body
@@ -26,7 +25,7 @@ class Walls extends React.Component {
           height='0.1'
           width={this.doorWidth}
           depth='0.3'
-          color='grey'
+          material='transparent:true; opacity:0;'
           />
       )
     });
