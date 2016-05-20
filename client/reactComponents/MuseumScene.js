@@ -2,6 +2,7 @@ import React from 'react';
 import Walls from './Walls'
 import TextDisplay from './TextDisplay'
 import Sculpture from './Sculpture'
+import Column from './Column'
 const $ = require('jquery');
 const extras = require('aframe-extras');
 extras.registerAll();
@@ -122,6 +123,34 @@ class MuseumScene extends React.Component {
     })
   }
 
+  renderColumns () {
+    let columnCount = Math.floor(this.roomLength / 7);
+    let columns = [];
+    let xPos = this.roomWidth * 0.35;
+    for(let i = 0; i < columnCount; i++) {
+      let zPos = -this.roomLength/2 + (i + 1) * this.roomLength / (columnCount + 1);
+      columns.push((
+        <Column height={8} radius={0.2} position={`${xPos} 4 ${zPos}`} />
+      ));
+      columns.push((
+        <a-cylinder static-body material='transparent:true; opacity:0' 
+          height='4' radius='0.2' position={`${xPos} 0 ${zPos}`}
+          />
+      ));
+      columns.push((
+        <a-collada-model src='#column'
+          position={`${-xPos} 0 ${zPos}`}
+          />
+      ));
+      columns.push((
+        <a-cylinder static-body material='transparent: true;' 
+          height='4' radius='0.1' position={`${-xPos} 0 ${zPos}`}
+          />
+      ));
+    }
+    return columns
+  }
+
   render () {
     return (
       <a-scene physics='debug:true'>
@@ -129,28 +158,33 @@ class MuseumScene extends React.Component {
           <div id='ajaxHtmlAssets'>
             {this.setHtmlAssets.call(this)}
           </div>
-          <a-asset-item id="modelDae" src="/assets/pageModels/stegoceras/stegoceras.dae" />
+          <a-asset-item id='pageModel' src='/assets/pageModels/stegoceras/stegoceras.dae' />
+          <a-asset-item id='column' src='/assets/genericModels/column.dae' />
           <img id='marbleTile' src='/assets/textures/marbleTile.jpg'/>
           <img id='marbleTile2' src='/assets/textures/marbleTile2.jpg'/>
           <img id='marbleTile3' src='/assets/textures/marbleTile3.jpg'/>
           <img id='marbleSurface' src='/assets/textures/marbleSurface.jpg'/>
           <img id='stucco' src='/assets/textures/stucco.jpg'/>
           <img id='stucco2' src='/assets/textures/stucco2.jpg'/>
+          <img id='columnSkin' src='/assets/textures/columnSkin.jpg'/>
         </a-assets>
 
         <a-sky color='blue' />
         <a-plane static-body material='src:#marbleTile; repeat:25 25; metalness:0.1;' 
           position='0 0 0' rotation='-90 0 0' width='50' height='50' />
-       
+        
+        <Walls width={this.roomWidth} length={this.roomLength} links={this.props.relatedLinks}/>
+        
+        {this.renderColumns.call(this)}
+
         {this.renderHtmlTextDisplays.call(this)}
         {this.renderImageDisplays.call(this)}
 
         <Sculpture
           position='0 0 0' 
-          modelSrc='#modelDae'
+          modelSrc='#pageModel'
         />
 
-        <Walls width={this.roomWidth} length={this.roomLength} links={this.props.relatedLinks}/>
 
         <a-entity id='camera' position={`0 1.8 ${this.roomLength * 0.4}`} width='0.5'
           camera='near: 0.3' universal-controls kinematic-body='radius: 0.6' />
