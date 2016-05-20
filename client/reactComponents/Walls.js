@@ -10,7 +10,9 @@ class Walls extends React.Component {
   }
 
   renderDoorWays () {
-    let links = this.props.links.slice(0,6); //max out at 6 links
+    let maxLinkCount = Math.floor((this.props.width - 0.5) / (0.5 + this.doorWidth)); 
+    //0.5 is min space between doors
+    let links = this.props.links.slice(0, maxLinkCount);
     let boxCount = links.length + 1;
     let boxWidth = (this.props.width - (links.length * this.doorWidth)) / boxCount;
     //Make link colliders:
