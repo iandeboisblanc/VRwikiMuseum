@@ -9,8 +9,7 @@ class WikiPage extends React.Component {
       page: 'Stegoceras',
       vrMode: true,
       infoLoaded: false,
-      textDisplayHtml: [],
-      images: []
+      displayHtml: []
     };
   }
 
@@ -73,8 +72,7 @@ class WikiPage extends React.Component {
             }
           }
           this.setState({ 
-            textDisplayHtml: parsedHtmlSections,
-            // images: images,
+            displayHtml: parsedHtmlSections,
             infoLoaded: true
           });
         },
@@ -87,8 +85,7 @@ class WikiPage extends React.Component {
   render () {
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
-        <MuseumScene page={this.state.page} textDisplayHtml={this.state.textDisplayHtml} 
-        images={this.state.images} 
+        <MuseumScene page={this.state.page} displayHtml={this.state.displayHtml} 
         relatedLinks={['wiki:Stegosaurus', 'http://www.elliotplant.com', 'https://github.com/iandeboisblanc/wikiMuseumVR/issues']} 
         />
       )
