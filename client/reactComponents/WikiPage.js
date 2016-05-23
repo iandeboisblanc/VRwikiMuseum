@@ -56,7 +56,11 @@ class WikiPage extends React.Component {
                 parsedHtmlSections.push(newSection);
                 lastSection = newSection;
               } else if($(htmlSection).is('.thumb')) {
-
+                var img = $(htmlSection).find('img');
+                var title = $(htmlSection).find('.thumbcaption')[0].innerText; // .innerHTML;
+                img.attr('title', title);
+                var newSection = $('<section />').append(img);
+                parsedHtmlSections.push(newSection);
               } else {
                 if(parsedHtmlSections.length) {
                   $(lastSection).append(htmlSection)
