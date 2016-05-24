@@ -29,6 +29,7 @@ class WikiPage extends React.Component {
           // Parse Wiki data into discrete sections by topic
           let rawResults = $('<div id="rawResults"/>').append(data.parse.text["*"])[0];
           let rawResultsClone = $('<div id="rawResults"/>').append($(data.parse.text["*"]).clone());
+          rawResultsClone.find('.mw-editsection, .portal').empty();
           let filteredResults = $(rawResults).children('p, h2, h3, table, .thumb');
           filteredResults = filteredResults.filter((child, element) => element.innerText.length > 0);
 
@@ -91,8 +92,8 @@ class WikiPage extends React.Component {
       //add info
       //and the button to switch to VR
       return (
-        <div class='nonVrContent'>
-          <h1 onClick={() => {this.setState({vrMode:true})}}>{this.state.page}</h1>
+        <div style={{padding: '30px'}}>
+          <h1 style={{fontStyle: 'italic'}} onClick={() => {this.setState({vrMode:true})}}>{this.state.page}</h1>
           <div dangerouslySetInnerHTML={{__html:$(this.state.rawResults).html()}} ></div>
         </div>
       );
