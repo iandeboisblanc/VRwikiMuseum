@@ -50,13 +50,6 @@ class MuseumScene extends React.Component {
         );
       }
     })
-    // .concat(this.props.images.map((index, element) => {
-    //   // console.log(element);
-    //   let src = 'https:' + $(element).children('img').attr('src');
-    //   return (
-    //     <img id={`pageIMG${index}`} key={'img' + index} crossOrigin='anonymous' src={src} />
-    //   );
-    // }));
   }
 
   renderHtmlTextDisplays () {
@@ -64,9 +57,9 @@ class MuseumScene extends React.Component {
     let length = assets.length;
     let adjustedRoomLength = this.roomLength - 4;
     let halfIndex = Math.floor(assets.length / 2);
+    let leftLength = assets.slice(0, halfIndex).length;
+    let rightLength = assets.length - leftLength;
     return assets.map((element, index) => {
-      let leftLength = assets.slice(0, halfIndex).length;
-      let rightLength = assets.length - leftLength;
       let position = `${-this.roomWidth / 2} 2.05 ${-adjustedRoomLength / (leftLength - 1) * index + adjustedRoomLength / 2}`;
       let rotation = '0 90 0';
       if(index >= halfIndex) {
@@ -74,7 +67,6 @@ class MuseumScene extends React.Component {
         rotation = '0 -90 0';
       }
       if(element.children('img').length > 0) {
-        console.log(element);
         let frameDepth = 0.05;
         let imageWidth = element.children('img').attr('width') / 90;
         let imageHeight = element.children('img').attr('height') / 90;
@@ -91,14 +83,10 @@ class MuseumScene extends React.Component {
               color='green'
             />
             <a-plane 
-              // rotation='0 180 0'
               height={imageHeight} width={imageWidth}
               position={`0 0 ${frameDepth/2 + 0.001}`}
-              // borderThickness='0.05' 
-              // borderColor='brown'
               src={'#pageIMG' + index}
               color='white'
-              // htmlScale='0.7'
             />
           </a-entity>
         )
@@ -118,42 +106,6 @@ class MuseumScene extends React.Component {
       }
     });
   }
-
-  // renderImageDisplays() {
-  //   let images = this.props.images //.slice(1);
-  //   let length = images.length;
-  //   return images.map((index, element) => {
-  //     let adjustedRoomWidth = this.roomWidth - 4;
-  //     let frameDepth = 0.05;
-  //     let imageWidth = element.children('img').attr('width') / 130;
-  //     let imageHeight = element.children('img').attr('height') / 130;
-  //     // console.log(imageWidth, imageHeight);
-  //     return (
-  //       <a-entity 
-  //         key={'P' + index}
-  //         rotation='0 180 0'
-  //         position={`${-adjustedRoomWidth / (length - 1) * index + adjustedRoomWidth / 2} 1.6 ${this.roomLength / 2}`}>
-  //         <a-box 
-  //           position='0 0 0'
-  //           height={imageHeight + 0.05}
-  //           width={imageWidth + 0.05}
-  //           depth={frameDepth}
-  //           color='green'
-  //         />
-  //         <a-plane 
-  //           // rotation='0 180 0'
-  //           height={imageHeight} width={imageWidth}
-  //           position={`0 0 ${frameDepth/2 + 0.001}`}
-  //           // borderThickness='0.05' 
-  //           // borderColor='brown'
-  //           src={'#pageIMG' + index}
-  //           color='white'
-  //           // htmlScale='0.7'
-  //         />
-  //       </a-entity>
-  //     )
-  //   })
-  // }
 
   renderColumns () {
     let columnCount = Math.floor(this.roomLength / 7);
