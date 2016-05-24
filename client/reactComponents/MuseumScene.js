@@ -39,9 +39,16 @@ class MuseumScene extends React.Component {
   setHtmlAssets () {
     return this.props.displayHtml.map((element, index) => {
       let html = element.html();
-      return (
-        <div id={`pageHTML${index}`} key={'text' + index} dangerouslySetInnerHTML={{__html:html}} />
-      )
+      if($(html).is('img')) {
+        return (
+          <img id={`pageIMG${index}`} key={'img' + index} 
+            src={'https:' + $(html).attr('src')} crossOrigin='anonymous' />
+        );
+      } else {
+        return (
+          <div id={`pageHTML${index}`} key={'text' + index} dangerouslySetInnerHTML={{__html:html}} />
+        );
+      }
     })
     // .concat(this.props.images.map((index, element) => {
     //   // console.log(element);
@@ -55,37 +62,61 @@ class MuseumScene extends React.Component {
   renderHtmlTextDisplays () {
     let assets = this.props.displayHtml //.slice(1);
     let length = assets.length;
-    let leftHalf = assets.slice(0, Math.floor(length / 2));
-    let rightHalf = assets.slice(Math.floor(length / 2));
-    return leftHalf.map((element, index) => {
-      var adjustedRoomLength = this.roomLength - 4;
-      return (
-        <TextDisplay 
-          key={'L' + index}
-          position={`${-this.roomWidth / 2} 2.05 ${-adjustedRoomLength / (leftHalf.length - 1) * index + adjustedRoomLength / 2}`} 
-          rotation='0 90 0'
-          height='4' width='3' depth='0.5'
-          borderThickness='0.05' 
-          borderColor='red'
-          htmlSelector={'#pageHTML' + (index)}
-          htmlScale='0.7'
-        />
-      )
-    }).concat(rightHalf.map((element, index) => {
-      var adjustedRoomLength = this.roomLength - 4;
-      return (
-        <TextDisplay 
-          key={'R' + index}
-          position={`${this.roomWidth / 2} 2.05 ${adjustedRoomLength / (rightHalf.length - 1) * index - adjustedRoomLength / 2}`} 
-          rotation='0 -90 0'
-          height='4' width='3' depth='0.5'
-          borderThickness='0.05' 
-          borderColor='red'
-          htmlSelector={'#pageHTML' + (leftHalf.length + index)}
-          htmlScale='0.7'
-        />
-      )
-    }));
+    let adjustedRoomLength = this.roomLength - 4;
+    let halfIndex = Math.floor(assets.length / 2);
+    return assets.map((element, index) => {
+      let leftLength = assets.slice(0, halfIndex).length;
+      let rightLength = assets.length - leftLength;
+      let position = `${-this.roomWidth / 2} 2.05 ${-adjustedRoomLength / (leftLength - 1) * index + adjustedRoomLength / 2}`;
+      let rotation = '0 90 0';
+      if(index >= halfIndex) {
+        position = `${this.roomWidth / 2} 2.05 ${adjustedRoomLength / (rightLength - 1) * (index - leftLength) - adjustedRoomLength / 2}`;
+        rotation = '0 -90 0';
+      }
+      if(element.children('img').length > 0) {
+        console.log(element);
+        let frameDepth = 0.05;
+        let imageWidth = element.children('img').attr('width') / 90;
+        let imageHeight = element.children('img').attr('height') / 90;
+        return (
+          <a-entity 
+            key={'P' + index}
+            rotation={rotation}
+            position={position}>
+            <a-box 
+              position='0 0 0'
+              height={imageHeight + 0.05}
+              width={imageWidth + 0.05}
+              depth={frameDepth}
+              color='green'
+            />
+            <a-plane 
+              // rotation='0 180 0'
+              height={imageHeight} width={imageWidth}
+              position={`0 0 ${frameDepth/2 + 0.001}`}
+              // borderThickness='0.05' 
+              // borderColor='brown'
+              src={'#pageIMG' + index}
+              color='white'
+              // htmlScale='0.7'
+            />
+          </a-entity>
+        )
+      } else {
+        return (
+          <TextDisplay 
+            key={'T' + index}
+            position={position} 
+            rotation={rotation}
+            height='4' width='3' depth='0.5'
+            borderThickness='0.05' 
+            borderColor='red'
+            htmlSelector={'#pageHTML' + (index)}
+            htmlScale='0.7'
+          />
+        )
+      }
+    });
   }
 
   // renderImageDisplays() {
