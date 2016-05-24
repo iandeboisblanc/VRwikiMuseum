@@ -7,6 +7,14 @@ body {
   overflow: scroll
 }
 
+.nonVrContent {
+  padding: 30px;
+}
+
+.pageHeader {
+  font-style: italic;
+}
+
 .infobox {
   border: 1px solid #aaa;
   border-spacing: 3px;
