@@ -1,0 +1,7 @@
+html {
+  position: static
+}
+
+body {
+  overflow: scroll
+}

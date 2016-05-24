@@ -7,7 +7,7 @@ class WikiPage extends React.Component {
     super(props);
     this.state = {
       page: 'Stegoceras',
-      vrMode: true,
+      vrMode: false,
       infoLoaded: false,
       displayHtml: []
     };
@@ -28,6 +28,7 @@ class WikiPage extends React.Component {
         success: (data, textStatus, jqXHR) => {
           // Parse Wiki data into discrete sections by topic
           let rawResults = $('<div id="rawResults"/>').append(data.parse.text["*"])[0];
+          let rawResultsClone = $('<div id="rawResults"/>').append($(data.parse.text["*"]).clone());
           let filteredResults = $(rawResults).children('p, h2, h3, table, .thumb');
           filteredResults = filteredResults.filter((child, element) => element.innerText.length > 0);
 
@@ -67,6 +68,7 @@ class WikiPage extends React.Component {
             }
           }
           this.setState({ 
+            rawResults: rawResultsClone,
             displayHtml: parsedHtmlSections,
             infoLoaded: true
           });
@@ -75,6 +77,12 @@ class WikiPage extends React.Component {
             console.error('Error retrieving from wikipedia:', errorMessage);
         }
     });
+  }
+
+  renderPageHtml() {
+    return (
+      <div dangerouslySetInnerHTML={{__html:$(this.state.rawResults).html()}} ></div>
+    )
   }
 
   render () {
@@ -89,7 +97,10 @@ class WikiPage extends React.Component {
       //add info
       //and the button to switch to VR
       return (
-        <div>Information Will Go Here</div>
+        <div class='nonVrContent'>
+          <h1 onClick={() => {this.setState({vrMode:true})}}>{this.state.page}</h1>
+          {this.renderPageHtml.call(this)}
+        </div>
       );
     }
   }
