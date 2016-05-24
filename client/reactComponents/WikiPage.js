@@ -33,7 +33,7 @@ class WikiPage extends React.Component {
 
           const parsedHtmlSections = [];
           let contentEnded = false;
-          let lastSection = '';
+          let lastSection = undefined;
           for(var i = 0; i < filteredResults.length; i++) {
             let htmlSection = filteredResults[i]
             if($(htmlSection).children('#See_also, #References, #External_links').length) {
@@ -43,7 +43,7 @@ class WikiPage extends React.Component {
               $(htmlSection).css('padding', '0px 10px');
               $(htmlSection).children('.mw-editsection').empty(); //Remove 'Edit' tags on titles
 
-              // If header, create a new Section
+              // If header or image, create a new Section
               // Otherwise, add to previous text section
               if($(htmlSection).is('h2')) {
                 var newSection = $('<section />').append(htmlSection);
@@ -59,7 +59,7 @@ class WikiPage extends React.Component {
                 if(parsedHtmlSections.length) {
                   $(lastSection).append(htmlSection)
                 } else {
-                  var newSection = $('<section/>').append(htmlSection);
+                  var newSection = $('<section/>').append(htmlSection); //if no previous sections
                   parsedHtmlSections.push(newSection);
                   lastSection = newSection
                 }
