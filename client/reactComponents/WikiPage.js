@@ -1,6 +1,7 @@
 import React from 'react';
 import MuseumScene from './MuseumScene'
 const $ = require('jquery');
+require('./../styles.css');
 
 class WikiPage extends React.Component {
   constructor(props) {
@@ -92,7 +93,7 @@ class WikiPage extends React.Component {
       //add info
       //and the button to switch to VR
       return (
-        <div style={{padding: '30px'}}>
+        <div class='nonVrContent' style={{padding: '30px'}}>
           <h1 style={{fontStyle: 'italic'}} onClick={() => {this.setState({vrMode:true})}}>{this.state.page}</h1>
           <div dangerouslySetInnerHTML={{__html:$(this.state.rawResults).html()}} ></div>
         </div>
