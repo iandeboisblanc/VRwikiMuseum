@@ -9,8 +9,7 @@ class WikiPage extends React.Component {
       page: 'Stegoceras',
       vrMode: true,
       infoLoaded: false,
-      textDisplayHtml: [],
-      images: []
+      displayHtml: []
     };
   }
 
@@ -29,39 +28,46 @@ class WikiPage extends React.Component {
         success: (data, textStatus, jqXHR) => {
           // Parse Wiki data into discrete sections by topic
           let rawResults = $('<div id="rawResults"/>').append(data.parse.text["*"])[0];
-          let images = $(rawResults).find('img').map((index, element) => {
-            if($(element).attr('width') > 100) {
-              return $('<section />').append(element)
-            }
-          });
-          let filteredResults = $(rawResults).children('p, h2, h3, table');
+          let filteredResults = $(rawResults).children('p, h2, h3, table, .thumb');
           filteredResults = filteredResults.filter((child, element) => element.innerText.length > 0);
 
           const parsedHtmlSections = [];
+          let contentEnded = false;
+          let lastSection = undefined;
           for(var i = 0; i < filteredResults.length; i++) {
             let htmlSection = filteredResults[i]
-            $(htmlSection).css('padding', '0px 10px');
-            $(htmlSection).children('.mw-editsection').empty(); //Remove 'Edit' tags on titles
+            if($(htmlSection).children('#See_also, #References, #External_links').length) {
+              contentEnded = true;
+            }
+            if(!contentEnded) {
+              $(htmlSection).css('padding', '0px 10px');
+              $(htmlSection).children('.mw-editsection').empty(); //Remove 'Edit' tags on titles
 
-            // If header that is not See Also, References, or External Links, create a new Section
-            // Otherwise, add to previous section
-            if($(htmlSection).is('h2')) {
-              if($(htmlSection).children('#See_also, #References, #External_links').length == 0) {
+              // If header or image, create a new Section
+              // Otherwise, add to previous text section
+              if($(htmlSection).is('h2')) {
                 var newSection = $('<section />').append(htmlSection);
                 parsedHtmlSections.push(newSection);
-              }
-            } else {
-              if(parsedHtmlSections.length) {
-                $(parsedHtmlSections[parsedHtmlSections.length - 1]).append(htmlSection)
-              } else {
-                var newSection = $('<section/>').append(htmlSection);
+                lastSection = newSection;
+              } else if($(htmlSection).is('.thumb')) {
+                var img = $(htmlSection).find('img');
+                var title = $(htmlSection).find('.thumbcaption')[0].innerText; // .innerHTML;
+                img.attr('title', title);
+                var newSection = $('<section />').append(img);
                 parsedHtmlSections.push(newSection);
+              } else {
+                if(parsedHtmlSections.length) {
+                  $(lastSection).append(htmlSection)
+                } else {
+                  var newSection = $('<section/>').append(htmlSection); //if no previous sections
+                  parsedHtmlSections.push(newSection);
+                  lastSection = newSection
+                }
               }
             }
           }
           this.setState({ 
-            textDisplayHtml: parsedHtmlSections,
-            images: images,
+            displayHtml: parsedHtmlSections,
             infoLoaded: true
           });
         },
@@ -74,8 +80,7 @@ class WikiPage extends React.Component {
   render () {
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
-        <MuseumScene page={this.state.page} textDisplayHtml={this.state.textDisplayHtml} 
-        images={this.state.images} 
+        <MuseumScene page={this.state.page} displayHtml={this.state.displayHtml} 
         relatedLinks={['wiki:Stegosaurus', 'http://www.elliotplant.com', 'https://github.com/iandeboisblanc/wikiMuseumVR/issues']} 
         />
       )
