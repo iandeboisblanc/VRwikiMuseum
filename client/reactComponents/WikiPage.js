@@ -79,12 +79,6 @@ class WikiPage extends React.Component {
     });
   }
 
-  renderPageHtml() {
-    return (
-      <div dangerouslySetInnerHTML={{__html:$(this.state.rawResults).html()}} ></div>
-    )
-  }
-
   render () {
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
@@ -99,7 +93,7 @@ class WikiPage extends React.Component {
       return (
         <div class='nonVrContent'>
           <h1 onClick={() => {this.setState({vrMode:true})}}>{this.state.page}</h1>
-          {this.renderPageHtml.call(this)}
+          <div dangerouslySetInnerHTML={{__html:$(this.state.rawResults).html()}} ></div>
         </div>
       );
     }
