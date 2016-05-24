@@ -28,11 +28,6 @@ class WikiPage extends React.Component {
         success: (data, textStatus, jqXHR) => {
           // Parse Wiki data into discrete sections by topic
           let rawResults = $('<div id="rawResults"/>').append(data.parse.text["*"])[0];
-          // let images = $(rawResults).find('img').map((index, element) => {
-          //   if($(element).attr('width') > 100) {
-          //     return $('<section />').append(element)
-          //   }
-          // });
           let filteredResults = $(rawResults).children('p, h2, h3, table, .thumb');
           filteredResults = filteredResults.filter((child, element) => element.innerText.length > 0);
 
@@ -49,7 +44,7 @@ class WikiPage extends React.Component {
               $(htmlSection).children('.mw-editsection').empty(); //Remove 'Edit' tags on titles
 
               // If header, create a new Section
-              // Otherwise, add to previous section
+              // Otherwise, add to previous text section
               if($(htmlSection).is('h2')) {
                 var newSection = $('<section />').append(htmlSection);
                 parsedHtmlSections.push(newSection);
