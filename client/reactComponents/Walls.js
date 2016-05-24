@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import $ from 'jquery';
 require('aframe-text-component');
 
 class Walls extends React.Component {
@@ -18,18 +19,25 @@ class Walls extends React.Component {
     //Make link colliders:
     let linkPads = links.map((link, i) => {
       // const position = `${-this.props.width/2 + boxWidth * (i + 1) + this.doorWidth * (i + 1/2)} 0 ${-this.props.length/2 - 0.15}`;
+
+      // $.get(link, (result) => {
+      //   console.log('result', result);
+      //   // const title = Regex.Match(source, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
+      //   // console.log('title', title);
+      // })
       const xPos = -this.props.width/2 + boxWidth * (i + 1) + this.doorWidth * (i + 1/2);
       const yPos = 0;
       const zPos = -this.props.length/2 - 0.15;
-      
+
       return (
-        <a-entity>
+        <a-entity key={'linkPad' + i}>
           <a-entity
-            text={`text: ${link}`}
-            position={`${xPos - this.doorWidth/1.5} ${yPos + this.doorHeight} ${zPos + this.wallThickness}`}
+            text={`text: ${link.title}`}
+            material="color: black"
+            position={`${xPos - this.doorWidth} ${yPos + this.doorHeight} ${zPos + this.wallThickness}`}
           />
-          <a-box key={'linkPad' + i}
-            link={link}
+          <a-box
+            link={link.url}
             static-body
             position={`${xPos} ${yPos} ${zPos}`}
             height='0.1'

@@ -59,7 +59,7 @@ class WikiPage extends React.Component {
               }
             }
           }
-          this.setState({ 
+          this.setState({
             textDisplayHtml: parsedHtmlSections,
             images: images,
             infoLoaded: true
@@ -72,11 +72,16 @@ class WikiPage extends React.Component {
   }
 
   render () {
+    const links = [
+      { title: 'Stegosaurus', url: 'wiki:Stegosaurus' },
+      { title: 'Celestial Dance', url: 'http://www.elliotplant.com' },
+      { title: 'Issues', url: 'https://github.com/iandeboisblanc/wikiMuseumVR/issues' },
+    ];
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
-        <MuseumScene page={this.state.page} textDisplayHtml={this.state.textDisplayHtml} 
-        images={this.state.images} 
-        relatedLinks={['wiki:Stegosaurus', 'http://www.elliotplant.com', 'https://github.com/iandeboisblanc/wikiMuseumVR/issues']} 
+        <MuseumScene page={this.state.page} textDisplayHtml={this.state.textDisplayHtml}
+        images={this.state.images}
+        relatedLinks={links} 
         />
       )
     } else {
