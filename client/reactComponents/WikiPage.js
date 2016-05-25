@@ -1,13 +1,14 @@
 import React from 'react';
 import MuseumScene from './MuseumScene'
 const $ = require('jquery');
+require('./../styles.css');
 
 class WikiPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       page: 'Stegoceras',
-      vrMode: true,
+      vrMode: false,
       infoLoaded: false,
       displayHtml: []
     };
@@ -28,6 +29,8 @@ class WikiPage extends React.Component {
         success: (data, textStatus, jqXHR) => {
           // Parse Wiki data into discrete sections by topic
           let rawResults = $('<div id="rawResults"/>').append(data.parse.text["*"])[0];
+          let rawResultsClone = $('<div id="rawResults"/>').append($(data.parse.text["*"]).clone());
+          rawResultsClone.find('.mw-editsection, .portal').empty();
           let filteredResults = $(rawResults).children('p, h2, h3, table, .thumb');
           filteredResults = filteredResults.filter((child, element) => element.innerText.length > 0);
 
@@ -67,6 +70,7 @@ class WikiPage extends React.Component {
             }
           }
           this.setState({ 
+            rawResults: rawResultsClone,
             displayHtml: parsedHtmlSections,
             infoLoaded: true
           });
@@ -89,7 +93,22 @@ class WikiPage extends React.Component {
       //add info
       //and the button to switch to VR
       return (
-        <div>Information Will Go Here</div>
+        <div className='nonVrView'>
+          <header>
+            <h1 className='pageHeader'> VR Wiki Museum </h1>
+            <div>
+              <form>
+                <input placeholder='Search Wiki Pages' />
+                <button> Submit </button>
+              </form>
+            </div>
+            <div>
+              <button onClick={() => {this.setState({vrMode:true})}}> Enter VR </button>
+            </div>
+          </header>
+          <h1 className='nonVrContentHeader'>{this.state.page}</h1>
+          <div dangerouslySetInnerHTML={{__html:$(this.state.rawResults).html()}} ></div>
+        </div>
       );
     }
   }
