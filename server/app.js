@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
-var server = require('http').createServer(app);  
+var server = require('http').createServer(app); 
+var path = require('path'); 
 
 var PORT = process.env.PORT || 3000;
 var ENV = process.env.NODE_ENV || 'development';
@@ -18,3 +19,7 @@ app.listen(PORT);
 console.log('Node environment:', ENV)
 console.log('Server listening on port', PORT);
 app.use(express.static(__dirname + '/../client/dist'));
+
+app.get('/wiki/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/../client/dist/index.html'));
+});
