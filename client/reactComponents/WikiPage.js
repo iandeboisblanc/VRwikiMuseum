@@ -93,8 +93,20 @@ class WikiPage extends React.Component {
       //add info
       //and the button to switch to VR
       return (
-        <div className='nonVrContent'>
-          <h1 className='pageHeader' onClick={() => {this.setState({vrMode:true})}}>{this.state.page}</h1>
+        <div className='nonVrView'>
+          <header>
+            <h1 className='pageHeader'> VR Wiki Museum </h1>
+            <div>
+              <form>
+                <input placeholder='Search Wiki Pages' />
+                <button> Submit </button>
+              </form>
+            </div>
+            <div>
+              <button onClick={() => {this.setState({vrMode:true})}}> Enter VR </button>
+            </div>
+          </header>
+          <h1 className='nonVrContentHeader'>{this.state.page}</h1>
           <div dangerouslySetInnerHTML={{__html:$(this.state.rawResults).html()}} ></div>
         </div>
       );
