@@ -36,7 +36,7 @@ class Walls extends React.Component {
     let linkPads = links.map((link, i) => {
       const xPos = -this.props.width/2 + boxWidth * (i + 1) + this.doorWidth * (i + 1/2);
       const yPos = 0;
-      const zPos = -this.props.length/2 - wallThickness/2;
+      const zPos = -this.props.length/2 - this.wallThickness/2;
       return (
         <a-entity key={i}>
           <a-entity // door title
@@ -62,7 +62,8 @@ class Walls extends React.Component {
       lowerWalls.push((
         <a-box key={'lowerWall' + i}
           static-body
-          position={`${-this.props.width/2 + boxWidth/2 + i * (boxWidth + this.doorWidth)} 1.5 ${-this.props.length/2 - wallThickness/2}`}
+          position={`${-this.props.width/2 + boxWidth/2 + i * (boxWidth + this.doorWidth)} 
+            1.5 ${-this.props.length/2 - this.wallThickness/2}`}
           height={this.doorHeight}
           width={boxWidth}
           depth={this.wallThickness}
@@ -74,7 +75,8 @@ class Walls extends React.Component {
     for(let i = 0; i < boxCount; i++) {
       lowerWallsTrim.push((
         <a-box id='southWallTrim' key={'lowerWallTrim' + i}
-          position={`${-this.props.width/2 + boxWidth/2 + i * (boxWidth + this.doorWidth)} 0.1 ${-this.props.length/2}`}
+          position={`${-this.props.width/2 + boxWidth/2 + i * (boxWidth + this.doorWidth)} 
+            0.1 ${-this.props.length/2}`}
           depth={0.1} width={boxWidth - 0.001} height={0.2}
           material='src:#stucco; repeat:25 8;'
           />
@@ -87,7 +89,8 @@ class Walls extends React.Component {
     return (
       <a-entity position='0 0 0'>
         <a-box id='northWall'
-          static-body position={`0 ${this.wallHeight/2} ${this.props.length/2 + wallThickness/2}`}
+          static-body 
+          position={`0 ${this.wallHeight/2} ${this.props.length/2 + this.wallThickness/2}`}
           depth={this.wallThickness} width={this.props.width} height={this.wallHeight}
           material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight};`}
           />
@@ -97,7 +100,8 @@ class Walls extends React.Component {
           material='src:#stucco; repeat:25 8;'
           />
         <a-box id='eastWall'
-          static-body position={`${this.props.width/2 + wallThickness/2} ${this.wallHeight/2} 0`}
+          static-body 
+          position={`${this.props.width/2 + this.wallThickness/2} ${this.wallHeight/2} 0`}
           depth={this.props.length + 0.6} width={this.wallThickness} height={this.wallHeight}
           material={`src:#stucco2; repeat:${this.props.length/2} ${this.wallHeight/2};`}
           />
@@ -107,7 +111,8 @@ class Walls extends React.Component {
           material='src:#stucco; repeat:25 8;'
           />
         <a-box id='westWall'
-          static-body position={`${-this.props.width/2 - wallThickness/2} ${this.wallHeight/2} 0`}
+          static-body 
+          position={`${-this.props.width/2 - this.wallThickness/2} ${this.wallHeight/2} 0`}
           depth={this.props.length + 0.6} width={this.wallThickness} height={this.wallHeight}
           material={`src:#marbleSurface; repeat:${this.props.length/4} ${this.wallHeight/4};`}
           />
@@ -118,7 +123,9 @@ class Walls extends React.Component {
           />
 
         <a-box id='southWallUpper'
-          static-body position={`0 ${(this.wallHeight + this.doorHeight)/2} ${-this.props.length/2 - wallThickness/2}`}
+          static-body 
+          position={`0 ${(this.wallHeight + this.doorHeight)/2} 
+            ${-this.props.length/2 - this.wallThickness/2}`}
           depth={this.wallThickness} width={this.props.width} height={this.wallHeight - this.doorHeight}
           material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight - this.doorHeight};`}
           />
