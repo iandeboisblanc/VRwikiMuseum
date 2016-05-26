@@ -18,6 +18,11 @@ app.use(function(req, res, next) {
 app.listen(PORT);
 console.log('Node environment:', ENV)
 console.log('Server listening on port', PORT);
+
+app.get('/', (req, res) => {
+  res.redirect('/wiki/Stegoceras');
+})
+
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.get('/wiki/*', (req, res) => {
