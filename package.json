@@ -7,7 +7,8 @@
     "test": "test",
     "start": "webpack --watch & nodemon server/app.js",
     "build": "docker build -t museum .",
-    "deploy": "docker run -d -p 80:80 -e NODE_ENV='production' -e PORT=80 museum"
+    "deploy": "docker run -d -p 80:80 museum",
+    "docker-start": "node server/app.js"
   },
   "repository": {
     "type": "git",
