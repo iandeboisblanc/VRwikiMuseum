@@ -44,8 +44,7 @@ class Walls extends React.Component {
             class="door-text"
             text={`text: ${link.title}`}
             material="color: black"
-            position={`${xPos} ${yPos + this.doorHeight + 0.2} ${zPos + this.wallThickness}`}
-          />
+            position={`${xPos} ${yPos + this.doorHeight + 0.2} ${zPos + this.wallThickness}`} />
           <a-box // linkPad
             link={link.url}
             static-body
@@ -53,37 +52,23 @@ class Walls extends React.Component {
             height='0.1'
             width={this.doorWidth}
             depth={this.wallThickness}
-            material='transparent:true; opacity:0;'
-          />
+            material='transparent:true; opacity:0;'/>
         </a-entity>
       )
     });
     let lowerWalls = [];
     for(let i = 0; i < boxCount; i++) {
       lowerWalls.push((
-        <a-box key={'lowerWall' + i}
-          static-body
-          position={`${-this.props.width/2 + boxWidth/2 + i * (boxWidth + this.doorWidth)} 
-            1.5 ${-this.props.length/2 - this.wallThickness/2}`}
+        <Wall key={'lowerWall' + i}
+          position={`${(boxWidth - this.props.width)/2 + i * (boxWidth + this.doorWidth)} 
+            1.5 ${-(this.props.length + this.wallThickness)/2}`}
           height={this.doorHeight}
           width={boxWidth}
-          depth={this.wallThickness}
-          material={`src:#stucco; repeat:${boxWidth} ${this.doorHeight};`}
-          />
+          wallThickness={this.wallThickness}
+          material={`src:#stucco; repeat:${boxWidth} ${this.doorHeight};`}/>
       ))
     }
-    let lowerWallsTrim = [];
-    for(let i = 0; i < boxCount; i++) {
-      lowerWallsTrim.push((
-        <a-box id='southWallTrim' key={'lowerWallTrim' + i}
-          position={`${-this.props.width/2 + boxWidth/2 + i * (boxWidth + this.doorWidth)} 
-            0.1 ${-this.props.length/2}`}
-          depth={0.1} width={boxWidth - 0.001} height={0.2}
-          material='src:#stucco; repeat:25 8;'
-          />
-      ))
-    }
-    return linkPads.concat(lowerWalls, lowerWallsTrim);
+    return linkPads.concat(lowerWalls);
   }
 
   render () {
@@ -93,21 +78,18 @@ class Walls extends React.Component {
           static-body 
           position={`0 ${this.wallHeight/2} ${this.props.length/2 + this.wallThickness/2}`}
           depth={this.wallThickness} width={this.props.width} height={this.wallHeight}
-          material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight};`}
-          />
+          material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight};`}/>
         <a-box id='northWallTrim'
           position={`0 0.1 ${this.props.length/2}`}
           depth={0.1} width={this.props.width} height={0.2}
-          material='src:#stucco; repeat:25 8;'
-          />
+          material='src:#stucco; repeat:25 8;'/>
         <Wall id='westWall'
           position={`${(this.props.width + this.wallThickness)/2} ${this.wallHeight/2} 0`}
           rotation='0 -90 0'
           width={this.props.length + this.wallThickness * 2}
           height={this.wallHeight}
           wallThickness={this.wallThickness}
-          material={`src:#stucco2; repeat:${this.props.length/2} ${this.wallHeight/2};`}
-          />
+          material={`src:#stucco2; repeat:${this.props.length/2} ${this.wallHeight/2};`}/>
         <Wall id='eastWall'
           position={`${-(this.props.width + this.wallThickness)/2} ${this.wallHeight/2} 0`}
           rotation='0 90 0'
@@ -115,15 +97,14 @@ class Walls extends React.Component {
           height={this.wallHeight}
           wallThickness={this.wallThickness}
           material={`src:#marbleSurface; repeat:${this.props.length/4} ${this.wallHeight/4};`}
-          trimMaterial='src:#stucco; repeat:25 8;'
-          />
-        <a-box id='southWallUpper'
-          static-body 
+          trimMaterial='src:#stucco; repeat:25 8;'/>
+        <Wall id='southWallUpper'
           position={`0 ${(this.wallHeight + this.doorHeight)/2} 
-            ${-this.props.length/2 - this.wallThickness/2}`}
-          depth={this.wallThickness} width={this.props.width} height={this.wallHeight - this.doorHeight}
-          material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight - this.doorHeight};`}
-          />
+            ${-(this.props.length + this.wallThickness)/2}`}
+          wallThickness={this.wallThickness} 
+          width={this.props.width} height={this.wallHeight - this.doorHeight}
+          material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight - this.doorHeight};`} 
+          trimThickness={0} />
         {this.renderDoorWays.call(this)}
 
       </a-entity>
