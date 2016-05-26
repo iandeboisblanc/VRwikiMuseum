@@ -41,9 +41,9 @@ class Walls extends React.Component {
       return (
         <a-entity key={i}>
           <a-entity // door title
-            class="door-text"
+            class='door-text'
             text={`text: ${link.title}; size:0.2; height:0.02`}
-            material="color: black"
+            material='color: black'
             position={`${xPos} ${yPos + this.doorHeight + 0.2} ${zPos + this.wallThickness}`} />
           <a-box // linkPad
             link={link.url}
@@ -74,15 +74,54 @@ class Walls extends React.Component {
   render () {
     return (
       <a-entity position='0 0 0'>
-        <a-box id='northWall'
-          static-body 
-          position={`0 ${this.wallHeight/2} ${this.props.length/2 + this.wallThickness/2}`}
-          depth={this.wallThickness} width={this.props.width} height={this.wallHeight}
-          material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight};`}/>
-        <a-box id='northWallTrim'
-          position={`0 0.1 ${this.props.length/2}`}
-          depth={0.1} width={this.props.width} height={0.2}
-          material='src:#stucco; repeat:25 8;'/>
+
+        <Wall id='northWallEast' 
+          position={`${((this.props.width - this.doorWidth)/2 + this.doorWidth)/2} ${(this.doorHeight)/2} 
+            ${(this.props.length + this.wallThickness)/2}`}
+          rotation='0 180 0'
+          material={`src:#stucco; 
+            repeat:${(this.props.width - this.doorWidth)/2} ${this.doorHeight};`}
+          width={(this.props.width - this.doorWidth)/2}
+          depth={this.wallThickness}
+          height={this.doorHeight}/>
+
+        <Wall id='northWallWest' 
+          position={`${-((this.props.width - this.doorWidth)/2 + this.doorWidth)/2} ${(this.doorHeight)/2} 
+            ${(this.props.length + this.wallThickness)/2}`}
+          rotation='0 180 0'
+          material={`src:#stucco; 
+            repeat:${(this.props.width - this.doorWidth)/2} ${this.doorHeight};`}
+          width={(this.props.width - this.doorWidth)/2}
+          depth={this.wallThickness}
+          height={this.doorHeight}/>
+
+        <Wall id='northWallUpper' 
+          position={`0 ${(this.wallHeight + this.doorHeight)/2} 
+            ${this.props.length/2 + this.wallThickness/2}`}
+          rotation='0 180 0'
+          material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight};`}
+          width={this.props.width}
+          depth={this.wallThickness}
+          height={this.wallHeight - this.doorHeight}
+          trimThickness={0}/>
+
+        <a-entity id='northWallText' 
+          position={`0 ${this.doorHeight + 0.2} ${(this.props.length - this.wallThickness)/2}`}
+          rotation='0 180 0'>
+          <a-entity // door title
+            position='0 0 0'
+            class='door-text'
+            text='text: Exit VR; size:0.2; height:0.02'
+            material='color: black' />
+        </a-entity>
+        <a-box // linkPad
+          static-body
+          action={'exitVr'}
+          position={`0 '0.05' ${-(this.length + this.wallThickness)/2}`}
+          height='0.1'
+          width={this.doorWidth}
+          depth={this.wallThickness}
+          material='transparent:true; opacity:0;'/>
         <Wall id='westWall'
           position={`${(this.props.width + this.wallThickness)/2} ${this.wallHeight/2} 0`}
           rotation='0 -90 0'
