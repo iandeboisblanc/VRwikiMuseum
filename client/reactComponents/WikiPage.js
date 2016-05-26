@@ -5,9 +5,10 @@ require('./../styles.css');
 
 class WikiPage extends React.Component {
   constructor(props) {
+    let location = window.location.toString().split('/wiki/')[1] || 'Stegoceras';
     super(props);
     this.state = {
-      page: 'Stegoceras',
+      page: location,
       vrMode: false,
       infoLoaded: false,
       displayHtml: []
