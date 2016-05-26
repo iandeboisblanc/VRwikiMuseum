@@ -9,19 +9,22 @@ class Walls extends React.Component {
     this.doorHeight = 3;
   }
 
-  renderDoorWays () {
+  renderDoorWays (links, northOrSouth) {
     let maxLinkCount = Math.floor((this.props.width - 0.5) / (0.5 + this.doorWidth)); 
     //0.5 is min space between doors
-    let links = this.props.links.slice(0, maxLinkCount);
+    links = links.slice(0, maxLinkCount);
+    let zPos = northOrSouth === 'north' ? this.props.length/2 + 0.15 : -this.props.length/2 - 0.15;
     let boxCount = links.length + 1;
     let boxWidth = (this.props.width - (links.length * this.doorWidth)) / boxCount;
     //Make link colliders:
     let linkPads = links.map((link, i) => {
+      let linkPadPosition = `${-this.props.width/2 + boxWidth * (i + 1) + this.doorWidth * (i + 1/2)} 
+        0 ${zPos}`;
       return (
         <a-box key={'linkPad' + i} 
           link={link}
           static-body
-          position={`${-this.props.width/2 + boxWidth * (i + 1) + this.doorWidth * (i + 1/2)} 0 ${-this.props.length/2 - 0.15}`} 
+          position={linkPadPosition} 
           height='0.1'
           width={this.doorWidth}
           depth='0.3'
@@ -31,10 +34,12 @@ class Walls extends React.Component {
     });
     let lowerWalls = [];
     for(let i = 0; i < boxCount; i++) {
+      let lowerWallPosition = `${-this.props.width/2 + boxWidth/2 + i * (boxWidth + this.doorWidth)} 
+        1.5 ${zPos}`;
       lowerWalls.push((
         <a-box key={'lowerWall' + i} 
           static-body
-          position={`${-this.props.width/2 + boxWidth/2 + i * (boxWidth + this.doorWidth)} 1.5 ${-this.props.length/2 - 0.15}`} 
+          position={lowerWallPosition} 
           height={this.doorHeight}
           width={boxWidth}
           depth='0.3'
@@ -94,7 +99,7 @@ class Walls extends React.Component {
           depth={0.3} width={this.props.width} height={this.wallHeight - this.doorHeight}
           material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight - this.doorHeight};`}
           />
-        {this.renderDoorWays.call(this)}
+        {this.renderDoorWays.call(this, this.props.links, 'south')}
 
       </a-entity>
     ) 
