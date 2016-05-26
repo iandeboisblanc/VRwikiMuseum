@@ -2,6 +2,20 @@ import React from 'react';
 import $ from 'jquery';
 require('aframe-text-component');
 
+function centerText() {
+  const doorTexts = document.getElementsByClassName('door-text');
+  let halfTextWidth, textPosition;
+  for (var i = 0; i < doorTexts.length; i++) {
+    halfTextWidth = doorTexts[i].object3D.children[0].geometry.boundingSphere.radius;
+    textPosition = doorTexts[i].getAttribute('position');
+    textPosition.x -= halfTextWidth;
+    console.clear();
+    console.log('new text position', textPosition);
+    doorTexts[i].setAttribute('position', textPosition);
+  }
+  return 'centered';
+}
+
 class Walls extends React.Component {
 
   constructor(props) {
@@ -12,29 +26,25 @@ class Walls extends React.Component {
     this.wallThickness = 0.3;
   }
 
+  componentDidMount() {
+    setTimeout(() => centerText(), 4000);
+  }
   renderDoorWays () {
     let links = this.props.links.slice(0,6); //max out at 6 links
     let boxCount = links.length + 1;
     let boxWidth = (this.props.width - (links.length * this.doorWidth)) / boxCount;
     //Make link colliders:
     let linkPads = links.map((link, i) => {
-      // const position = `${-this.props.width/2 + boxWidth * (i + 1) + this.doorWidth * (i + 1/2)} 0 ${-this.props.length/2 - 0.15}`;
-
-      // $.get(link, (result) => {
-      //   console.log('result', result);
-      //   // const title = Regex.Match(source, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
-      //   // console.log('title', title);
-      // })
       const xPos = -this.props.width/2 + boxWidth * (i + 1) + this.doorWidth * (i + 1/2);
       const yPos = 0;
       const zPos = -this.props.length/2 - 0.15;
-
       return (
         <a-entity key={'linkPad' + i}>
           <a-entity
+            class="door-text"
             text={`text: ${link.title}`}
             material="color: black"
-            position={`${xPos - this.doorWidth} ${yPos + this.doorHeight} ${zPos + this.wallThickness}`}
+            position={`${xPos} ${yPos + this.doorHeight + 0.2} ${zPos + this.wallThickness}`}
           />
           <a-box
             link={link.url}
