@@ -37,90 +37,74 @@ class MuseumScene extends React.Component {
   }
 
   setHtmlAssets () {
-    return this.props.textDisplayHtml.map((element, index) => {
+    return this.props.displayHtml.map((element, index) => {
       let html = element.html();
-      return (
-        <div id={`pageHTML${index}`} key={'text' + index} dangerouslySetInnerHTML={{__html:html}} />
-      )
-    }).concat(this.props.images.map((index, element) => {
-      // console.log(element);
-      let src = 'https:' + $(element).children('img').attr('src');
-      return (
-        <img id={`pageIMG${index}`} key={'img' + index} crossOrigin='anonymous' src={src} />
-      );
-    }));
+      if($(html).is('img')) {
+        return (
+          <img id={`pageIMG${index}`} key={'img' + index} 
+            src={'https:' + $(html).attr('src')} crossOrigin='anonymous' />
+        );
+      } else {
+        return (
+          <div id={`pageHTML${index}`} key={'text' + index} dangerouslySetInnerHTML={{__html:html}} />
+        );
+      }
+    })
   }
 
   renderHtmlTextDisplays () {
-    let assets = this.props.textDisplayHtml //.slice(1);
+    let assets = this.props.displayHtml //.slice(1);
     let length = assets.length;
-    let leftHalf = assets.slice(0, Math.floor(length / 2));
-    let rightHalf = assets.slice(Math.floor(length / 2));
-    return leftHalf.map((element, index) => {
-      var adjustedRoomLength = this.roomLength - 4;
-      return (
-        <TextDisplay 
-          key={'L' + index}
-          position={`${-this.roomWidth / 2} 2.05 ${-adjustedRoomLength / (leftHalf.length - 1) * index + adjustedRoomLength / 2}`} 
-          rotation='0 90 0'
-          height='4' width='3' depth='0.5'
-          borderThickness='0.05' 
-          borderColor='red'
-          htmlSelector={'#pageHTML' + (index)}
-          htmlScale='0.7'
-        />
-      )
-    }).concat(rightHalf.map((element, index) => {
-      var adjustedRoomLength = this.roomLength - 4;
-      return (
-        <TextDisplay 
-          key={'R' + index}
-          position={`${this.roomWidth / 2} 2.05 ${adjustedRoomLength / (rightHalf.length - 1) * index - adjustedRoomLength / 2}`} 
-          rotation='0 -90 0'
-          height='4' width='3' depth='0.5'
-          borderThickness='0.05' 
-          borderColor='red'
-          htmlSelector={'#pageHTML' + (leftHalf.length + index)}
-          htmlScale='0.7'
-        />
-      )
-    }));
-  }
-
-  renderImageDisplays() {
-    let images = this.props.images //.slice(1);
-    let length = images.length;
-    return images.map((index, element) => {
-      let adjustedRoomWidth = this.roomWidth - 4;
-      let frameDepth = 0.05;
-      let imageWidth = element.children('img').attr('width') / 130;
-      let imageHeight = element.children('img').attr('height') / 130;
-      // console.log(imageWidth, imageHeight);
-      return (
-        <a-entity 
-          key={'P' + index}
-          rotation='0 180 0'
-          position={`${-adjustedRoomWidth / (length - 1) * index + adjustedRoomWidth / 2} 1.6 ${this.roomLength / 2}`}>
-          <a-box 
-            position='0 0 0'
-            height={imageHeight + 0.05}
-            width={imageWidth + 0.05}
-            depth={frameDepth}
-            color='green'
+    let adjustedRoomLength = this.roomLength - 4;
+    let halfIndex = Math.floor(assets.length / 2);
+    let leftLength = assets.slice(0, halfIndex).length;
+    let rightLength = assets.length - leftLength;
+    return assets.map((element, index) => {
+      let position = `${-this.roomWidth / 2} 2.05 ${-adjustedRoomLength / (leftLength - 1) * index + adjustedRoomLength / 2}`;
+      let rotation = '0 90 0';
+      if(index >= halfIndex) {
+        position = `${this.roomWidth / 2} 2.05 ${adjustedRoomLength / (rightLength - 1) * (index - leftLength) - adjustedRoomLength / 2}`;
+        rotation = '0 -90 0';
+      }
+      if(element.children('img').length > 0) {
+        let frameDepth = 0.05;
+        let imageWidth = element.children('img').attr('width') / 90;
+        let imageHeight = element.children('img').attr('height') / 90;
+        return (
+          <a-entity 
+            key={'P' + index}
+            rotation={rotation}
+            position={position}>
+            <a-box 
+              position='0 0 0'
+              height={imageHeight + 0.05}
+              width={imageWidth + 0.05}
+              depth={frameDepth}
+              color='green'
+            />
+            <a-plane 
+              height={imageHeight} width={imageWidth}
+              position={`0 0 ${frameDepth/2 + 0.001}`}
+              src={'#pageIMG' + index}
+              color='white'
+            />
+          </a-entity>
+        )
+      } else {
+        return (
+          <TextDisplay 
+            key={'T' + index}
+            position={position} 
+            rotation={rotation}
+            height='4' width='3' depth='0.5'
+            borderThickness='0.05' 
+            borderColor='red'
+            htmlSelector={'#pageHTML' + (index)}
+            htmlScale='0.7'
           />
-          <a-plane 
-            // rotation='0 180 0'
-            height={imageHeight} width={imageWidth}
-            position={`0 0 ${frameDepth/2 + 0.001}`}
-            // borderThickness='0.05' 
-            // borderColor='brown'
-            src={'#pageIMG' + index}
-            color='white'
-            // htmlScale='0.7'
-          />
-        </a-entity>
-      )
-    })
+        )
+      }
+    });
   }
 
   renderColumns () {
@@ -176,7 +160,6 @@ class MuseumScene extends React.Component {
         {this.renderColumns.call(this)}
 
         {this.renderHtmlTextDisplays.call(this)}
-        {this.renderImageDisplays.call(this)}
 
         <Sculpture
           position='0 0 0' 

@@ -1,0 +1,366 @@
+html {
+  position: static;
+  font-family: sans-serif;
+}
+
+body {
+  overflow: scroll
+}
+
+.nonVrView {
+  padding: 30px;
+}
+
+.nonVrContentHeader {
+  font-style: italic;
+}
+
+.pageHeader {
+  padding-top: .5em;
+  padding-bottom: .17em;
+  border-bottom: none;
+  font-family: "Linux Libertine", Georgia, Times, serif;
+  line-height: 1.3;
+  margin-bottom: 0.25em;
+  padding: 0;
+}
+
+.infobox {
+  border: 1px solid #aaa;
+  border-spacing: 3px;
+  background-color: #f9f9f9;
+  color: black;
+  margin: 0.5em 0 0.5em 1em;
+  padding: 0.2em;
+  float: right;
+  clear: right;
+  font-size: 88%;
+  line-height: 1.5em;
+}
+
+table {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 2px;
+  border-color: grey;
+}
+
+td, th {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.mw-body {
+  margin-left: 10em;
+  padding: 1em;
+  border: 1px solid #a7d7f9;
+  border-right-width: 0;
+  margin-top: -1px;
+  background-color: #ffffff;
+  color: #252525;
+  direction: ltr;
+}
+
+p {
+  display: block;
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  line-height: inherit;
+  margin: 0.5em 0;
+}
+
+.mw-body-content {
+  position: relative;
+  line-height: 1.6;
+  font-size: 0.875em;
+  z-index: 0;
+}
+
+.mw-content-ltr {
+  direction: ltr;
+}
+
+div.hatnote {
+  padding-left: 1.6em;
+  margin-bottom: 0.5em;
+}
+
+.hatnote {
+  font-style: italic;
+}
+
+div {
+  display: block;
+}
+
+h1, h2 {
+  color: black;
+  background: none;
+  font-weight: normal;
+  overflow: hidden;
+  padding-top: .5em;
+  padding-bottom: .17em;
+  border-bottom: 1px solid #aaa;
+  font-family: "Linux Libertine", Georgia, Times, serif;
+  line-height: 1.3;
+  margin-bottom: 0.25em;
+  padding: 0;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-top: 1em;
+}
+
+h1 {
+  font-size: 1.8em;
+  margin-top: 0;
+}
+
+#toc, .toc, .mw-warning, .toccolours {
+  border: 1px solid #aaa;
+  background-color: #f9f9f9;
+  padding: 5px;
+  font-size: 95%;
+}
+
+#toc, .toc {
+  display: table;
+  zoom: 1;
+  padding: 7px;
+}
+
+#toc h2, .toc h2 {
+  display: inline;
+  border: none;
+  padding: 0;
+  font-size: 100%;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+#toc #toctitle, .toc #toctitle, #toc .toctitle, .toc .toctitle {
+  text-align: center;
+}
+
+li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+  margin-bottom: .1em;
+}
+
+ol {
+  margin: .3em 0 0 3.2em;
+  padding: 0;
+  list-style-image: none;
+}
+
+ul, menu, dir {
+  display: block;
+  list-style-type: disc;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-start: 0;
+}
+
+.tocnumber {
+  padding-left: 0;
+  padding-right: 0.5em;
+}
+
+.tocnumber, .toctext {
+  display: table-cell;
+  text-decoration: none;
+}
+
+#toc ul, .toc ul {
+  list-style-type: none;
+  list-style-image: none;
+  margin-left: 0;
+  padding: 0;
+  text-align: left;
+}
+
+a {
+  text-decoration: none;
+  color: #0645ad;
+  background: none;
+  cursor: auto;
+}
+
+a:hover, a:focus {
+  text-decoration: underline;
+}
+
+img {
+  border: none;
+  vertical-align: middle;
+}
+
+div.thumb {
+  margin-bottom: .5em;
+  width: auto;
+  background-color: transparent;
+}
+
+div.thumbinner {
+  border: 1px solid #ccc;
+  padding: 3px;
+  background-color: #f9f9f9;
+  font-size: 94%;
+  text-align: center;
+  min-width: 100px;
+}
+
+.thumbimage {
+  border: 1px solid #ccc;
+}
+
+div.thumb .thumbimage {
+  background-color: #fff;
+}
+
+.mw-content-ltr .thumbcaption {
+  text-align: left;
+}
+
+.thumbcaption {
+  border: none;
+  line-height: 1.4em;
+  padding: 3px;
+  font-size: 94%;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-align: left;
+}
+
+div.tright, div.floatright, table.floatright {
+  clear: right;
+  float: right;
+}
+
+div.tright {
+  margin: .5em 0 1.3em 1.4em;
+}
+
+div.tleft, div.floatleft, table.floatleft {
+  float: left;
+  clear: left;
+}
+
+div.tleft {
+  margin: .5em 1.4em 1.3em 0;
+}
+
+div.columns {
+  margin-top: 0.3em;
+}
+
+div.reflist, div.refbegin {
+  font-size: 90%;
+  margin-bottom: 0.5em;
+}
+
+div.columns li, div.columns dd dd {
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid-column;
+}
+
+.citation {
+  word-wrap: break-word;
+}
+
+cite, dfn {
+  font-style: inherit;
+}
+
+.navbox {
+  border: 1px solid #aaa;
+  width: 100%;
+  margin: auto;
+  clear: both;
+  font-size: 88%;
+  text-align: center;
+  padding: 1px;
+}
+
+table.navbox {
+  margin-top: 1em;
+}
+
+.navbox .navbar {
+  display: block;
+  font-size: 100%;
+}
+
+.navbox-title .navbar {
+  float: left;
+  text-align: left;
+  margin-right: 0.5em;
+  width: 6em;
+}
+
+.navbar.mini li abbr[title] {
+  font-variant: small-caps;
+  border-bottom: none;
+  text-decoration: none;
+  cursor: inherit;
+}
+
+.navbox th, .navbox-title {
+  background: #ccccff;
+}
+
+/*.navbox-odd {
+  background: transparent;
+}
+
+.navbox-even {
+  background: #f7f7f7;
+}*/
+
+.navbox-list {
+  line-height: 1.5em;
+  border-color: #fdfdfd;
+}
+
+.navbar li {
+  word-spacing: -0.125em;
+}
+
+.hlist dd, .hlist dt, .hlist li {
+  margin: 0;
+  display: inline;
+}
+
+title, .navbox-abovebelow, .navbox-group, .navbox-title, {
+  padding: 0.25em 1em;
+  line-height: 1.5em;
+  text-align: center;
+}
+
+.navbox-abovebelow, th.navbox-group, .navbox-subgroup .navbox-title {
+  background: #ddddff;
+}
+
+.nowrap, .nowraplinks a, .nowraplinks .selflink, sup.reference a {
+  white-space: nowrap;
+}
+
+strong.selflink {
+  font-weight: 700;
+}
+
+small {
+  font-size: smaller;
+}
+
+.navbox-inner, .navbox-subgroup {
+  width: 100%;
+}
+

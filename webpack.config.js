@@ -2,7 +2,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
   template: __dirname + '/client/index.html',
   filename: 'index.html',
-  inject: 'body'
+  inject: false
 });
 var path = require('path');
 
@@ -21,6 +21,11 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/, include: __dirname + '/client', loader: 'babel-loader'
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader',
+        include: __dirname + '/client'
       }
       // ,
       // {
