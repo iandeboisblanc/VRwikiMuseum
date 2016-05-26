@@ -42,7 +42,7 @@ class Walls extends React.Component {
         <a-entity key={i}>
           <a-entity // door title
             class="door-text"
-            text={`text: ${link.title}`}
+            text={`text: ${link.title}; size:0.2; height:0.02`}
             material="color: black"
             position={`${xPos} ${yPos + this.doorHeight + 0.2} ${zPos + this.wallThickness}`} />
           <a-box // linkPad
