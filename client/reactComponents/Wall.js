@@ -1,5 +1,4 @@
 import React from 'react';
-import Wall from './Wall';
 require('aframe-text-component');
 
 function centerText() {
@@ -14,19 +13,26 @@ function centerText() {
   return 'centered';
 }
 
-class Walls extends React.Component {
+class Wall extends React.Component {
 
   constructor(props) {
     super(props);
-    this.wallHeight = 8;
-    this.doorWidth = 2;
-    this.doorHeight = 3;
-    this.wallThickness = 0.3;
+    this.position = props.position.toString() || '0 0 0';
+    this.rotation = props.rotation.toString() || '0 0 0';
+    this.height = Number(props.height) || 4;
+    this.width = Number(props.width) || 5;
+    this.doorWidth = Number(props.doorWidth) || 2;
+    this.doorHeight = Number(props.doorHeight) || 3;
+    this.wallThickness = Number(props.wallThickness) || 0.3;
+    this.trimHeight = Number(props.trimHeight) || 0.2;
+    this.trimThickness = Number(props.trimThickness) || 0.05;
+    this.material = props.material || 'color:grey;';
+    this.trimMaterial = props.trimMaterial || this.material;
   }
 
-  componentDidMount() {
-    setTimeout(() => centerText(), 4000);
-  }
+  // componentDidMount() {
+  //   setTimeout(() => centerText(), 4000);
+  // }
   renderDoorWays () {
     let maxLinkCount = Math.floor((this.props.width - 0.5) / (0.5 + this.doorWidth));
     //0.5 is min space between doors
@@ -88,47 +94,26 @@ class Walls extends React.Component {
 
   render () {
     return (
-      <a-entity position='0 0 0'>
-        <a-box id='northWall'
+      <a-entity className='wallEntity' 
+        position='0 0 0'
+        rotation='0 0 0'>
+        <a-box className='wall'
           static-body 
-          position={`0 ${this.wallHeight/2} ${this.props.length/2 + this.wallThickness/2}`}
-          depth={this.wallThickness} width={this.props.width} height={this.wallHeight}
-          material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight};`}
-          />
-        <a-box id='northWallTrim'
-          position={`0 0.1 ${this.props.length/2}`}
-          depth={0.1} width={this.props.width} height={0.2}
-          material='src:#stucco; repeat:25 8;'
-          />
-        <Wall id='westWall'
-          position={`${(this.props.width + this.wallThickness)/2} ${this.wallHeight/2} 0`}
-          rotation='0 -90 0'
-          width={this.props.length + this.wallThickness * 2}
-          height={this.wallHeight}
-          wallThickness={this.wallThickness}
-          material={`src:#stucco2; repeat:${this.props.length/2} ${this.wallHeight/2};`}
-          />
-        <Wall id='eastWall'
-          position={`${-(this.props.width + this.wallThickness)/2} ${this.wallHeight/2} 0`}
-          rotation='0 90 0'
-          width={this.props.length + this.wallThickness * 2}
-          height={this.wallHeight}
-          wallThickness={this.wallThickness}
-          material={`src:#marbleSurface; repeat:${this.props.length/4} ${this.wallHeight/4};`}
-          trimMaterial='src:#stucco; repeat:25 8;'
-          />
-        <a-box id='southWallUpper'
-          static-body 
-          position={`0 ${(this.wallHeight + this.doorHeight)/2} 
-            ${-this.props.length/2 - this.wallThickness/2}`}
-          depth={this.wallThickness} width={this.props.width} height={this.wallHeight - this.doorHeight}
-          material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight - this.doorHeight};`}
-          />
-        {this.renderDoorWays.call(this)}
-
+          position={this.position}
+          rotation={this.rotation}
+          depth={this.wallThickness} width={this.width} height={this.height}
+          material={this.material}>
+          <a-box className='wallTrim'
+            position={`0 ${(this.trimHeight - this.height)/2} 
+              ${(this.wallThickness + this.trimThickness)/2}`}
+            rotation='0 0 0'
+            depth={this.trimThickness} width={this.width} height={this.trimHeight}
+            material={this.trimMaterial}
+            />
+        </a-box>
       </a-entity>
     )
   }
 }
 
-module.exports = Walls;
+module.exports = Wall;
