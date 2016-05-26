@@ -1,8 +1,9 @@
 import React from 'react';
-import Walls from './Walls'
-import TextDisplay from './TextDisplay'
-import Sculpture from './Sculpture'
-import Column from './Column'
+import Walls from './Walls';
+import Roof from './Roof';
+import TextDisplay from './TextDisplay';
+import Sculpture from './Sculpture';
+import Column from './Column';
 const $ = require('jquery');
 const extras = require('aframe-extras');
 extras.registerAll();
@@ -54,10 +55,12 @@ class MuseumScene extends React.Component {
     let leftLength = assets.slice(0, halfIndex).length;
     let rightLength = assets.length - leftLength;
     return assets.map((element, index) => {
-      let position = `${-this.roomWidth / 2} 2.05 ${-adjustedRoomLength / (leftLength - 1) * index + adjustedRoomLength / 2}`;
+      let position = `${-this.roomWidth / 2} 2.05 
+        ${-adjustedRoomLength / (leftLength - 1) * index + adjustedRoomLength/2}`;
       let rotation = '0 90 0';
       if(index >= halfIndex) {
-        position = `${this.roomWidth / 2} 2.05 ${adjustedRoomLength / (rightLength - 1) * (index - leftLength) - adjustedRoomLength / 2}`;
+        position = `${this.roomWidth / 2} 2.05 
+          ${adjustedRoomLength / (rightLength - 1) * (index - leftLength) - adjustedRoomLength/2}`;
         rotation = '0 -90 0';
       }
       if(element.children('img').length > 0) {
@@ -101,10 +104,10 @@ class MuseumScene extends React.Component {
     });
   }
 
-  renderColumns () {
+  renderColumns (widthRatio) {
     let columnCount = Math.floor(this.roomLength / 7);
     let columns = [];
-    let xPos = this.roomWidth * 0.35;
+    let xPos = this.roomWidth * widthRatio + 0.52;
     let height = 8;
     for(let i = 0; i < columnCount; i++) {
       let zPos = -this.roomLength/2 + (i + 1) * this.roomLength / (columnCount + 1);
@@ -150,16 +153,17 @@ class MuseumScene extends React.Component {
           position='0 0 0' rotation='-90 0 0' width='50' height='50' />
         
         <Walls width={this.roomWidth} length={this.roomLength} links={this.props.relatedLinks}/>
+
+        <Roof width={this.roomWidth} length={this.roomLength} height={8} domeRadiusRatio={0.25} 
+          material='src:#stucco'/>
         
-        {this.renderColumns.call(this)}
+        {this.renderColumns.call(this, 0.25)}
 
         {this.renderHtmlTextDisplays.call(this)}
 
         <Sculpture
           position='0 0 0' 
-          modelSrc='#pageModel'
-        />
-
+          modelSrc='#pageModel'/>
 
         <a-entity id='camera' position={`0 1.8 ${this.roomLength * 0.4}`} width='0.5'
           camera='near: 0.05' universal-controls kinematic-body='radius: 0.6' />
