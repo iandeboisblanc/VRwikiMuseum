@@ -102,14 +102,8 @@ class WikiPage extends React.Component {
     ];
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
-<<<<<<< HEAD
-        <MuseumScene page={this.state.page} textDisplayHtml={this.state.textDisplayHtml}
-        images={this.state.images}
-        relatedLinks={links}
-=======
         <MuseumScene page={this.state.page} displayHtml={this.state.displayHtml}
-        relatedLinks={['wiki:Stegosaurus', 'http://www.elliotplant.com', 'https://github.com/iandeboisblanc/wikiMuseumVR/issues']}
->>>>>>> e7d9bae720c7a5574bce1f2de1ed1ae74d9378d5
+        relatedLinks={links}
         />
       )
     } else {

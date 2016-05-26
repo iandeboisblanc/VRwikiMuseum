@@ -1,5 +1,4 @@
 import React from 'react';
-import $ from 'jquery';
 require('aframe-text-component');
 
 function centerText() {
@@ -9,8 +8,6 @@ function centerText() {
     halfTextWidth = doorTexts[i].object3D.children[0].geometry.boundingSphere.radius;
     textPosition = doorTexts[i].getAttribute('position');
     textPosition.x -= halfTextWidth;
-    console.clear();
-    console.log('new text position', textPosition);
     doorTexts[i].setAttribute('position', textPosition);
   }
   return 'centered';
