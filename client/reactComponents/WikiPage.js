@@ -82,6 +82,11 @@ class WikiPage extends React.Component {
     });
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    window.location = '/wiki/' + e.target[0].value;
+  }
+
   render () {
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
@@ -98,7 +103,7 @@ class WikiPage extends React.Component {
           <header>
             <h1 className='pageHeader'> VR Wiki Museum </h1>
             <div>
-              <form>
+              <form onSubmit={this.handleSubmit.bind(this)}>
                 <input placeholder='Search Wiki Pages' />
                 <button> Submit </button>
               </form>
