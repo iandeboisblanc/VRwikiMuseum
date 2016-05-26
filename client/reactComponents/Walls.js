@@ -21,7 +21,7 @@ class Walls extends React.Component {
       let linkPadPosition = `${-this.props.width/2 + boxWidth * (i + 1) + this.doorWidth * (i + 1/2)} 
         0 ${zPos}`;
       return (
-        <a-box key={'linkPad' + i} 
+        <a-box key={northOrSouth + 'linkPad' + i} 
           link={link}
           static-body
           position={linkPadPosition} 
@@ -37,7 +37,7 @@ class Walls extends React.Component {
       let lowerWallPosition = `${-this.props.width/2 + boxWidth/2 + i * (boxWidth + this.doorWidth)} 
         1.5 ${zPos}`;
       lowerWalls.push((
-        <a-box key={'lowerWall' + i} 
+        <a-box key={northOrSouth + 'lowerWall' + i} 
           static-body
           position={lowerWallPosition} 
           height={this.doorHeight}
@@ -49,9 +49,10 @@ class Walls extends React.Component {
     }
     let lowerWallsTrim = [];
     for(let i = 0; i < boxCount; i++) {
+      let trimZPos = northOrSouth === 'north' ? this.props.length/2 : -this.props.length/2;
       lowerWallsTrim.push((
-        <a-box id='southWallTrim' key={'lowerWallTrim' + i}
-          position={`${-this.props.width/2 + boxWidth/2 + i * (boxWidth + this.doorWidth)} 0.1 ${-this.props.length/2}`}
+        <a-box id='southWallTrim' key={northOrSouth + 'lowerWallTrim' + i}
+          position={`${-this.props.width/2 + boxWidth/2 + i * (boxWidth + this.doorWidth)} 0.1 ${trimZPos}`}
           depth={0.1} width={boxWidth - 0.001} height={0.2} 
           material='src:#stucco; repeat:25 8;'
           />
@@ -63,7 +64,7 @@ class Walls extends React.Component {
   render () {
     return (
       <a-entity position='0 0 0'>
-        <a-box id='northWall' 
+        { /*<a-box id='northWall' 
           static-body position={`0 ${this.wallHeight/2} ${this.props.length/2 + 0.15}`}
           depth={0.3} width={this.props.width} height={this.wallHeight} 
           material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight};`}
@@ -72,7 +73,15 @@ class Walls extends React.Component {
           position={`0 0.1 ${this.props.length/2}`}
           depth={0.1} width={this.props.width} height={0.2} 
           material='src:#stucco; repeat:25 8;'
+          /> */}
+
+        <a-box id='northWallUpper' 
+          static-body position={`0 ${(this.wallHeight + this.doorHeight)/2} ${this.props.length/2 + 0.15}`}
+          depth={0.3} width={this.props.width} height={this.wallHeight - this.doorHeight}
+          material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight - this.doorHeight};`}
           />
+        {this.renderDoorWays.call(this, ['exit vr'], 'north')}
+
         <a-box id='eastWall' 
           static-body position={`${this.props.width/2 + 0.15} ${this.wallHeight/2} 0`}
           depth={this.props.length + 0.6} width={0.3} height={this.wallHeight} 

@@ -21,12 +21,16 @@ class MuseumScene extends React.Component {
       let entity = e.detail.body.el;
       let link = $(entity).attr('link');
       if(link) {
-        console.log('Redirecting to:', link)
-        if(link.slice(0,4) === 'wiki') {
-          //set state to another page
+        if(link === 'exit vr') {
+          this.props.exitVr();
         } else {
-          //redirect entirely
-          window.location = link;
+          console.log('Redirecting to:', link)
+          if(link.slice(0,4) === 'wiki') {
+            //set state to another page
+          } else {
+            //redirect entirely
+            window.location = link;
+          }
         }
       }
       // console.log(e.detail.target.el);  // Original entity (playerEl).
