@@ -114,14 +114,16 @@ class Walls extends React.Component {
             text='text: Exit VR; size:0.2; height:0.02'
             material='color: black' />
         </a-entity>
+
         <a-box // linkPad
           static-body
           action={'exitVr'}
-          position={`0 '0.05' ${-(this.length + this.wallThickness)/2}`}
+          position={`0 0.05 ${(this.props.length + this.wallThickness)/2}`}
           height='0.1'
           width={this.doorWidth}
           depth={this.wallThickness}
           material='transparent:true; opacity:0;'/>
+
         <Wall id='westWall'
           position={`${(this.props.width + this.wallThickness)/2} ${this.wallHeight/2} 0`}
           rotation='0 -90 0'
@@ -129,6 +131,7 @@ class Walls extends React.Component {
           height={this.wallHeight}
           wallThickness={this.wallThickness}
           material={`src:#stucco2; repeat:${this.props.length/2} ${this.wallHeight/2};`}/>
+
         <Wall id='eastWall'
           position={`${-(this.props.width + this.wallThickness)/2} ${this.wallHeight/2} 0`}
           rotation='0 90 0'
@@ -137,6 +140,7 @@ class Walls extends React.Component {
           wallThickness={this.wallThickness}
           material={`src:#marbleSurface; repeat:${this.props.length/4} ${this.wallHeight/4};`}
           trimMaterial='src:#stucco; repeat:25 8;'/>
+
         <Wall id='southWallUpper'
           position={`0 ${(this.wallHeight + this.doorHeight)/2} 
             ${-(this.props.length + this.wallThickness)/2}`}
@@ -144,6 +148,7 @@ class Walls extends React.Component {
           width={this.props.width} height={this.wallHeight - this.doorHeight}
           material={`src:#stucco; repeat:${this.props.width} ${this.wallHeight - this.doorHeight};`} 
           trimThickness={0} />
+
         {this.renderDoorWays.call(this)}
 
       </a-entity>

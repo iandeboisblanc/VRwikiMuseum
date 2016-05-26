@@ -94,22 +94,24 @@ class WikiPage extends React.Component {
     window.location = '/wiki/' + e.target[0].value;
   }
 
+  exitVr() {
+    this.setState({
+      vrMode: false
+    });
+  }
+
   render () {
     const links = [
-      { title: 'Stegosaurus', url: 'wiki:Stegosaurus' },
+      { title: 'Stegosaurus', url: '/wiki/Stegosaurus' },
       { title: 'Celestial Dance', url: 'http://www.elliotplant.com' },
       { title: 'Issues', url: 'https://github.com/iandeboisblanc/wikiMuseumVR/issues' },
     ];
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
         <MuseumScene page={this.state.page} displayHtml={this.state.displayHtml}
-        relatedLinks={links}
-        />
+          relatedLinks={links} exitVr={this.exitVr.bind(this)}/>
       )
     } else {
-      //ultimately have a search
-      //add info
-      //and the button to switch to VR
       return (
         <div className='nonVrView'>
           <header>

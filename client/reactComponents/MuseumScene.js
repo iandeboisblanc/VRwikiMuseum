@@ -20,19 +20,13 @@ class MuseumScene extends React.Component {
       console.log('Player has collided with body #' + e.detail.body.id);
       let entity = e.detail.body.el;
       let link = $(entity).attr('link');
+      let action = $(entity).attr('action');
       if(link) {
         console.log('Redirecting to:', link)
-        if(link.slice(0,4) === 'wiki') {
-          //set state to another page
-        } else {
-          //redirect entirely
-          window.location = link;
-        }
+        window.location = link;
+      } else if(action === 'exitVr') {
+        this.props.exitVr();
       }
-      // console.log(e.detail.target.el);  // Original entity (playerEl).
-      console.log();    // Other entity, which playerEl touched.
-      // console.log(e.detail.contact);    // Stats about the collision (CANNON.ContactEquation).
-      // console.log(e.detail.contact.ni); // Normal (direction) of the collision (CANNON.Vec3).
     });
   }
 
