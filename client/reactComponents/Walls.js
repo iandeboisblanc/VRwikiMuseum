@@ -38,14 +38,14 @@ class Walls extends React.Component {
       const yPos = 0;
       const zPos = -this.props.length/2 - 0.15;
       return (
-        <a-entity key={'linkPad' + i}>
-          <a-entity
+        <a-entity key={i}>
+          <a-entity // door title
             class="door-text"
             text={`text: ${link.title}`}
             material="color: black"
             position={`${xPos} ${yPos + this.doorHeight + 0.2} ${zPos + this.wallThickness}`}
           />
-          <a-box
+          <a-box // linkPad
             link={link.url}
             static-body
             position={`${xPos} ${yPos} ${zPos}`}
