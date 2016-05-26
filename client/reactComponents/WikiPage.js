@@ -76,20 +76,12 @@ class WikiPage extends React.Component {
                 }
               }
             }
-            this.setState({ 
+            this.setState({
               rawResults: rawResultsClone,
               displayHtml: parsedHtmlSections,
               infoLoaded: true
             });
           }
-<<<<<<< HEAD
-          this.setState({
-            textDisplayHtml: parsedHtmlSections,
-            images: images,
-            infoLoaded: true
-          });
-=======
->>>>>>> e7d9bae720c7a5574bce1f2de1ed1ae74d9378d5
         },
         error: function (errorMessage) {
             console.error('Error retrieving from wikipedia:', errorMessage);
@@ -113,10 +105,10 @@ class WikiPage extends React.Component {
 <<<<<<< HEAD
         <MuseumScene page={this.state.page} textDisplayHtml={this.state.textDisplayHtml}
         images={this.state.images}
-        relatedLinks={links} 
+        relatedLinks={links}
 =======
-        <MuseumScene page={this.state.page} displayHtml={this.state.displayHtml} 
-        relatedLinks={['wiki:Stegosaurus', 'http://www.elliotplant.com', 'https://github.com/iandeboisblanc/wikiMuseumVR/issues']} 
+        <MuseumScene page={this.state.page} displayHtml={this.state.displayHtml}
+        relatedLinks={['wiki:Stegosaurus', 'http://www.elliotplant.com', 'https://github.com/iandeboisblanc/wikiMuseumVR/issues']}
 >>>>>>> e7d9bae720c7a5574bce1f2de1ed1ae74d9378d5
         />
       )
