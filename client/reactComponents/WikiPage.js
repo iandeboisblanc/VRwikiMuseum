@@ -19,8 +19,9 @@ class WikiPage extends React.Component {
     this.getWikiInformation();
   }
 
-  getWikiInformation () {
+  getWikiInformation (callback) {
     let url = `https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&page=${this.state.page}&callback=?`
+    callback = callback || function(){return;};
     $.ajax({
         type: 'GET',
         url: url,
@@ -81,10 +82,12 @@ class WikiPage extends React.Component {
               displayHtml: parsedHtmlSections,
               infoLoaded: true
             });
+            callback.call(this, null);
           }
         },
         error: function (errorMessage) {
             console.error('Error retrieving from wikipedia:', errorMessage);
+            callback.call(this, errorMessage);
         }
     });
   }
@@ -100,6 +103,14 @@ class WikiPage extends React.Component {
     });
   }
 
+  changePage(page) {
+    this.setState({
+      infoLoaded: false,
+      page:page
+    });
+    this.getWikiInformation.call(this);
+  }
+
   render () {
     const links = [
       { title: 'Stegosaurus', url: '/wiki/Stegosaurus' },
@@ -109,9 +120,11 @@ class WikiPage extends React.Component {
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
         <MuseumScene page={this.state.page} displayHtml={this.state.displayHtml}
-          relatedLinks={links} exitVr={this.exitVr.bind(this)}/>
+          relatedLinks={links} 
+          exitVr={this.exitVr.bind(this)}
+          changePage={this.changePage.bind(this)}/>
       )
-    } else {
+    } else if(this.state.infoLoaded) {
       return (
         <div className='nonVrView'>
           <header>
@@ -130,6 +143,10 @@ class WikiPage extends React.Component {
           <div dangerouslySetInnerHTML={{__html:$(this.state.rawResults).html()}} ></div>
         </div>
       );
+    } else {
+      return (
+        <div></div>
+      )
     }
   }
 };

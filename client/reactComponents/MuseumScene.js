@@ -12,7 +12,7 @@ class MuseumScene extends React.Component {
   constructor(props) {
     super(props);
     this.roomWidth = 25;
-    this.roomLength = 35;
+    this.roomLength = Math.max(25, props.displayHtml.length * 1.7);
   }
 
   componentDidMount() {
@@ -24,7 +24,12 @@ class MuseumScene extends React.Component {
       let action = $(entity).attr('action');
       if(link) {
         console.log('Redirecting to:', link)
-        window.location = link;
+        if(link.slice(1,5) === 'wiki') {
+          console.log(link.split('/')[2])
+          this.props.changePage(link.split('/')[2]);
+        } else {
+          window.location = link;
+        }
       } else if(action === 'exitVr') {
         this.props.exitVr();
       }
@@ -140,8 +145,6 @@ class MuseumScene extends React.Component {
           </div>
           <a-asset-item id='pageModel' src='/assets/pageModels/stegoceras/stegoceras.dae' />
           <img id='marbleTile' src='/assets/textures/marbleTile.jpg'/>
-          <img id='marbleTile2' src='/assets/textures/marbleTile2.jpg'/>
-          <img id='marbleTile3' src='/assets/textures/marbleTile3.jpg'/>
           <img id='marbleSurface' src='/assets/textures/marbleSurface.jpg'/>
           <img id='stucco' src='/assets/textures/stucco.jpg'/>
           <img id='stucco2' src='/assets/textures/stucco2.jpg'/>
