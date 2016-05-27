@@ -13,14 +13,23 @@ class WikiPage extends React.Component {
       infoLoaded: false,
       displayHtml: []
     };
+    window.addEventListener('popstate', (event) => {
+      let location = window.location.toString().split('/wiki/')[1];
+      this.setState({
+        infoLoaded: false,
+        page: location
+      });
+      this.getWikiInformation.call(this, this.state.page);
+    });
   }
 
   componentWillMount() {
-    this.getWikiInformation();
+    this.getWikiInformation.call(this, this.state.page);
   }
 
-  getWikiInformation () {
-    let url = `https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&page=${this.state.page}&callback=?`
+  getWikiInformation (page, callback) {
+    let url = `https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&page=${page}&callback=?`
+    callback = callback || function(){return;};
     $.ajax({
         type: 'GET',
         url: url,
@@ -81,10 +90,12 @@ class WikiPage extends React.Component {
               displayHtml: parsedHtmlSections,
               infoLoaded: true
             });
+            callback.call(this, null);
           }
         },
         error: function (errorMessage) {
             console.error('Error retrieving from wikipedia:', errorMessage);
+            callback.call(this, errorMessage);
         }
     });
   }
@@ -94,10 +105,25 @@ class WikiPage extends React.Component {
     window.location = '/wiki/' + e.target[0].value;
   }
 
+  enterVr() {
+    this.setState({
+      vrMode: true
+    });
+  }
+
   exitVr() {
     this.setState({
       vrMode: false
     });
+  }
+
+  changePage(page) {
+    window.history.pushState(page, page, `/wiki/${page}`);
+    this.setState({
+      infoLoaded: false,
+      page:page
+    });
+    this.getWikiInformation.call(this, page);
   }
 
   render () {
@@ -109,9 +135,11 @@ class WikiPage extends React.Component {
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
         <MuseumScene page={this.state.page} displayHtml={this.state.displayHtml}
-          relatedLinks={links} exitVr={this.exitVr.bind(this)}/>
+          relatedLinks={links} 
+          exitVr={this.exitVr.bind(this)}
+          changePage={this.changePage.bind(this)}/>
       )
-    } else {
+    } else if(this.state.infoLoaded) {
       return (
         <div className='nonVrView'>
           <header>
@@ -123,13 +151,17 @@ class WikiPage extends React.Component {
               </form>
             </div>
             <div>
-              <button onClick={() => {this.setState({vrMode:true})}}> Enter VR </button>
+              <button onClick={this.enterVr.bind(this)}> Enter VR </button>
             </div>
           </header>
           <h1 className='nonVrContentHeader'>{this.state.page}</h1>
           <div dangerouslySetInnerHTML={{__html:$(this.state.rawResults).html()}} ></div>
         </div>
       );
+    } else {
+      return (
+        <div></div>
+      )
     }
   }
 };
