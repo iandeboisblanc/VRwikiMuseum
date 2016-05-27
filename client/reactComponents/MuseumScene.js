@@ -138,11 +138,11 @@ class MuseumScene extends React.Component {
   render () {
     return (
       <a-scene physics='debug:false'>
-        <a-assets>
+        <a-assets timeout='10000'>
           <div id='ajaxHtmlAssets'>
             {this.setHtmlAssets.call(this)}
           </div>
-          <a-asset-item id='pageModel' src='/assets/pageModels/stegoceras/stegoceras.dae' />
+          <a-asset-item id='pageModel' src={`/assets/pageModels/${this.props.page}/model.dae`} />
           <img id='marbleTile' src='/assets/textures/marbleTile.jpg'/>
           <img id='marbleSurface' src='/assets/textures/marbleSurface.jpg'/>
           <img id='stucco' src='/assets/textures/stucco.jpg'/>
@@ -165,6 +165,7 @@ class MuseumScene extends React.Component {
 
         <Sculpture
           position='0 0 0' 
+          rotation='0 0 0'
           modelSrc='#pageModel'/>
 
         <a-entity id='camera' position={`0 1.8 ${this.roomLength * 0.4}`} width='0.5'

@@ -160,7 +160,7 @@ class WikiPage extends React.Component {
       );
     } else {
       return (
-        <div></div>
+        <div>Loading...</div>
       )
     }
   }

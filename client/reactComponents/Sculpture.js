@@ -12,7 +12,7 @@ class Sculpture extends React.Component {
     const positionArray = props.position.split(' ');
     positionArray[1] = Number(positionArray[1]) + this.pedestalHeight / 2;
     this.position = positionArray.join(' ');
-    
+    this.rotation = this.props.rotation || '0 0 0';
     //would be great to set dynamically based on size of model...
   }
 
@@ -20,7 +20,8 @@ class Sculpture extends React.Component {
     return (
       <a-entity class='modelEntity'
         static-body
-        position={this.position}>
+        position={this.position}
+        rotation={this.rotation}>
         <a-box class='pedestal'
           position='0 0 0'
           height={this.pedestalHeight} width={this.pedestalWidth} depth={this.pedestalDepth}
