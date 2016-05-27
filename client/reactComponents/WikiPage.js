@@ -5,8 +5,9 @@ require('./../styles.css');
 
 class WikiPage extends React.Component {
   constructor(props) {
-    let location = window.location.toString().split('/wiki/')[1];
     super(props);
+    let location = window.location.toString().split('/wiki/')[1];
+    //could set vrMode state based on url
     this.state = {
       page: location,
       vrMode: false,
@@ -15,6 +16,7 @@ class WikiPage extends React.Component {
     };
     window.addEventListener('popstate', (event) => {
       let location = window.location.toString().split('/wiki/')[1];
+      //could set vrMode state based on url
       this.setState({
         infoLoaded: false,
         page: location
