@@ -25,7 +25,6 @@ class MuseumScene extends React.Component {
       if(link) {
         console.log('Redirecting to:', link)
         if(link.slice(1,5) === 'wiki') {
-          console.log(link.split('/')[2])
           this.props.changePage(link.split('/')[2]);
         } else {
           window.location = link;
