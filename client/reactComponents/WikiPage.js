@@ -13,14 +13,22 @@ class WikiPage extends React.Component {
       infoLoaded: false,
       displayHtml: []
     };
+    window.addEventListener('popstate', (event) => {
+      let location = window.location.toString().split('/wiki/')[1];
+      this.setState({
+        infoLoaded: false,
+        page: location
+      });
+      this.getWikiInformation.call(this, this.state.page);
+    });
   }
 
   componentWillMount() {
-    this.getWikiInformation();
+    this.getWikiInformation.call(this, this.state.page);
   }
 
-  getWikiInformation (callback) {
-    let url = `https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&page=${this.state.page}&callback=?`
+  getWikiInformation (page, callback) {
+    let url = `https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&page=${page}&callback=?`
     callback = callback || function(){return;};
     $.ajax({
         type: 'GET',
@@ -97,6 +105,12 @@ class WikiPage extends React.Component {
     window.location = '/wiki/' + e.target[0].value;
   }
 
+  enterVr() {
+    this.setState({
+      vrMode: true
+    });
+  }
+
   exitVr() {
     this.setState({
       vrMode: false
@@ -104,11 +118,12 @@ class WikiPage extends React.Component {
   }
 
   changePage(page) {
+    window.history.pushState(page, page, `/wiki/${page}`);
     this.setState({
       infoLoaded: false,
       page:page
     });
-    this.getWikiInformation.call(this);
+    this.getWikiInformation.call(this, page);
   }
 
   render () {
@@ -136,7 +151,7 @@ class WikiPage extends React.Component {
               </form>
             </div>
             <div>
-              <button onClick={() => {this.setState({vrMode:true})}}> Enter VR </button>
+              <button onClick={this.enterVr.bind(this)}> Enter VR </button>
             </div>
           </header>
           <h1 className='nonVrContentHeader'>{this.state.page}</h1>
