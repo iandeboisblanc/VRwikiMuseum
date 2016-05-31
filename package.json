@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
+    "postinstall": "cp -R client/lib/aframe node_modules/",
     "start": "webpack --watch & nodemon server/app.js",
     "build": "docker build -t museum .",
     "deploy": "docker run -d -p 80:80 museum",
@@ -21,13 +22,11 @@
   },
   "homepage": "https://github.com/iandeboisblanc/wikiMuseumVR#readme",
   "dependencies": {
-    "aframe": "^0.2.0",
     "aframe-extras": "^1.15.1",
     "aframe-htmltexture-component": "^0.2.1",
     "aframe-text-component": "^0.3.0",
     "express": "^4.13.4",
     "jquery": "^2.2.4",
-    "nodemon": "^1.9.2",
     "react": "^15.0.2",
     "react-dom": "^15.0.2"
   },
@@ -38,6 +37,7 @@
     "babel-preset-react": "^6.5.0",
     "css-loader": "^0.23.1",
     "html-webpack-plugin": "^2.16.1",
+    "nodemon": "^1.9.2",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0"
   },

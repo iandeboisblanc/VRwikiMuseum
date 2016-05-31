@@ -5,8 +5,9 @@ require('./../styles.css');
 
 class WikiPage extends React.Component {
   constructor(props) {
-    let location = window.location.toString().split('/wiki/')[1];
     super(props);
+    let location = window.location.toString().split('/wiki/')[1];
+    //could set vrMode state based on url
     this.state = {
       page: location,
       vrMode: false,
@@ -15,6 +16,7 @@ class WikiPage extends React.Component {
     };
     window.addEventListener('popstate', (event) => {
       let location = window.location.toString().split('/wiki/')[1];
+      //could set vrMode state based on url
       this.setState({
         infoLoaded: false,
         page: location
@@ -41,7 +43,8 @@ class WikiPage extends React.Component {
           if(data.error) {
             console.error(data.error.info);
             this.setState({
-              rawResults: '<div>The requested page does not exist.</div>'
+              rawResults: '<div>The requested page does not exist.</div>',
+              infoLoaded: true
             });
           } else {
             let rawResults = $('<div id="rawResults"/>').append(data.parse.text["*"])[0];
@@ -160,7 +163,7 @@ class WikiPage extends React.Component {
       );
     } else {
       return (
-        <div></div>
+        <div>Loading...</div>
       )
     }
   }

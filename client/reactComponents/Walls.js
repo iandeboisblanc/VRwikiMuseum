@@ -4,10 +4,10 @@ require('aframe-text-component');
 
 function centerText() {
   const doorTexts = document.getElementsByClassName('door-text');
-  let halfTextWidth, textPosition;
   for (var i = 0; i < doorTexts.length; i++) {
-    halfTextWidth = doorTexts[i].object3D.children[0].geometry.boundingSphere.radius;
-    textPosition = doorTexts[i].getAttribute('position');
+    let boundingSphere = doorTexts[i].object3D.children[0].geometry.boundingSphere;
+    let halfTextWidth = boundingSphere ? boundingSphere.radius : 0;
+    let textPosition = doorTexts[i].getAttribute('position');
     textPosition.x -= halfTextWidth;
     doorTexts[i].setAttribute('position', textPosition);
   }
