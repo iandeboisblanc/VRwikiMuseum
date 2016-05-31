@@ -1,6 +1,5 @@
 import React from 'react';
 import {render} from 'react-dom';
-import AFRAME from 'aframe';
 const $ = require('jquery');
 
 class TextDisplay extends React.Component {

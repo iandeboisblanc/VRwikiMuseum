@@ -163,10 +163,7 @@ class MuseumScene extends React.Component {
 
         {this.renderHtmlTextDisplays.call(this)}
 
-        <Sculpture
-          position='0 0 0' 
-          rotation='0 0 0'
-          modelSrc='#pageModel'/>
+        <a-collada-model src='#pageModel' />
 
         <a-entity id='camera' position={`0 1.8 ${this.roomLength * 0.4}`} width='0.5'
           camera='near: 0.05' universal-controls kinematic-body='radius: 0.6' />

@@ -1,0 +1,183 @@
+{
+  "_args": [
+    [
+      "aframe@^0.2.0",
+      "/Users/iandeboisblanc/Google Drive/Personal/wikiMuseumVR"
+    ]
+  ],
+  "_from": "aframe@>=0.2.0 <0.3.0",
+  "_id": "aframe@0.2.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/aframe",
+  "_nodeVersion": "5.9.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/aframe-0.2.0.tgz_1458949511559_0.5188083057291806"
+  },
+  "_npmUser": {
+    "email": "cvan@mozilla.com",
+    "name": "mozvr"
+  },
+  "_npmVersion": "3.7.3",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "aframe",
+    "raw": "aframe@^0.2.0",
+    "rawSpec": "^0.2.0",
+    "scope": null,
+    "spec": ">=0.2.0 <0.3.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/aframe/-/aframe-0.2.0.tgz",
+  "_shasum": "323e9b73512ab06f3d6ed22273c6ac6eef8cc6ec",
+  "_shrinkwrap": null,
+  "_spec": "aframe@^0.2.0",
+  "_where": "/Users/iandeboisblanc/Google Drive/Personal/wikiMuseumVR",
+  "browserify": {
+    "transform": [
+      "browserify-css",
+      [
+        "polymerize",
+        {
+          "match": ".*.html$"
+        }
+      ]
+    ]
+  },
+  "browserify-css": {
+    "minify": true
+  },
+  "bugs": {
+    "url": "https://github.com/aframevr/aframe/issues"
+  },
+  "dependencies": {
+    "browserify-css": "^0.8.2",
+    "debug": "^2.2.0",
+    "deep-assign": "^2.0.0",
+    "document-register-element": "github:dmarcos/document-register-element#8ccc532b7",
+    "object-assign": "^4.0.1",
+    "polymerize": "^1.0.0",
+    "present": "0.0.6",
+    "promise-polyfill": "^3.1.0",
+    "request-interval": "^1.0.0",
+    "style-attr": "^1.0.2",
+    "three": "^0.74.0",
+    "tween.js": "^15.0.0",
+    "webvr-polyfill": "github:borismus/webvr-polyfill#3f47796"
+  },
+  "description": "Building blocks for the VR Web",
+  "devDependencies": {
+    "browserify": "^11.0.1",
+    "browserify-derequire": "^0.9.4",
+    "budo": "^8.1.0",
+    "chai": "^3.5.0",
+    "chai-shallow-deep-equal": "^1.3.0",
+    "exorcist": "^0.4.0",
+    "gh-pages": "^0.6.0",
+    "husky": "^0.10.1",
+    "karma": "^0.13.15",
+    "karma-browserify": "^4.4.0",
+    "karma-chai-shallow-deep-equal": "0.0.4",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-mocha": "^0.2.0",
+    "karma-mocha-reporter": "^1.1.0",
+    "karma-sinon-chai": "^1.1.0",
+    "lolex": "^1.4.0",
+    "mkdirp": "0.5.1",
+    "mocha": "^2.3.3",
+    "mozilla-download": "^1.0.5",
+    "open": "0.0.5",
+    "replace": "^0.3.0",
+    "rimraf": "2.5.0",
+    "semistandard": "^7.0.2",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0",
+    "snazzy": "^3.0.0",
+    "uglifyjs": "^2.4.10"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "323e9b73512ab06f3d6ed22273c6ac6eef8cc6ec",
+    "tarball": "https://registry.npmjs.org/aframe/-/aframe-0.2.0.tgz"
+  },
+  "engines": {
+    "node": ">= 0.12.7",
+    "npm": "^2.12.1"
+  },
+  "gitHead": "1e0226e0aefdd00a0620212c803b99459a9cf3a9",
+  "homepage": "https://github.com/aframevr/aframe#readme",
+  "keywords": [
+    "aframe",
+    "vr",
+    "webvr",
+    "3d",
+    "three",
+    "components",
+    "elements"
+  ],
+  "license": "MIT",
+  "link": true,
+  "main": "dist/aframe.js",
+  "maintainers": [
+    {
+      "email": "caseyyee.ca@gmail.com",
+      "name": "caseyyee"
+    },
+    {
+      "email": "hearcomestreble@gmail.com",
+      "name": "cvan"
+    },
+    {
+      "email": "diego.marcos@gmail.com",
+      "name": "dmarcos"
+    },
+    {
+      "email": "cvan@mozilla.com",
+      "name": "mozvr"
+    },
+    {
+      "email": "me@ngokevin.com",
+      "name": "ngokevin"
+    }
+  ],
+  "name": "aframe",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aframevr/aframe.git"
+  },
+  "scripts": {
+    "browserify": "browserify src/index.js -s 'AFRAME' -p browserify-derequire",
+    "build": "mkdirp build/ && npm run browserify -- --debug -o build/aframe.js",
+    "dev": "npm run build && node ./scripts/budo",
+    "dist": "mkdirp dist/ && npm run browserify -s -- --debug | exorcist dist/aframe.js.map > dist/aframe.js && uglifyjs dist/aframe.js -c warnings=false -m -o dist/aframe.min.js",
+    "start": "npm run dev",
+    "version": "npm run dist"
+  },
+  "semistandard": {
+    "ignore": [
+      "build/**",
+      "dist/**",
+      "examples/_js/**",
+      "examples/**/shaders/*.js",
+      "vendor/**"
+    ]
+  },
+  "version": "0.2.0",
+  "warnings": [
+    {
+      "code": "ENOTSUP",
+      "pkgid": "aframe@0.2.0",
+      "required": {
+        "node": ">= 0.12.7",
+        "npm": "^2.12.1"
+      }
+    }
+  ]
+}

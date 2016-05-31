@@ -1,6 +1,5 @@
 import React from 'react';
 import {render} from 'react-dom';
-import AFRAME from 'aframe';
 import TextDisplay from './TextDisplay';
 
 class Sculpture extends React.Component {
