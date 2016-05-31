@@ -137,7 +137,7 @@ class MuseumScene extends React.Component {
   }
 
   render () {
-    let model = this.storedModels.has(this.props.page) ? this.props.page : '__default';
+    let model = this.storedModels.has(this.props.page.toLowerCase()) ? this.props.page : '__default';
     return (
       <a-scene physics='debug:false'>
         <a-assets timeout='10000'>
