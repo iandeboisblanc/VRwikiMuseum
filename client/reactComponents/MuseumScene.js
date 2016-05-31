@@ -13,6 +13,7 @@ class MuseumScene extends React.Component {
     super(props);
     this.roomWidth = 25;
     this.roomLength = Math.max(25, props.displayHtml.length * 1.7);
+    this.storedModels = new Set(['stegoceras', 'stegosaurus']);
   }
 
   componentDidMount() {
@@ -136,13 +137,14 @@ class MuseumScene extends React.Component {
   }
 
   render () {
+    let model = this.storedModels.has(this.props.page) ? this.props.page : '__default';
     return (
       <a-scene physics='debug:false'>
         <a-assets timeout='10000'>
           <div id='ajaxHtmlAssets'>
             {this.setHtmlAssets.call(this)}
           </div>
-          <a-asset-item id='pageModel' src={`/assets/pageModels/${this.props.page}/model.dae`} />
+          <a-asset-item id='pageModel' src={`/assets/pageModels/${model}/model.dae`} />
           <img id='marbleTile' src='/assets/textures/marbleTile.jpg'/>
           <img id='marbleSurface' src='/assets/textures/marbleSurface.jpg'/>
           <img id='stucco' src='/assets/textures/stucco.jpg'/>
