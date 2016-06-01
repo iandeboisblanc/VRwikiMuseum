@@ -78,7 +78,9 @@ class WikiPage extends React.Component {
                   var newSection = $('<section />').append(img);
                   parsedHtmlSections.push(newSection);
                 } else {
-                  if(parsedHtmlSections.length) {
+                  if(lastSection && lastSection.html().length + htmlSection.outerHTML.length < 3000) {
+                    // && lastSection.outerHTML.length + htmlSection.outerHTML.length < 3000
+                    // console.log('$$$$$$$$$', lastSection, lastSection.html(), htmlSection.outerHTML.length);
                     $(lastSection).append(htmlSection)
                   } else {
                     var newSection = $('<section/>').append(htmlSection); //if no previous sections
