@@ -66,30 +66,35 @@ class WikiPage extends React.Component {
                 $(htmlSection).css('padding', '0px 10px');
                 $(htmlSection).children('.mw-editsection').empty(); //Remove 'Edit' tags on titles
 
-                // If header or image, create a new Section
-                // Otherwise, add to previous text section
-                if($(htmlSection).is('h2')) {
+                // Create new section...
+                if($(htmlSection).is('h2') //if header
+                  || ($(htmlSection).is('h3') && !$(lastElement).is('h2')) //or h3 starts section
+                  || !lastSection) { //or no previous section
+
                   let newSection = $('<section />').append(htmlSection);
                   parsedHtmlSections.push(newSection);
                   lastSection = newSection;
-                } else if($(htmlSection).is('h3') && !$(lastElement).is('h2')){
-                  let newSection = $('<section />').append(htmlSection);
-                  parsedHtmlSections.push(newSection);
-                  lastSection = newSection;
+
+                // Create image section...
                 } else if($(htmlSection).is('.thumb')) {
                   let img = $(htmlSection).find('img');
                   let title = $(htmlSection).find('.thumbcaption')[0].innerText; // .innerHTML;
                   img.attr('title', title);
                   let newSection = $('<section />').append(img);
                   parsedHtmlSections.push(newSection);
+
+                // Handle stray content...
                 } else {
-                  if(lastSection && lastSection.html().length + htmlSection.outerHTML.length < 3000) {
+                  if(lastSection.html().length + htmlSection.outerHTML.length < 3000) {
                     $(lastSection).append(htmlSection)
-                  } else {
-                    let newSection = $('<section/>').append(htmlSection); //if no previous sections
-                    parsedHtmlSections.push(newSection);
-                    lastSection = newSection
-                  }
+                  } 
+
+                  // Handle stray content that overflows text display...
+                  // else {
+                  //   let newSection = $('<section/>').append(htmlSection);
+                  //   parsedHtmlSections.push(newSection);
+                  //   lastSection = newSection
+                  // }
                 }
                 lastElement = htmlSection;
               }
