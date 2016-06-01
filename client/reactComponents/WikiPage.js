@@ -50,14 +50,15 @@ class WikiPage extends React.Component {
             let rawResults = $('<div id="rawResults"/>').append(data.parse.text["*"])[0];
             let rawResultsClone = $('<div id="rawResults"/>').append($(data.parse.text["*"]).clone());
             rawResultsClone.find('.mw-editsection, .portal').empty();
-            let filteredResults = $(rawResults).children('p, h2, h3, table, .thumb');
+            let filteredResults = $(rawResults).children('p, h2, h3, table, ul, ol, .thumb');
             filteredResults = filteredResults.filter((child, element) => element.innerText.length > 0);
 
             const parsedHtmlSections = [];
             let contentEnded = false;
             let lastSection = undefined;
+            let lastElement = undefined;
             for(var i = 0; i < filteredResults.length; i++) {
-              let htmlSection = filteredResults[i]
+              let htmlSection = filteredResults[i];
               if($(htmlSection).children('#See_also, #References, #External_links').length) {
                 contentEnded = true;
               }
@@ -68,26 +69,29 @@ class WikiPage extends React.Component {
                 // If header or image, create a new Section
                 // Otherwise, add to previous text section
                 if($(htmlSection).is('h2')) {
-                  var newSection = $('<section />').append(htmlSection);
+                  let newSection = $('<section />').append(htmlSection);
+                  parsedHtmlSections.push(newSection);
+                  lastSection = newSection;
+                } else if($(htmlSection).is('h3') && !$(lastElement).is('h2')){
+                  let newSection = $('<section />').append(htmlSection);
                   parsedHtmlSections.push(newSection);
                   lastSection = newSection;
                 } else if($(htmlSection).is('.thumb')) {
-                  var img = $(htmlSection).find('img');
-                  var title = $(htmlSection).find('.thumbcaption')[0].innerText; // .innerHTML;
+                  let img = $(htmlSection).find('img');
+                  let title = $(htmlSection).find('.thumbcaption')[0].innerText; // .innerHTML;
                   img.attr('title', title);
-                  var newSection = $('<section />').append(img);
+                  let newSection = $('<section />').append(img);
                   parsedHtmlSections.push(newSection);
                 } else {
                   if(lastSection && lastSection.html().length + htmlSection.outerHTML.length < 3000) {
-                    // && lastSection.outerHTML.length + htmlSection.outerHTML.length < 3000
-                    // console.log('$$$$$$$$$', lastSection, lastSection.html(), htmlSection.outerHTML.length);
                     $(lastSection).append(htmlSection)
                   } else {
-                    var newSection = $('<section/>').append(htmlSection); //if no previous sections
+                    let newSection = $('<section/>').append(htmlSection); //if no previous sections
                     parsedHtmlSections.push(newSection);
                     lastSection = newSection
                   }
                 }
+                lastElement = htmlSection;
               }
             }
             this.setState({
