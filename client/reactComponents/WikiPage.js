@@ -65,6 +65,7 @@ class WikiPage extends React.Component {
               if(!contentEnded) {
                 $(htmlSection).css('padding', '0px 10px');
                 $(htmlSection).children('.mw-editsection').empty(); //Remove 'Edit' tags on titles
+                $(htmlSection).children('.reference').empty();
 
                 // Create new section...
                 if($(htmlSection).is('h2') //if header
@@ -85,7 +86,7 @@ class WikiPage extends React.Component {
 
                 // Handle stray content...
                 } else {
-                  if(lastSection.html().length + htmlSection.outerHTML.length < 3000) {
+                  if(lastSection.html().length + htmlSection.outerHTML.length < 2000) {
                     $(lastSection).append(htmlSection)
                   } 
 
