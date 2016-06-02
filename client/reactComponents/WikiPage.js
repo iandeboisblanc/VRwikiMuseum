@@ -87,7 +87,6 @@ class WikiPage extends React.Component {
 
                 // Handle stray content...
                 } else {
-                  // console.log(lastSection.text().slice(0,100), lastSection.text().length + htmlSection.innerText.length)
                   if(lastSection.text().length + htmlSection.innerText.length < 1400) {
                     $(lastSection).append(htmlSection)
                   } 
