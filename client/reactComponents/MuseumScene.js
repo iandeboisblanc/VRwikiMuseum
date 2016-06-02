@@ -148,7 +148,6 @@ class MuseumScene extends React.Component {
           <img id='marbleTile' src='/assets/textures/marbleTile.jpg'/>
           <img id='marbleSurface' src='/assets/textures/marbleSurface.jpg'/>
           <img id='stucco' src='/assets/textures/stucco.jpg'/>
-          <img id='stucco2' src='/assets/textures/stucco2.jpg'/>
           <img id='columnSkin' src='/assets/textures/columnSkin.jpg'/>
         </a-assets>
 

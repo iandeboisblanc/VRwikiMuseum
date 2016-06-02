@@ -130,7 +130,8 @@ class Walls extends React.Component {
           width={this.props.length + this.wallThickness * 2}
           height={this.wallHeight}
           wallThickness={this.wallThickness}
-          material={`src:#stucco2; repeat:${this.props.length/2} ${this.wallHeight/2};`}/>
+          material={`src:#marbleSurface; repeat:${this.props.length/4} ${this.wallHeight/4};`}
+          trimMaterial='src:#stucco; repeat:25 8;'/>
 
         <Wall id='eastWall'
           position={`${-(this.props.width + this.wallThickness)/2} ${this.wallHeight/2} 0`}
