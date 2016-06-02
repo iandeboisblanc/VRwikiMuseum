@@ -12,7 +12,8 @@ class WikiPage extends React.Component {
       page: location,
       vrMode: false,
       infoLoaded: false,
-      displayHtml: []
+      vrContent: [],
+      rawContent: ''
     };
     window.addEventListener('popstate', (event) => {
       let location = window.location.toString().split('/wiki/')[1];
@@ -43,54 +44,71 @@ class WikiPage extends React.Component {
           if(data.error) {
             console.error(data.error.info);
             this.setState({
-              rawResults: '<div>The requested page does not exist.</div>',
+              rawContent: '<div>The requested page does not exist.</div>',
               infoLoaded: true
             });
           } else {
             let rawResults = $('<div id="rawResults"/>').append(data.parse.text["*"])[0];
             let rawResultsClone = $('<div id="rawResults"/>').append($(data.parse.text["*"]).clone());
             rawResultsClone.find('.mw-editsection, .portal').empty();
-            let filteredResults = $(rawResults).children('p, h2, h3, table, .thumb');
+            let filteredResults = $(rawResults).children('p, h2, h3, table, ul, ol, .thumb');
             filteredResults = filteredResults.filter((child, element) => element.innerText.length > 0);
 
             const parsedHtmlSections = [];
             let contentEnded = false;
             let lastSection = undefined;
+            let lastElement = undefined;
             for(var i = 0; i < filteredResults.length; i++) {
-              let htmlSection = filteredResults[i]
+              let htmlSection = filteredResults[i];
               if($(htmlSection).children('#See_also, #References, #External_links').length) {
                 contentEnded = true;
               }
               if(!contentEnded) {
                 $(htmlSection).css('padding', '0px 10px');
-                $(htmlSection).children('.mw-editsection').empty(); //Remove 'Edit' tags on titles
+                $(htmlSection).find('.mw-editsection').empty(); //Remove 'Edit' tags on titles
+                $(htmlSection).find('.reference').empty();
 
-                // If header or image, create a new Section
-                // Otherwise, add to previous text section
-                if($(htmlSection).is('h2')) {
-                  var newSection = $('<section />').append(htmlSection);
+                // Handle images...
+                if($(htmlSection).is('.thumb')) {
+                  let img = $(htmlSection).find('img');
+                  let title = $(htmlSection).find('.thumbcaption')[0].innerText; // .innerHTML;
+                  img.attr('title', title);
+                  let newSection = $('<section />').append(img);
+                  parsedHtmlSections.push(newSection);
+
+                // Handle new text sections...
+                } else if($(htmlSection).is('h2') //if header
+                  || ($(htmlSection).is('h3') && !$(lastElement).is('h2')) //or h3 starts section
+                  || !lastSection) { //or no previous section
+
+                  let newSection = $('<section />').append(htmlSection);
                   parsedHtmlSections.push(newSection);
                   lastSection = newSection;
-                } else if($(htmlSection).is('.thumb')) {
-                  var img = $(htmlSection).find('img');
-                  var title = $(htmlSection).find('.thumbcaption')[0].innerText; // .innerHTML;
-                  img.attr('title', title);
-                  var newSection = $('<section />').append(img);
-                  parsedHtmlSections.push(newSection);
+
+                // Handle stray content...
                 } else {
-                  if(parsedHtmlSections.length) {
+                  if(lastSection.text().length + htmlSection.innerText.length < 1400) {
                     $(lastSection).append(htmlSection)
-                  } else {
-                    var newSection = $('<section/>').append(htmlSection); //if no previous sections
-                    parsedHtmlSections.push(newSection);
-                    lastSection = newSection
-                  }
+                  } 
+                  // Handle stray content that overflows text display...
+                  // else {
+                  //   let newSection = $('<section/>').append(htmlSection);
+                  //   parsedHtmlSections.push(newSection);
+                  //   lastSection = newSection
+                  // }
                 }
+                lastElement = htmlSection;
               }
             }
+
+            let vrContent = parsedHtmlSections.filter((section) => {
+              let length = section.text().length;
+              return length === 0 || length > 80;
+            })
+
             this.setState({
-              rawResults: rawResultsClone,
-              displayHtml: parsedHtmlSections,
+              rawContent: rawResultsClone,
+              vrContent: vrContent,
               infoLoaded: true
             });
             callback.call(this, null);
@@ -98,6 +116,11 @@ class WikiPage extends React.Component {
         },
         error: function (errorMessage) {
             console.error('Error retrieving from wikipedia:', errorMessage);
+            this.setState({
+              infoLoaded: true,
+              rawContent: `<div>Error retrieving information from wikipedia. 
+                Please try again later.</div>`
+            })
             callback.call(this, errorMessage);
         }
     });
@@ -137,7 +160,7 @@ class WikiPage extends React.Component {
     ];
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
-        <MuseumScene page={this.state.page} displayHtml={this.state.displayHtml}
+        <MuseumScene page={this.state.page} displayHtml={this.state.vrContent}
           relatedLinks={links} 
           exitVr={this.exitVr.bind(this)}
           changePage={this.changePage.bind(this)}/>
@@ -158,7 +181,7 @@ class WikiPage extends React.Component {
             </div>
           </header>
           <h1 className='nonVrContentHeader'>{this.state.page}</h1>
-          <div dangerouslySetInnerHTML={{__html:$(this.state.rawResults).html()}} ></div>
+          <div dangerouslySetInnerHTML={{__html:$(this.state.rawContent).html()}} ></div>
         </div>
       );
     } else {

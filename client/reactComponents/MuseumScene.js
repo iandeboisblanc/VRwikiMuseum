@@ -148,18 +148,19 @@ class MuseumScene extends React.Component {
           <img id='marbleTile' src='/assets/textures/marbleTile.jpg'/>
           <img id='marbleSurface' src='/assets/textures/marbleSurface.jpg'/>
           <img id='stucco' src='/assets/textures/stucco.jpg'/>
-          <img id='stucco2' src='/assets/textures/stucco2.jpg'/>
           <img id='columnSkin' src='/assets/textures/columnSkin.jpg'/>
         </a-assets>
 
         <a-sky color='blue' />
-        <a-plane static-body material='src:#marbleTile; repeat:25 25; metalness:0.1;' 
-          position='0 0 0' rotation='-90 0 0' width='50' height='50' />
+        <a-plane static-body 
+          material={`src:#marbleTile; repeat:${this.roomWidth} ${this.roomLength}; metalness:0.1;`}
+          position='0 0 0' rotation='-90 0 0' 
+          width={this.roomWidth * 2} height={this.roomLength * 2} />
         
         <Walls width={this.roomWidth} length={this.roomLength} links={this.props.relatedLinks}/>
 
         <Roof width={this.roomWidth} length={this.roomLength} height={8} domeRadiusRatio={0.25} 
-          material='src:#stucco'/>
+          material={`src:#stucco; repeat:${this.roomWidth/8} ${this.roomLength/8}`}/>
         
         {this.renderColumns.call(this, 0.25)}
 
