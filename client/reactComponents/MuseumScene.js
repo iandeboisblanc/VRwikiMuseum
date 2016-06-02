@@ -160,7 +160,7 @@ class MuseumScene extends React.Component {
         <Walls width={this.roomWidth} length={this.roomLength} links={this.props.relatedLinks}/>
 
         <Roof width={this.roomWidth} length={this.roomLength} height={8} domeRadiusRatio={0.25} 
-          material='src:#stucco'/>
+          material={`src:#stucco; repeat:${this.roomWidth/8} ${this.roomLength/8}`}/>
         
         {this.renderColumns.call(this, 0.25)}
 
