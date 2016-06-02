@@ -153,14 +153,21 @@ class WikiPage extends React.Component {
   }
 
   render () {
-    let links = [
-      { title: 'Stegosaurus', url: '/wiki/Stegosaurus' },
-      { title: 'Celestial Dance', url: 'http://www.elliotplant.com' },
-      { title: 'Issues', url: 'https://github.com/iandeboisblanc/wikiMuseumVR/issues' },
-    ];
     let page = this.state.page.split(' ').map((section) => {
       return section[0].toUpperCase() + section.slice(1);
     }).join(' ');
+    let dinosaur = page === 'Stegosaurus' ? {
+      title: 'Stegoceras', 
+      url: '/wiki/Stegoceras'
+    } : {
+      title: 'Stegosaurus', 
+      url: '/wiki/Stegosaurus'
+    }
+    let links = [
+      { title: 'Celestial Dance', url: 'http://www.elliotplant.com' },
+      dinosaur,
+      { title: 'GitHub', url: 'https://github.com/iandeboisblanc/wikiMuseumVR' },
+    ];
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
         <MuseumScene page={page} displayHtml={this.state.vrContent}
