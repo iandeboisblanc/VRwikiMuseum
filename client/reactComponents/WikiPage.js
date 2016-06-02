@@ -6,10 +6,10 @@ require('./../styles.css');
 class WikiPage extends React.Component {
   constructor(props) {
     super(props);
-    let location = window.location.toString().split('/wiki/')[1];
+    let location = window.location.toString().split('/wiki/')[1].replace('_', ' ');
     //could set vrMode state based on url
     this.state = {
-      page: location,
+      page: location.toLowerCase(),
       vrMode: false,
       infoLoaded: false,
       vrContent: [],
@@ -153,14 +153,17 @@ class WikiPage extends React.Component {
   }
 
   render () {
-    const links = [
+    let links = [
       { title: 'Stegosaurus', url: '/wiki/Stegosaurus' },
       { title: 'Celestial Dance', url: 'http://www.elliotplant.com' },
       { title: 'Issues', url: 'https://github.com/iandeboisblanc/wikiMuseumVR/issues' },
     ];
+    let page = this.state.page.split(' ').map((section) => {
+      return section[0].toUpperCase() + section.slice(1);
+    }).join(' ');
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
-        <MuseumScene page={this.state.page} displayHtml={this.state.vrContent}
+        <MuseumScene page={page} displayHtml={this.state.vrContent}
           relatedLinks={links} 
           exitVr={this.exitVr.bind(this)}
           changePage={this.changePage.bind(this)}/>
@@ -180,7 +183,7 @@ class WikiPage extends React.Component {
               <button onClick={this.enterVr.bind(this)}> Enter VR </button>
             </div>
           </header>
-          <h1 className='nonVrContentHeader'>{this.state.page}</h1>
+          <h1 className='nonVrContentHeader'>{page}</h1>
           <div dangerouslySetInnerHTML={{__html:$(this.state.rawContent).html()}} ></div>
         </div>
       );

@@ -25,11 +25,17 @@
     "aframe-extras": "^1.15.1",
     "aframe-htmltexture-component": "^0.2.1",
     "aframe-text-component": "^0.3.0",
+    "babel-core": "^6.8.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
     "browserify-css": "^0.9.1",
+    "css-loader": "^0.23.1",
     "debug": "^2.2.0",
     "deep-assign": "^2.0.0",
     "document-register-element": "github:dmarcos/document-register-element#8ccc532b7",
     "express": "^4.13.4",
+    "html-webpack-plugin": "^2.16.1",
     "jquery": "^2.2.4",
     "object-assign": "^4.0.1",
     "polymerize": "^1.0.0",
@@ -39,20 +45,14 @@
     "react-dom": "^15.0.2",
     "request-interval": "^1.0.0",
     "style-attr": "^1.0.2",
+    "style-loader": "^0.13.1",
     "three": "^0.74.0",
     "tween.js": "^15.0.0",
+    "webpack": "^1.13.0",
     "webvr-polyfill": "github:borismus/webvr-polyfill#3f47796"
   },
   "devDependencies": {
-    "babel-core": "^6.8.0",
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.6.0",
-    "babel-preset-react": "^6.5.0",
-    "css-loader": "^0.23.1",
-    "html-webpack-plugin": "^2.16.1",
-    "nodemon": "^1.9.2",
-    "style-loader": "^0.13.1",
-    "webpack": "^1.13.0"
+    "nodemon": "^1.9.2"
   },
   "babel": {
     "presets": [
