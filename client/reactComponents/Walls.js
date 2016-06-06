@@ -2,18 +2,6 @@ import React from 'react';
 import Wall from './Wall';
 require('aframe-text-component');
 
-function centerText() {
-  const doorTexts = document.getElementsByClassName('door-text');
-  for (var i = 0; i < doorTexts.length; i++) {
-    let boundingSphere = doorTexts[i].object3D.children[0].geometry.boundingSphere;
-    let halfTextWidth = boundingSphere ? boundingSphere.radius : 0;
-    let textPosition = doorTexts[i].getAttribute('position');
-    textPosition.x -= halfTextWidth;
-    doorTexts[i].setAttribute('position', textPosition);
-  }
-  return 'centered';
-}
-
 class Walls extends React.Component {
 
   constructor(props) {
@@ -24,9 +12,6 @@ class Walls extends React.Component {
     this.wallThickness = 0.3;
   }
 
-  componentDidMount() {
-    setTimeout(() => centerText(), 4000);
-  }
   renderDoorWays () {
     let maxLinkCount = Math.floor((this.props.width - 0.5) / (0.5 + this.doorWidth));
     //0.5 is min space between doors
@@ -44,7 +29,8 @@ class Walls extends React.Component {
             class='door-text'
             text={`text: ${link.title}; size:0.2; height:0.02`}
             material='color: black'
-            position={`${xPos} ${yPos + this.doorHeight + 0.2} ${zPos + this.wallThickness}`} />
+            position={`${xPos} ${yPos + this.doorHeight + 0.2} ${zPos + this.wallThickness}`} 
+            centerText/>
           <a-box // linkPad
             link={link.url}
             static-body
@@ -111,7 +97,8 @@ class Walls extends React.Component {
           <a-entity // door title
             position='0 0 0'
             class='door-text'
-            text='text: Exit VR; size:0.2; height:0.02'
+            text='text: Exit 3D; size:0.2; height:0.02'
+            centerText
             material='color: black' />
         </a-entity>
 
@@ -158,3 +145,16 @@ class Walls extends React.Component {
 }
 
 module.exports = Walls;
+
+AFRAME.registerComponent('centerText', {
+  init: function () {
+    var scene = this.el.sceneEl;
+    scene.addEventListener('loaded', () => {
+      let boundingSphere = this.el.object3D.children[0].geometry.boundingSphere;
+      let halfTextWidth = boundingSphere ? boundingSphere.radius : 0;
+      let textPosition = this.el.getAttribute('position');
+      textPosition.x -= halfTextWidth;
+      this.el.setAttribute('position', textPosition);
+    });
+  }
+});

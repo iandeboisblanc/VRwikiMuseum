@@ -67,6 +67,7 @@ class WikiPage extends React.Component {
                 $(htmlSection).css('padding', '0px 10px');
                 $(htmlSection).find('.mw-editsection').empty(); //Remove 'Edit' tags on titles
                 $(htmlSection).find('.reference').empty();
+                $(htmlSection).find('script').empty();
 
                 // Handle images...
                 if($(htmlSection).is('.thumb')) {
@@ -164,7 +165,6 @@ class WikiPage extends React.Component {
       url: '/wiki/Stegosaurus'
     }
     let links = [
-      { title: 'Celestial Dance', url: 'http://www.elliotplant.com' },
       dinosaur,
       { title: 'GitHub', url: 'https://github.com/iandeboisblanc/wikiMuseumVR' },
     ];
@@ -187,7 +187,7 @@ class WikiPage extends React.Component {
               </form>
             </div>
             <div>
-              <button onClick={this.enterVr.bind(this)}> Enter VR </button>
+              <button onClick={this.enterVr.bind(this)}> Enter 3D </button>
             </div>
           </header>
           <h1 className='nonVrContentHeader'>{page}</h1>
