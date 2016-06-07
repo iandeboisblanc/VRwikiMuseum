@@ -41,8 +41,13 @@ class MuseumScene extends React.Component {
       let html = element.html();
       if($(html).is('img')) {
         return (
-          <img id={`pageIMG${index}`} key={'img' + index} 
-            src={'https:' + $(html).attr('src')} crossOrigin='anonymous' />
+          <div class='imgAssetContainer'>
+            <img id={`pageIMG${index}`} key={'img' + index} 
+              src={'https:' + $(html).attr('src')} crossOrigin='anonymous' />
+            <div id={`pageIMGTitle${index}`} key={'imgTitle' + index}
+              style={{'textAlign':'center'}}
+              dangerouslySetInnerHTML={{__html:$(html).attr('title')}} />
+          </div>
         );
       } else {
         return (
@@ -82,14 +87,19 @@ class MuseumScene extends React.Component {
               height={imageHeight + 0.05}
               width={imageWidth + 0.05}
               depth={frameDepth}
-              color='green'
-            />
+              color='green'/>
             <a-plane 
               height={imageHeight} width={imageWidth}
               position={`0 0 ${frameDepth/2 + 0.001}`}
               src={'#pageIMG' + index}
-              color='white'
-            />
+              color='white'/>
+            <TextDisplay 
+              position={`${(imageWidth - 0.5)/2} ${-imageHeight/2 - 0.25} 0`} 
+              height='0.27' width='0.5' depth={0.03}
+              borderThickness='0.01' 
+              borderColor='white'
+              htmlSelector={'#pageIMGTitle' + (index)}
+              htmlScale='0.3'/>
           </a-entity>
         )
       } else {
@@ -102,8 +112,7 @@ class MuseumScene extends React.Component {
             borderThickness='0.05' 
             borderColor='red'
             htmlSelector={'#pageHTML' + (index)}
-            htmlScale='0.7'
-          />
+            htmlScale='0.7'/>
         )
       }
     });

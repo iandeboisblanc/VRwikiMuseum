@@ -94,7 +94,7 @@ class Walls extends React.Component {
         <a-entity id='northWallText' 
           position={`0 ${this.doorHeight + 0.2} ${(this.props.length - this.wallThickness)/2}`}
           rotation='0 180 0'>
-          <a-entity // door title
+          <a-entity // door title. Must be in parent entity for local positioning
             position='0 0 0'
             class='door-text'
             text='text: Exit 3D; size:0.2; height:0.02'
