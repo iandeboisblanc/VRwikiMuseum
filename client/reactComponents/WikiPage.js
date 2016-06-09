@@ -17,7 +17,7 @@ class WikiPage extends React.Component {
       relatedLinks: []
     };
     window.addEventListener('popstate', (event) => {
-      let location = window.location.toString().split('/wiki/')[1];
+      let location = window.location.toString().split('/wiki/')[1].replace('_', ' ');
       //could set vrMode state based on url
       this.setState({
         infoLoaded: false,
