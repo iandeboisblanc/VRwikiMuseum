@@ -48,11 +48,15 @@ class WikiPage extends React.Component {
               infoLoaded: true
             });
           } else {
+            // Prep raw results for 2D page
             let rawResults = $('<div id="rawResults"/>').append(data.parse.text["*"])[0];
             let rawResultsClone = $('<div id="rawResults"/>').append($(data.parse.text["*"]).clone());
             rawResultsClone.find('.mw-editsection, .portal').empty();
-            let filteredResults = $(rawResults).children('p, h2, h3, table, ul, ol, .thumb');
+
+            // Prep filtered results for 3D page
+            let filteredResults = $(rawResults).children('p, h2, h3, '+ /*table,*/ 'ul, ol, .thumb');
             filteredResults = filteredResults.filter((child, element) => element.innerText.length > 0);
+            filteredResults.find('.mw-editsection, .reference, script').empty();
 
             const parsedHtmlSections = [];
             let contentEnded = false;
@@ -65,9 +69,6 @@ class WikiPage extends React.Component {
               }
               if(!contentEnded) {
                 $(htmlSection).css('padding', '0px 10px');
-                $(htmlSection).find('.mw-editsection').empty(); //Remove 'Edit' tags on titles
-                $(htmlSection).find('.reference').empty();
-                $(htmlSection).find('script').empty();
 
                 // Handle images...
                 if($(htmlSection).is('.thumb')) {
