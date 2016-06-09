@@ -43,7 +43,7 @@ class MuseumScene extends React.Component {
         return (
           <div class='imgAssetContainer'>
             <img id={`pageIMG${index}`} key={'img' + index} 
-              src={'https:' + $(html).attr('src')} crossOrigin='anonymous' />
+              crossOrigin='anonymous' src={'https:' + $(html).attr('src')} />
             <div id={`pageIMGTitle${index}`} key={'imgTitle' + index}
               style={{'textAlign':'center'}}
               dangerouslySetInnerHTML={{__html:$(html).attr('title')}} />
