@@ -12,8 +12,9 @@ class WikiPage extends React.Component {
       page: location.toLowerCase(),
       vrMode: false,
       infoLoaded: false,
+      rawContent: '',
       vrContent: [],
-      rawContent: ''
+      relatedLinks: []
     };
     window.addEventListener('popstate', (event) => {
       let location = window.location.toString().split('/wiki/')[1];
@@ -55,8 +56,22 @@ class WikiPage extends React.Component {
 
             // Prep filtered results for 3D page
             let filteredResults = $(rawResults).children('p, h2, h3, '+ /*table,*/ 'ul, ol, .thumb');
-            filteredResults = filteredResults.filter((child, element) => element.innerText.length > 0);
+            filteredResults = filteredResults.filter((index, element) => element.innerText.length > 0);
             filteredResults.find('.mw-editsection, .reference, script').empty();
+
+            // Links for doorways
+            let links = filteredResults.find('a')
+              .filter((index, element) => {
+                return !($(element).is('.image, .internal')) 
+                && element.attributes.title
+                && element.attributes.title.value.indexOf(':') === -1
+                && element.attributes.title.value.indexOf('(') === -1;
+              }).map((index, element) => {
+                return {
+                  title: element.attributes.title.value,
+                  url: element.attributes.href.value
+                };
+              }); 
 
             const parsedHtmlSections = [];
             let contentEnded = false;
@@ -111,6 +126,7 @@ class WikiPage extends React.Component {
             this.setState({
               rawContent: rawResultsClone,
               vrContent: vrContent,
+              relatedLinks: links,
               infoLoaded: true
             });
             callback.call(this, null);
@@ -158,16 +174,18 @@ class WikiPage extends React.Component {
     let page = this.state.page.split(' ').map((section) => {
       return section[0].toUpperCase() + section.slice(1);
     }).join(' ');
-    let dinosaur = page === 'Stegosaurus' ? {
+    let dinosaurLink = page === 'Stegosaurus' ? {
       title: 'Stegoceras', 
       url: '/wiki/Stegoceras'
     } : {
       title: 'Stegosaurus', 
       url: '/wiki/Stegosaurus'
     }
+    let randomRelatedLinks = getRandomLinks(this.state.relatedLinks);
     let links = [
-      dinosaur,
-      { title: 'GitHub', url: 'https://github.com/iandeboisblanc/wikiMuseumVR' },
+      dinosaurLink,
+      ...randomRelatedLinks
+      //{ title: 'GitHub', url: 'https://github.com/iandeboisblanc/wikiMuseumVR' },
     ];
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
@@ -204,3 +222,14 @@ class WikiPage extends React.Component {
 };
 
 module.exports = WikiPage;
+
+function getRandomLinks(links) {
+  const numberOfLinks = 3;
+  const randomLinks = [];
+  for(var i = 0; i < numberOfLinks; i++) {
+    if(links.length) {
+      randomLinks.push(links.splice(Math.floor(Math.random() * links.length), 1)[0]);
+    }
+  }
+  return randomLinks;
+}
