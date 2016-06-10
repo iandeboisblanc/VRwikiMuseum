@@ -6,10 +6,10 @@ require('./../styles.css');
 class WikiPage extends React.Component {
   constructor(props) {
     super(props);
-    let location = styleLocation(window.location); 
+    let page = parsePage(window.location); 
     //could set vrMode state based on url
     this.state = {
-      page: location,
+      page: page,
       vrMode: false,
       infoLoaded: false,
       rawContent: '',
@@ -17,11 +17,11 @@ class WikiPage extends React.Component {
       relatedLinks: []
     };
     window.addEventListener('popstate', (event) => {
-      let location = styleLocation(window.location);
+      let page = parsePage(window.location);
       //could set vrMode state based on url
       this.setState({
         infoLoaded: false,
-        page: location
+        page: page
       });
       this.getWikiInformation.call(this, this.state.page);
     });
@@ -188,7 +188,7 @@ class WikiPage extends React.Component {
     ];
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
-        <MuseumScene page={this.state.page} displayHtml={this.state.vrContent}
+        <MuseumScene page={styleTitle(this.state.page)} displayHtml={this.state.vrContent}
           relatedLinks={links} 
           exitVr={this.exitVr.bind(this)}
           changePage={this.changePage.bind(this)}/>
@@ -208,7 +208,7 @@ class WikiPage extends React.Component {
               <button onClick={this.enterVr.bind(this)}> Enter 3D </button>
             </div>
           </header>
-          <h1 className='nonVrContentHeader'>{this.state.page}</h1>
+          <h1 className='nonVrContentHeader'>{styleTitle(this.state.page)}</h1>
           <div dangerouslySetInnerHTML={{__html:$(this.state.rawContent).html()}} ></div>
         </div>
       );
@@ -233,8 +233,12 @@ function getRandomLinks(links) {
   return randomLinks;
 }
 
-function styleLocation(location) {
-  return location.toString().split('/wiki/')[1].replace('_', ' ').replace('%20', ' ')
+function parsePage(location) {
+  return location.toString().split('/wiki/')[1];
+}
+
+function styleTitle(title) {
+  return title.replace(/_/g, ' ').replace(/%20/g, ' ')
     .split(' ').map((section) => {
       return section[0].toUpperCase() + section.slice(1);
     }).join(' ');
