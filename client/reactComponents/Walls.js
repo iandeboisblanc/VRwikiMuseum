@@ -6,7 +6,7 @@ class Walls extends React.Component {
 
   constructor(props) {
     super(props);
-    this.wallHeight = 8;
+    this.wallHeight = props.height || 8;
     this.doorWidth = 2;
     this.doorHeight = 3;
     this.wallThickness = props.thickness || 0.3;
