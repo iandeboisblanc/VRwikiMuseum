@@ -90,7 +90,7 @@ class MuseumScene extends React.Component {
               height={imageHeight + 0.05}
               width={imageWidth + 0.05}
               depth={frameDepth}
-              color='green'/>
+              color='#896362'/>
             <a-plane 
               height={imageHeight} width={imageWidth}
               position={`0 0 ${frameDepth/2 + 0.001}`}
@@ -113,7 +113,7 @@ class MuseumScene extends React.Component {
             rotation={rotation}
             height='4' width='3' depth='0.5'
             borderThickness='0.05' 
-            borderColor='red'
+            borderColor='#A8BBBF'
             htmlSelector={'#pageHTML' + (index)}
             htmlScale='0.7'/>
         )
@@ -178,7 +178,7 @@ class MuseumScene extends React.Component {
           <img id='columnSkin' src='/assets/textures/columnSkin.jpg'/>
         </a-assets>
 
-        <a-sky color='skyblue' />
+        <a-sky color='#BFCFD9' />
         <a-plane static-body 
           material={`src:#marbleTile; repeat:${this.roomWidth} ${this.roomLength}; metalness:0.1;`}
           position='0 0 0' rotation='-90 0 0' 
