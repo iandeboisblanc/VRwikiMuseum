@@ -6,7 +6,7 @@ class Roof extends React.Component {
     super(props);
     // this.position = props.position || '0 0 0';
     this.rotation = props.rotation || '0 0 0';
-    this.height = props.height || 4;
+    this.height = props.height || 8;
     this.length = props.length || 10;
     this.width = props.width || 5;
     this.domeRadiusRatio = props.domeRadiusRatio || 0.25;
