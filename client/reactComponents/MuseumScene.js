@@ -13,6 +13,8 @@ class MuseumScene extends React.Component {
     super(props);
     this.roomWidth = 25;
     this.roomLength = Math.max(20, props.displayHtml.length * 1.7);
+    this.roomHeight = 8;
+    this.domeRadiusRatio = 0.25;
     this.storedModels = new Set(['stegoceras', 'stegosaurus']);
   }
 
@@ -51,7 +53,8 @@ class MuseumScene extends React.Component {
         );
       } else {
         return (
-          <div id={`pageHTML${index}`} key={'text' + index} dangerouslySetInnerHTML={{__html:html}} />
+          <div id={`pageHTML${index}`} key={'text' + index} 
+            dangerouslySetInnerHTML={{__html:html}} />
         );
       }
     })
@@ -145,6 +148,20 @@ class MuseumScene extends React.Component {
     return columns
   }
 
+  renderPointLights () {
+    let lightCount = Math.floor(this.roomLength / 15);
+    let lights = [];
+    let yPos = this.roomHeight + this.roomWidth * this.domeRadiusRatio;
+    for(let i = 0; i < lightCount; i++) {
+      let zPos = -this.roomLength/2 + (i + 1) * this.roomLength / (lightCount + 1);
+      lights.push((
+        <a-light intensity='0.5' type='point' distance='20'
+          position={`0 ${yPos} ${zPos}`} />
+      ));
+    }
+    return lights
+  }
+
   render () {
     let page = this.props.page.toLowerCase();
     let model = this.storedModels.has(page) ? page : '__default';
@@ -167,12 +184,17 @@ class MuseumScene extends React.Component {
           position='0 0 0' rotation='-90 0 0' 
           width={this.roomWidth * 1.1} height={this.roomLength + 0.6} />
         
-        <Walls width={this.roomWidth} length={this.roomLength} links={this.props.relatedLinks}/>
+        <Walls width={this.roomWidth} length={this.roomLength} height={this.roomHeight} 
+          links={this.props.relatedLinks}/>
 
-        <Roof width={this.roomWidth} length={this.roomLength} height={8} domeRadiusRatio={0.25} 
+        <Roof width={this.roomWidth} length={this.roomLength} height={this.roomHeight} 
+          domeRadiusRatio={this.domeRadiusRatio} 
           material={`src:#stucco; repeat:${this.roomWidth/8} ${this.roomLength/8}`}/>
         
         {this.renderColumns.call(this, 0.25)}
+
+        {this.renderPointLights.call(this)}
+        <a-light type='ambient' color='#DEE0E0'/>
 
         {this.renderHtmlTextDisplays.call(this)}
 
