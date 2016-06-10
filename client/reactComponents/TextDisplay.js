@@ -21,13 +21,6 @@ class TextDisplay extends React.Component {
       this.htmlSelector = props.htmlSelector;
     } else {
       console.error('No htmlSelector provided to TextDisplay');
-      //Figure out how to select children:
-
-      // var child = React.Children.only(props.children);
-      // var randomClass = 'HTML' + (Math.random() * 10000000000);
-      // child.addClass(randomClass);
-      // attach selector
-      // this.htmlSelector = '.' + randomClass;
     }
   }
 
@@ -44,11 +37,10 @@ class TextDisplay extends React.Component {
           color={this.props.borderColor}>
           <a-plane
             draw={`width: ${this.pageWidth}; height: ${this.pageHeight};`}
-            position={`0 0 ${this.depth/2 + 0.001}`}
+            position={`0 0 ${this.depth/2 + 0.02}`}
             htmltexture={`asset: ${this.htmlSelector}`}
             width={this.width}
-            height={this.height}
-          />
+            height={this.height} />
         </a-box>
         
       </a-entity>
@@ -57,8 +49,3 @@ class TextDisplay extends React.Component {
 }
 
 module.exports = TextDisplay;
-
-
-
-
-  
