@@ -12,7 +12,7 @@ class MuseumScene extends React.Component {
   constructor(props) {
     super(props);
     this.roomWidth = 25;
-    this.roomLength = Math.max(20, props.displayHtml.length * 1.7);
+    this.roomLength = Math.max(20, props.displayHtml.length * 1.8);
     this.roomHeight = 8;
     this.domeRadiusRatio = 0.25;
     this.storedModels = new Set(['stegoceras', 'stegosaurus']);
