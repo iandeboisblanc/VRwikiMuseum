@@ -6,10 +6,10 @@ require('./../styles.css');
 class WikiPage extends React.Component {
   constructor(props) {
     super(props);
-    let location = window.location.toString().split('/wiki/')[1].replace('_', ' ');
+    let location = styleLocation(window.location); 
     //could set vrMode state based on url
     this.state = {
-      page: location.toLowerCase(),
+      page: location,
       vrMode: false,
       infoLoaded: false,
       rawContent: '',
@@ -17,7 +17,7 @@ class WikiPage extends React.Component {
       relatedLinks: []
     };
     window.addEventListener('popstate', (event) => {
-      let location = window.location.toString().split('/wiki/')[1].replace('_', ' ');
+      let location = styleLocation(window.location);
       //could set vrMode state based on url
       this.setState({
         infoLoaded: false,
@@ -171,16 +171,14 @@ class WikiPage extends React.Component {
   }
 
   render () {
-    let page = this.state.page.split(' ').map((section) => {
-      return section[0].toUpperCase() + section.slice(1);
-    }).join(' ');
-    let dinosaurLink = page === 'Stegosaurus' ? {
-      title: 'Stegoceras', 
-      url: '/wiki/Stegoceras'
-    } : {
+    let dinosaurLink = this.state.page === 'Stegoceras' ? 
+    {  
       title: 'Stegosaurus', 
       url: '/wiki/Stegosaurus'
-    }
+    } : {
+      title: 'Stegoceras', 
+      url: '/wiki/Stegoceras'
+    };
     let randomRelatedLinks = getRandomLinks(this.state.relatedLinks);
     let links = [
       dinosaurLink,
@@ -189,7 +187,7 @@ class WikiPage extends React.Component {
     ];
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
-        <MuseumScene page={page} displayHtml={this.state.vrContent}
+        <MuseumScene page={this.state.page} displayHtml={this.state.vrContent}
           relatedLinks={links} 
           exitVr={this.exitVr.bind(this)}
           changePage={this.changePage.bind(this)}/>
@@ -209,7 +207,7 @@ class WikiPage extends React.Component {
               <button onClick={this.enterVr.bind(this)}> Enter 3D </button>
             </div>
           </header>
-          <h1 className='nonVrContentHeader'>{page}</h1>
+          <h1 className='nonVrContentHeader'>{this.state.page}</h1>
           <div dangerouslySetInnerHTML={{__html:$(this.state.rawContent).html()}} ></div>
         </div>
       );
@@ -232,4 +230,11 @@ function getRandomLinks(links) {
     }
   }
   return randomLinks;
+}
+
+function styleLocation(location) {
+  return location.toString().split('/wiki/')[1].replace('_', ' ').replace('%20', ' ')
+    .split(' ').map((section) => {
+      return section[0].toUpperCase() + section.slice(1);
+    }).join(' ');
 }
