@@ -9,7 +9,7 @@ class Walls extends React.Component {
     this.wallHeight = 8;
     this.doorWidth = 2;
     this.doorHeight = 3;
-    this.wallThickness = 0.3;
+    this.wallThickness = props.thickness || 0.3;
   }
 
   renderDoorWays () {

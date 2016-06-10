@@ -12,7 +12,7 @@ class MuseumScene extends React.Component {
   constructor(props) {
     super(props);
     this.roomWidth = 25;
-    this.roomLength = Math.max(25, props.displayHtml.length * 1.7);
+    this.roomLength = Math.max(20, props.displayHtml.length * 1.7);
     this.storedModels = new Set(['stegoceras', 'stegosaurus']);
   }
 
@@ -150,7 +150,7 @@ class MuseumScene extends React.Component {
     let model = this.storedModels.has(page) ? page : '__default';
     return (
       <a-scene physics='debug:false'>
-        <a-assets timeout='10000'>
+        <a-assets timeout='5000'>
           <div id='ajaxHtmlAssets'>
             {this.setHtmlAssets.call(this)}
           </div>
@@ -161,11 +161,11 @@ class MuseumScene extends React.Component {
           <img id='columnSkin' src='/assets/textures/columnSkin.jpg'/>
         </a-assets>
 
-        <a-sky color='blue' />
+        <a-sky color='skyblue' />
         <a-plane static-body 
           material={`src:#marbleTile; repeat:${this.roomWidth} ${this.roomLength}; metalness:0.1;`}
           position='0 0 0' rotation='-90 0 0' 
-          width={this.roomWidth * 2} height={this.roomLength * 2} />
+          width={this.roomWidth * 1.1} height={this.roomLength + 0.6} />
         
         <Walls width={this.roomWidth} length={this.roomLength} links={this.props.relatedLinks}/>
 
