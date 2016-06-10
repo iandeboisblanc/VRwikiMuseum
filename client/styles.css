@@ -364,3 +364,6 @@ small {
   width: 100%;
 }
 
+.filteredResultsAnchor {
+  color: black;
+}

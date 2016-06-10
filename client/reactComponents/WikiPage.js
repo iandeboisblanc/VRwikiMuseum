@@ -58,6 +58,7 @@ class WikiPage extends React.Component {
             let filteredResults = $(rawResults).children('p, h2, h3, '+ /*table,*/ 'ul, ol, .thumb');
             filteredResults = filteredResults.filter((index, element) => element.innerText.length > 0);
             filteredResults.find('.mw-editsection, .reference, script').empty();
+            filteredResults.find('a').addClass('filteredResultsAnchor');
 
             // Links for doorways
             let links = filteredResults.find('a')
