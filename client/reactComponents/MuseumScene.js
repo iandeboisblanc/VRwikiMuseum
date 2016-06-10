@@ -65,15 +65,15 @@ class MuseumScene extends React.Component {
     let length = assets.length;
     let adjustedRoomLength = this.roomLength - 4;
     let halfIndex = Math.floor(assets.length / 2);
-    let leftLength = assets.slice(0, halfIndex).length;
+    let leftLength = assets.slice(0, halfIndex + 1).length;
     let rightLength = assets.length - leftLength;
     return assets.map((element, index) => {
       let position = `${-this.roomWidth / 2} 2.05 
-        ${-adjustedRoomLength / (leftLength - 1) * index + adjustedRoomLength/2}`;
+        ${-adjustedRoomLength / (leftLength - 1) * index + adjustedRoomLength/2 || 0}`;
       let rotation = '0 90 0';
-      if(index >= halfIndex) {
+      if(index > halfIndex) {
         position = `${this.roomWidth / 2} 2.05 
-          ${adjustedRoomLength / (rightLength - 1) * (index - leftLength) - adjustedRoomLength/2}`;
+          ${adjustedRoomLength / (rightLength - 1) * (index - leftLength) - adjustedRoomLength/2 || 0}`;
         rotation = '0 -90 0';
       }
       if(element.children('img').length > 0) {
