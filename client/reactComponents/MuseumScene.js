@@ -60,7 +60,7 @@ class MuseumScene extends React.Component {
     })
   }
 
-  renderHtmlTextDisplays () {
+  renderHtmlDisplays () {
     let assets = this.props.displayHtml //.slice(1);
     let length = assets.length;
     let adjustedRoomLength = this.roomLength - 4;
@@ -196,7 +196,7 @@ class MuseumScene extends React.Component {
         {this.renderPointLights.call(this)}
         <a-light type='ambient' color='#DEE0E0'/>
 
-        {this.renderHtmlTextDisplays.call(this)}
+        {this.renderHtmlDisplays.call(this)}
 
         <a-collada-model src='#pageModel' />
 
