@@ -8,7 +8,9 @@
     "postinstall": "cp -R client/lib/aframe node_modules/",
     "start": "webpack --watch & nodemon server/app.js",
     "build": "docker build -t museum .",
-    "deploy": "docker run -d -p 80:80 museum",
+    "kill": "docker rm -f museumContainer",
+    "deploy": "docker run -d --name museumContainer -p 80:80 museum",
+    "dockerize": "npm run build && npm run kill && npm run deploy",
     "docker-start": "node server/app.js"
   },
   "repository": {
