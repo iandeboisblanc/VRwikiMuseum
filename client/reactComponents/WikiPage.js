@@ -172,26 +172,31 @@ class WikiPage extends React.Component {
   }
 
   render () {
-    let dinosaurLink = this.state.page === 'Stegoceras' ? 
-    {  
-      title: 'Stegosaurus', 
-      url: '/wiki/Stegosaurus'
-    } : {
-      title: 'Stegoceras', 
-      url: '/wiki/Stegoceras'
-    };
-    let randomRelatedLinks = getRandomLinks(this.state.relatedLinks);
-    let links = [
-      dinosaurLink,
-      ...randomRelatedLinks
-      //{ title: 'GitHub', url: 'https://github.com/iandeboisblanc/wikiMuseumVR' },
-    ];
+    let links = getRandomLinks(this.state.relatedLinks);
+    if(this.state.page === 'Stegoceras' || this.state.page === 'Stegosaurus') {
+      let dinosaurLink = this.state.page === 'Stegoceras' ? 
+      {  
+        title: 'Stegosaurus', 
+        url: '/wiki/Stegosaurus'
+      } : {
+        title: 'Stegoceras', 
+        url: '/wiki/Stegoceras'
+      };
+      links = [
+        dinosaurLink,
+        ...links.slice(1)
+      ];
+    }
+
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
-        <MuseumScene page={styleTitle(this.state.page)} displayHtml={this.state.vrContent}
-          relatedLinks={links} 
-          exitVr={this.exitVr.bind(this)}
-          changePage={this.changePage.bind(this)}/>
+        <MuseumScene 
+        page={styleTitle(this.state.page)} 
+        displayHtml={this.state.vrContent}
+        isTouch={this.props.isTouch}
+        relatedLinks={links} 
+        exitVr={this.exitVr.bind(this)}
+        changePage={this.changePage.bind(this)}/>
       )
     } else if(this.state.infoLoaded) {
       return (
