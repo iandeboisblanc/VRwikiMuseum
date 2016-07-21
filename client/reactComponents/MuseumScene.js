@@ -93,7 +93,7 @@ class MuseumScene extends React.Component {
               color='#896362'/>
             <a-plane 
               height={imageHeight} width={imageWidth}
-              position={`0 0 ${frameDepth/2 + 0.001}`}
+              position={`0 0 ${frameDepth/2 + 0.02}`}
               src={'#pageIMG' + index}
               color='white'/>
             <TextDisplay 
