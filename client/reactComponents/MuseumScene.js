@@ -44,7 +44,7 @@ class MuseumScene extends React.Component {
       if($(html).is('img')) {
         return (
           <div class='imgAssetContainer'>
-            <img id={`pageIMG${index}`} key={'img' + index} 
+            <img id={`pageIMG${index}`} key={'img' + index}
               crossOrigin='anonymous' src={'https:' + $(html).attr('src')} />
             <div id={`pageIMGTitle${index}`} key={'imgTitle' + index}
               style={{'textAlign':'center'}}
@@ -53,7 +53,7 @@ class MuseumScene extends React.Component {
         );
       } else {
         return (
-          <div id={`pageHTML${index}`} key={'text' + index} 
+          <div id={`pageHTML${index}`} key={'text' + index}
             dangerouslySetInnerHTML={{__html:html}} />
         );
       }
@@ -68,11 +68,11 @@ class MuseumScene extends React.Component {
     let leftLength = assets.slice(0, halfIndex).length;
     let rightLength = assets.length - leftLength;
     return assets.map((element, index) => {
-      let position = `${-this.roomWidth / 2} 2.05 
+      let position = `${-this.roomWidth / 2} 2.05
         ${-adjustedRoomLength / (leftLength - 1) * index + adjustedRoomLength/2 || 0}`;
       let rotation = '0 90 0';
       if(index >= halfIndex) {
-        position = `${this.roomWidth / 2} 2.05 
+        position = `${this.roomWidth / 2} 2.05
           ${adjustedRoomLength / (rightLength - 1) * (index - leftLength) - adjustedRoomLength/2 || 0}`;
         rotation = '0 -90 0';
       }
@@ -81,25 +81,25 @@ class MuseumScene extends React.Component {
         let imageWidth = element.children('img').attr('width') / 90;
         let imageHeight = element.children('img').attr('height') / 90;
         return (
-          <a-entity 
+          <a-entity
             key={'P' + index}
             rotation={rotation}
             position={position}>
-            <a-box 
+            <a-box
               position='0 0 0'
               height={imageHeight + 0.05}
               width={imageWidth + 0.05}
               depth={frameDepth}
               color='#896362'/>
-            <a-plane 
+            <a-plane
               height={imageHeight} width={imageWidth}
               position={`0 0 ${frameDepth/2 + 0.02}`}
               src={'#pageIMG' + index}
               color='white'/>
-            <TextDisplay 
-              position={`${(imageWidth - 0.5)/2} ${-imageHeight/2 - 0.25} 0`} 
+            <TextDisplay
+              position={`${(imageWidth - 0.5)/2} ${-imageHeight/2 - 0.25} 0`}
               height='0.27' width='0.5' depth={0.03}
-              borderThickness='0.01' 
+              borderThickness='0.01'
               borderColor='white'
               htmlSelector={'#pageIMGTitle' + (index)}
               htmlScale='0.3'/>
@@ -107,12 +107,12 @@ class MuseumScene extends React.Component {
         )
       } else {
         return (
-          <TextDisplay 
+          <TextDisplay
             key={'T' + index}
-            position={position} 
+            position={position}
             rotation={rotation}
             height='4' width='3' depth='0.5'
-            borderThickness='0.05' 
+            borderThickness='0.05'
             borderColor='#A8BBBF'
             htmlSelector={'#pageHTML' + (index)}
             htmlScale='0.7'/>
@@ -132,7 +132,7 @@ class MuseumScene extends React.Component {
         <Column height={8} radius={0.3} position={`${xPos} ${height/2} ${zPos}`} />
       ));
       columns.push((
-        <a-cylinder static-body material='transparent:true; opacity:0' 
+        <a-cylinder static-body material='transparent:true; opacity:0'
           height='4' radius='0.299' position={`${xPos} 2 ${zPos}`}
           />
       ));
@@ -140,7 +140,7 @@ class MuseumScene extends React.Component {
         <Column height={8} radius={0.3} position={`${-xPos} ${height/2} ${zPos}`} />
       ));
       columns.push((
-        <a-cylinder static-body material='transparent:true; opacity:0' 
+        <a-cylinder static-body material='transparent:true; opacity:0'
           height='4' radius='0.299' position={`${-xPos} 2 ${zPos}`}
           />
       ));
@@ -179,18 +179,18 @@ class MuseumScene extends React.Component {
         </a-assets>
 
         <a-sky color='#BFCFD9' />
-        <a-plane static-body 
+        <a-plane static-body
           material={`src:#marbleTile; repeat:${this.roomWidth} ${this.roomLength}; metalness:0.1;`}
-          position='0 0 0' rotation='-90 0 0' 
+          position='0 0 0' rotation='-90 0 0'
           width={this.roomWidth * 1.1} height={this.roomLength + 0.6} />
-        
-        <Walls width={this.roomWidth} length={this.roomLength} height={this.roomHeight} 
+
+        <Walls width={this.roomWidth} length={this.roomLength} height={this.roomHeight}
           links={this.props.relatedLinks}/>
 
-        <Roof width={this.roomWidth} length={this.roomLength} height={this.roomHeight} 
-          domeRadiusRatio={this.domeRadiusRatio} 
+        <Roof width={this.roomWidth} length={this.roomLength} height={this.roomHeight}
+          domeRadiusRatio={this.domeRadiusRatio}
           material={`src:#stucco; repeat:${this.roomWidth/8} ${this.roomLength/8}`}/>
-        
+
         {this.renderColumns.call(this, 0.25)}
 
         {this.renderPointLights.call(this)}

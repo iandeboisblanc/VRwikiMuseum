@@ -6,7 +6,7 @@ require('./../styles.css');
 class WikiPage extends React.Component {
   constructor(props) {
     super(props);
-    let page = parsePage(window.location); 
+    let page = parsePage(window.location);
     //could set vrMode state based on url
     this.state = {
       page: page,
@@ -55,7 +55,8 @@ class WikiPage extends React.Component {
             rawResultsClone.find('.mw-editsection, .portal').empty();
 
             // Prep filtered results for 3D page
-            let filteredResults = $(rawResults).children('p, h2, h3, '+ /*table,*/ 'ul, ol, .thumb');
+            const actuallyWikiContent = $(rawResults).context.children[0];
+            let filteredResults = $(actuallyWikiContent).children('p, h2, h3, '+ /*table,*/ 'ul, ol, .thumb');
             filteredResults = filteredResults.filter((index, element) => element.innerText.length > 0);
             filteredResults.find('.mw-editsection, .reference, script').empty();
             filteredResults.find('a').addClass('filteredResultsAnchor');
@@ -63,7 +64,7 @@ class WikiPage extends React.Component {
             // Links for doorways
             let links = filteredResults.find('a')
               .filter((index, element) => {
-                return !($(element).is('.image, .internal')) 
+                return !($(element).is('.image, .internal'))
                 && element.attributes.title
                 && element.attributes.title.value.indexOf(':') === -1
                 && element.attributes.title.value.indexOf('(') === -1;
@@ -72,7 +73,7 @@ class WikiPage extends React.Component {
                   title: element.attributes.title.value,
                   url: element.attributes.href.value
                 };
-              }); 
+              });
 
             const parsedHtmlSections = [];
             let contentEnded = false;
@@ -107,7 +108,7 @@ class WikiPage extends React.Component {
                 } else {
                   if(lastSection.text().length + htmlSection.innerText.length < 1400) {
                     $(lastSection).append(htmlSection)
-                  } 
+                  }
                   // Handle stray content that overflows text display...
                   // else {
                   //   let newSection = $('<section/>').append(htmlSection);
@@ -118,7 +119,7 @@ class WikiPage extends React.Component {
                 lastElement = htmlSection;
               }
             }
-
+            console.log('PARSED HTML', parsedHtmlSections);
             let vrContent = parsedHtmlSections.filter((section) => {
               let length = section.text().length;
               return length === 0 || length > 80;
@@ -137,7 +138,7 @@ class WikiPage extends React.Component {
             console.error('Error retrieving from wikipedia:', errorMessage);
             this.setState({
               infoLoaded: true,
-              rawContent: `<div>Error retrieving information from wikipedia. 
+              rawContent: `<div>Error retrieving information from wikipedia.
                 Please try again later.</div>`
             })
             callback.call(this, errorMessage);
@@ -174,12 +175,12 @@ class WikiPage extends React.Component {
   render () {
     let links = getRandomLinks(this.state.relatedLinks);
     if(this.state.page === 'Stegoceras' || this.state.page === 'Stegosaurus') {
-      let dinosaurLink = this.state.page === 'Stegoceras' ? 
-      {  
-        title: 'Stegosaurus', 
+      let dinosaurLink = this.state.page === 'Stegoceras' ?
+      {
+        title: 'Stegosaurus',
         url: '/wiki/Stegosaurus'
       } : {
-        title: 'Stegoceras', 
+        title: 'Stegoceras',
         url: '/wiki/Stegoceras'
       };
       links = [
@@ -190,11 +191,11 @@ class WikiPage extends React.Component {
 
     if(this.state.vrMode && this.state.infoLoaded) {
       return (
-        <MuseumScene 
-        page={styleTitle(this.state.page)} 
+        <MuseumScene
+        page={styleTitle(this.state.page)}
         displayHtml={this.state.vrContent}
         isTouch={this.props.isTouch}
-        relatedLinks={links} 
+        relatedLinks={links}
         exitVr={this.exitVr.bind(this)}
         changePage={this.changePage.bind(this)}/>
       )
